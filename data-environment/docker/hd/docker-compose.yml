@@ -1,0 +1,50 @@
+version: '3'
+networks:
+  bigdata_network_bridge:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.18.0.0/16
+          gateway: 172.18.0.1
+          ip_range: 172.18.0.0/24
+services:
+  proxy:
+    image: wenjunxiao/mac-docker-connector
+    container_name: mac-connector
+    restart: always
+    network_mode: host
+    cap_add:
+      - NET_ADMIN
+    tty: true
+    stdin_open: true
+  hd1:
+    extends:
+      file: ../common/docker-compose.yml
+      service: common
+    container_name: hd1
+    hostname: hd1
+    ports:
+      - 50070:50070/tcp # name node
+      - 8088:8088/tcp # resource manager
+      - 8080:8080/tcp # spark master
+    networks:
+      bigdata_network_bridge:
+        ipv4_address: 172.18.0.11
+  hd2:
+    extends:
+      file: ../common/docker-compose.yml
+      service: common
+    container_name: hd2
+    hostname: hd2
+    networks:
+      bigdata_network_bridge:
+        ipv4_address: 172.18.0.12
+  hd3:
+    extends:
+      file: ../common/docker-compose.yml
+      service: common
+    container_name: hd3
+    hostname: hd3
+    networks:
+      bigdata_network_bridge:
+        ipv4_address: 172.18.0.13

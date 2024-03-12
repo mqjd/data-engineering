@@ -1,0 +1,25 @@
+version: '3'
+services:
+  postgres:
+    image: postgres
+    platform: linux/arm64
+    container_name: postgres
+    hostname: postgres
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: 123456
+  airflow:
+    image: apache/airflow:2.8.2
+    platform: linux/arm64
+    container_name: airflow
+    hostname: airflow
+    restart: always
+    command: standalone
+    ports:
+      - 8080:8080/tcp # name node
+    volumes:
+      - ./dags:/opt/airflow/dags:rw

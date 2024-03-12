@@ -1,0 +1,27 @@
+services:
+  common:
+    enabled: false
+    image: hd:1.0
+    platform: linux/arm64
+    tty: true
+    stdin_open: true
+    mem_limit: 8g
+    cpus: 4
+    user: mq
+    extra_hosts:
+      - "hd1:172.18.0.11"
+      - "hd2:172.18.0.12"
+      - "hd3:172.18.0.13"
+    volumes:
+      - ${CONFIG_PATH}:${BASE_PATH}/${CONFIG_DIR}:rw
+      - ${BASE_PACKAGE_PATH}/${JAVA_PACKAGE_DIR}:${BASE_PATH}/${JAVA_DIR}:rw
+      - ${BASE_PACKAGE_PATH}/${HADOOP_PACKAGE_DIR}:${BASE_PATH}/${HADOOP_DIR}:rw
+      - ${BASE_PACKAGE_PATH}/${SPARK_PACKAGE_DIR}:${BASE_PATH}/${SPARK_DIR}:rw
+      - ../../bin:${BASE_PATH}/bin:rw
+    environment:
+      HD_HOME: ${BASE_PATH}
+      HD_DATA_HOME: /var/bigdata
+      JAVA_HOME: ${BASE_PATH}/${JAVA_DIR}
+      HADOOP_HOME: ${HADOOP_HOME}
+      SPARK_HOME: ${SPARK_HOME}
+    command: bash ${BASE_PATH}/bin/start.sh

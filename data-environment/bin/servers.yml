@@ -1,0 +1,6 @@
+hd1:hadoop:namenode,resourcemanager,datanode,nodemanager
+hd2:hadoop:datanode,nodemanager
+hd3:hadoop:datanode,nodemanager
+hd1:spark:master,worker
+hd2:spark:worker
+hd3:spark:worker
