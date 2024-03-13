@@ -1,4 +1,0 @@
-hello spark
-hello scala
-hello hadoop
-hello java
