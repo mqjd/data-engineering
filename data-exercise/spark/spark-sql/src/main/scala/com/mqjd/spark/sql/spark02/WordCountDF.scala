@@ -4,7 +4,7 @@ import com.mqjd.spark.sql.base.SparkDFBase
 import org.apache.spark.sql.functions.{col, desc, explode, split}
 import org.apache.spark.sql.{Dataset, SparkSession}
 
-object WordCountDF extends SparkDFBase{
+object WordCountDF extends SparkDFBase {
 
   def main(args: Array[String]): Unit = {
     val spark: SparkSession = createSparkSession()

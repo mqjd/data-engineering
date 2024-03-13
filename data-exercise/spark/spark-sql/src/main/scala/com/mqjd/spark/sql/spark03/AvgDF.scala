@@ -5,7 +5,7 @@ import org.apache.spark.sql.functions.{col, count, sum}
 import org.apache.spark.sql.types._
 import org.apache.spark.sql.{Row, SparkSession}
 
-object AvgDF extends SparkDFBase{
+object AvgDF extends SparkDFBase {
   def main(args: Array[String]): Unit = {
     val spark: SparkSession = createSparkSession()
     val data = List(Row(1), Row(2), Row(3), Row(4))

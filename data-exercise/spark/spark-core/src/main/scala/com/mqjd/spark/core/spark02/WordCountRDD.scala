@@ -2,7 +2,6 @@ package com.mqjd.spark.core.spark02
 
 import com.mqjd.spark.core.spark01.HelloSparkRDD.createSparkContext
 import org.apache.spark.rdd.RDD
-import org.apache.spark.{SparkConf, SparkContext}
 
 object WordCountRDD {
   def main(args: Array[String]): Unit = {

@@ -3,7 +3,7 @@ package com.mqjd.spark.sql.spark02
 import com.mqjd.spark.sql.base.SparkDFBase
 import org.apache.spark.sql.{Dataset, SparkSession}
 
-object WordCountSQL extends SparkDFBase{
+object WordCountSQL extends SparkDFBase {
   def main(args: Array[String]): Unit = {
     val spark: SparkSession = createSparkSession("SparkSQL")
     val linesDF: Dataset[String] = spark.read.textFile("assets/spark/word-count.txt")
