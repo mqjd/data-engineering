@@ -8,7 +8,8 @@ object CsvWriterDF extends SparkDFBase {
   def main(args: Array[String]): Unit = {
     val spark: SparkSession = createSparkSession()
     val csvDF: DataFrame = readChargingData(spark)
-    csvDF.write.mode(SaveMode.Overwrite)
+    csvDF.write
+      .mode(SaveMode.Overwrite)
       .option("header", "true")
       .csv("target/output.csv")
     spark.stop()
