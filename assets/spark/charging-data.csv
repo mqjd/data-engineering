@@ -1,0 +1,11 @@
+message_id,message_type,charge_point_id,action,write_timestamp,body
+cbd17a98-0573-4d81-a006-c10a7f2e9101,2,5366cb82-e350-4f79-ad5d-9e2b446706cc,BootNotification,2023-01-01T08:01:29.000013+00:00,"{\"charge_point_model\": \"BB-0\", \"charge_point_vendor\": \"ChargeAwesome LLC\", \"charge_box_serial_number\": null, \"charge_point_serial_number\": \"5366cb82-e350-4f79-ad5d-9e2b446706cc\", \"firmware_version\": null, \"iccid\": null, \"imsi\": null, \"meter_serial_number\": null, \"meter_type\": null}"
+cbd17a98-0573-4d81-a006-c10a7f2e9101,3,5366cb82-e350-4f79-ad5d-9e2b446706cc,BootNotification,2023-01-01T08:01:30.000013+00:00,"{\"current_time\": \"2023-01-01T08:01:30.000013+00:00\", \"interval\": 300, \"status\": \"Accepted\"}"
+89edafff-0fd7-4b1e-aa8e-44a7da7798e6,2,5366cb82-e350-4f79-ad5d-9e2b446706cc,Heartbeat,2023-01-01T08:02:29.000013+00:00,{}
+89edafff-0fd7-4b1e-aa8e-44a7da7798e6,3,5366cb82-e350-4f79-ad5d-9e2b446706cc,Heartbeat,2023-01-01T08:02:30.000013+00:00,"{\\\"current_time\\\": \\\"2023-01-01T08:02:30.000013+00:00\\\"}"
+45bdc986-9bce-40f6-8265-0744c449728f,2,90e077f6-0a92-4c92-8c66-96c326935d47,BootNotification,2023-01-01T08:04:36.000025+00:00,"{\"charge_point_model\": \"BB-4\", \"charge_point_vendor\": \"ChargeAwesome LLC\", \"charge_box_serial_number\": null, \"charge_point_serial_number\": \"90e077f6-0a92-4c92-8c66-96c326935d47\", \"firmware_version\": null, \"iccid\": null, \"imsi\": null, \"meter_serial_number\": null, \"meter_type\": null}"
+45bdc986-9bce-40f6-8265-0744c449728f,3,90e077f6-0a92-4c92-8c66-96c326935d47,BootNotification,2023-01-01T08:04:37.000025+00:00,"{\"current_time\": \"2023-01-01T08:04:37.000025+00:00\", \"interval\": 300, \"status\": \"Accepted\"}"
+81b0f098-00dc-4231-899b-e33e2775893e,2,90e077f6-0a92-4c92-8c66-96c326935d47,Heartbeat,2023-01-01T08:05:36.000025+00:00,{}
+81b0f098-00dc-4231-899b-e33e2775893e,3,90e077f6-0a92-4c92-8c66-96c326935d47,Heartbeat,2023-01-01T08:05:37.000025+00:00,"{\\\"current_time\\\": \\\"2023-01-01T08:05:37.000025+00:00\\\"}"
+89edafff-0fd7-4b1e-aa8e-44a7da7798e6,2,5366cb82-e350-4f79-ad5d-9e2b446706cc,Heartbeat,2023-01-01T08:07:29.000013+00:00,{}
+89edafff-0fd7-4b1e-aa8e-44a7da7798e6,3,5366cb82-e350-4f79-ad5d-9e2b446706cc,Heartbeat,2023-01-01T08:07:30.000013+00:00,"{\\\"current_time\\\": \\\"2023-01-01T08:07:30.000013+00:00\\\"}"
