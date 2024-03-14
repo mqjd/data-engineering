@@ -13,12 +13,16 @@ object CsvReaderDF extends SparkDFBase {
   }
 
   def readChargingData(spark: SparkSession): DataFrame = {
-    val schema = StructType(Seq(StructField("message_id", StringType, nullable = true),
-      StructField("message_type", IntegerType, nullable = true),
-      StructField("charge_point_id", StringType, nullable = true),
-      StructField("action", StringType, nullable = true),
-      StructField("write_timestamp", StringType, nullable = true),
-      StructField("body", StringType, nullable = true)))
+    val schema = StructType(
+      Seq(
+        StructField("message_id", StringType, nullable = true),
+        StructField("message_type", IntegerType, nullable = true),
+        StructField("charge_point_id", StringType, nullable = true),
+        StructField("action", StringType, nullable = true),
+        StructField("write_timestamp", StringType, nullable = true),
+        StructField("body", StringType, nullable = true)
+      )
+    )
 
     spark.read.format("csv")
       .option("header", value = true)
