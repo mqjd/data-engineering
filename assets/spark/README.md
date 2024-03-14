@@ -7,5 +7,3 @@
 数据说明请点击[这里](https://data-derp.github.io/docs/2.0/my-first-dataset/project-domain),采用gzip进行压缩
 
 charging-data.csv是charging-data.csv.gz中的部分数据
-
-[car_prices.csv.gz](https://www.kaggle.com/datasets/syedanwarafridi/vehicle-sales-data?resource=download&select=car_prices.csv)
