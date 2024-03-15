@@ -1,8 +1,12 @@
 package com.mqjd.spark.sql.spark02
 
 import com.mqjd.spark.sql.base.SparkDFBase
-import org.apache.spark.sql.functions.{col, desc, explode, split}
-import org.apache.spark.sql.{Dataset, SparkSession}
+import org.apache.spark.sql.functions.col
+import org.apache.spark.sql.functions.desc
+import org.apache.spark.sql.functions.explode
+import org.apache.spark.sql.functions.split
+import org.apache.spark.sql.Dataset
+import org.apache.spark.sql.SparkSession
 
 object WordCountDF extends SparkDFBase {
 

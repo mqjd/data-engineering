@@ -1,8 +1,12 @@
 package com.mqjd.spark.sql.spark04
 
 import com.mqjd.spark.sql.base.SparkDFBase
-import org.apache.spark.sql.{DataFrame, SparkSession}
-import org.apache.spark.sql.types.{IntegerType, StringType, StructField, StructType}
+import org.apache.spark.sql.types.IntegerType
+import org.apache.spark.sql.types.StringType
+import org.apache.spark.sql.types.StructField
+import org.apache.spark.sql.types.StructType
+import org.apache.spark.sql.DataFrame
+import org.apache.spark.sql.SparkSession
 
 object CsvReaderDF extends SparkDFBase {
   def main(args: Array[String]): Unit = {
@@ -24,7 +28,8 @@ object CsvReaderDF extends SparkDFBase {
       )
     )
 
-    spark.read.format("csv")
+    spark.read
+      .format("csv")
       .option("header", value = true)
       .option("delimiter", ",")
       .schema(schema)

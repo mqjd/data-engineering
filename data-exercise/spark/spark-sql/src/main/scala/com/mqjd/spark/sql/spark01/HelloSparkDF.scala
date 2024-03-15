@@ -1,7 +1,8 @@
 package com.mqjd.spark.sql.spark01
 
 import com.mqjd.spark.sql.base.SparkDFBase
-import org.apache.spark.sql.{DataFrame, SparkSession}
+import org.apache.spark.sql.DataFrame
+import org.apache.spark.sql.SparkSession
 
 object HelloSparkDF extends SparkDFBase {
   def main(args: Array[String]): Unit = {

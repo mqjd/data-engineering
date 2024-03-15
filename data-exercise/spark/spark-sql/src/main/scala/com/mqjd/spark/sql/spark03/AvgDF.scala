@@ -1,9 +1,12 @@
 package com.mqjd.spark.sql.spark03
 
 import com.mqjd.spark.sql.base.SparkDFBase
-import org.apache.spark.sql.functions.{col, count, sum}
+import org.apache.spark.sql.functions.col
+import org.apache.spark.sql.functions.count
+import org.apache.spark.sql.functions.sum
 import org.apache.spark.sql.types._
-import org.apache.spark.sql.{Row, SparkSession}
+import org.apache.spark.sql.Row
+import org.apache.spark.sql.SparkSession
 
 object AvgDF extends SparkDFBase {
   def main(args: Array[String]): Unit = {

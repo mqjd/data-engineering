@@ -1,6 +1,7 @@
 package com.mqjd.spark.core.base
 
-import org.apache.spark.{SparkConf, SparkContext}
+import org.apache.spark.SparkConf
+import org.apache.spark.SparkContext
 
 class SparkRDDBase {
   def createSparkContext(name: String = "Hello SparkRDD"): SparkContext = {
