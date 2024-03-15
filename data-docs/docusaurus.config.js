@@ -65,9 +65,27 @@ const config = {
           items: [
             {
               type: 'docSidebar',
-              sidebarId: 'lessonSidebar',
-              position: 'left',
-              label: '学习',
+              sidebarId: 'welcomeSidebar',
+              label: 'Welcome!',
+              position: 'left'
+            },
+            {
+              type: 'docSidebar',
+              sidebarId: 'hadoopSidebar',
+              label: 'Hadoop',
+              position: 'left'
+            },
+            {
+              type: 'docSidebar',
+              sidebarId: 'sparkSidebar',
+              label: 'Spark',
+              position: 'left'
+            },
+            {
+              type: 'docSidebar',
+              sidebarId: 'flinkSidebar',
+              label: 'Flink',
+              position: 'left'
             },
             {to: '/blog', label: '博客', position: 'left'},
             {

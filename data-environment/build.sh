@@ -46,6 +46,6 @@ RUN chown -R ${USER_NAME}:${GROUP_ID} /etc/ssh
 
 RUN echo "123456" > ${DOCKER_HOME_DIR}/hadoop-http-auth-signature-secret
 
-RUN echo "source /opt/bigdata/bin/env.sh" >> /etc/profile
+RUN echo "source /opt/bigdata/bin/env.sh" >> /home/${USER_NAME}/.bashrc
 
 UserSpecificDocker
