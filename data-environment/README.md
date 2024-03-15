@@ -6,7 +6,7 @@ HD为Hadoop的简写
 
 项目中需要用到诸如Hadoop、Spark等数据组件，涉及Standalone或者集群环境，在需要用到的环境中均通过Docker来进行构建
 
-由于Mac中的Docker是基于虚拟机进行实现，所以在本机无法通过IP直连容器，此处通过[docker-connector](https://github.com/wenjunxiao/mac-docker-connector)进行宿主机与Docker网络进行桥接
+项目中用到的容器服务是[orbstack](https://orbstack.dev/),在开始之前请根据官网文档进行基础软件安装
 
 ## 基础镜像构建
 
@@ -25,19 +25,6 @@ HD镜像基于Base镜像添加数据项目常用的基础环境Python3、免密�
 
 ```shell
 bash build.sh
-```
-
-## Docker网络桥接
-
-1. 参考[官方文档](https://github.com/wenjunxiao/mac-docker-connector)完成安装和服务启动
-
-2. 配置本地路由
-
-```shell
-docker_connector_config="$(brew --prefix)/etc/docker-connector.conf"
-if ! grep -q "^route 172.18.0.0/16" $docker_connector_config; then
-    echo "route 172.18.0.0/16" >> $docker_connector_config
-fi
 ```
 
 ## 集群
@@ -59,14 +46,12 @@ sudo vi /etc/hosts
 3. 根据解压后的目录名称修改[.env](./docker/hd/.env)文件中以**PACKAGE_DIR**结尾的变量
 
 ```shell
-
 # 构建并启动HD
 docker-compose -f ./docker/hd/docker-compose.yml up -d
 
 # 停止HD并删除
 docker-compose -f ./docker/hd/docker-compose.yml down
 ```
-
 
 
 

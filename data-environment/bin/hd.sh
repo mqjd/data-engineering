@@ -27,7 +27,11 @@ function start_serve {
     IFS="," read -ra components <<< "$components_str"
 
     bash $script_path/components/${server}.sh init "${components[@]}"
-    bash $script_path/components/${server}.sh start "${components[@]}"
+
+    if [[ $1 != \##* ]]; then
+        bash $script_path/components/${server}.sh start "${components[@]}"
+    fi
+
 }
 
 function main {
