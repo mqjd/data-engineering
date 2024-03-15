@@ -18,3 +18,14 @@ if [[ -n $SPARK_HOME ]]; then
   export SPARK_LOG_DIR=${HD_DATA_HOME}/log/spark
 fi
 
+if [[ -n $ZOO_HOME ]]; then
+  export PATH=$ZOO_HOME/bin:$PATH
+  export ZOO_CONF_DIR=${HD_DATA_HOME}/configs/zookeeper
+  export ZOO_LOG_DIR=${HD_DATA_HOME}/log/zookeeper
+fi
+
+if [[ -n $KAFKA_HOME ]]; then
+  export PATH=$KAFKA_HOME/bin:$PATH
+  export KAFKA_CONF_DIR=${HD_DATA_HOME}/configs/kafka
+  export KAFKA_LOG_DIR=${HD_DATA_HOME}/log/kafka
+fi

@@ -1,4 +1,8 @@
 version: '3'
+networks:
+  hd_network:
+    name: hd_bigdata_network_bridge
+    external: true
 services:
   postgres:
     image: postgres
@@ -6,8 +10,9 @@ services:
     container_name: postgres
     hostname: postgres
     restart: always
-    ports:
-      - 5432:5432
+    networks:
+      hd_network:
+        ipv4_address: 172.18.0.2
     environment:
       POSTGRES_DB: postgres
       POSTGRES_USER: root
@@ -19,7 +24,8 @@ services:
     hostname: airflow
     restart: always
     command: standalone
-    ports:
-      - 8080:8080/tcp # name node
+    networks:
+      hd_network:
+        ipv4_address: 172.18.0.3
     volumes:
       - ./dags:/opt/airflow/dags:rw
