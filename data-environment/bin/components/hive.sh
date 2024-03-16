@@ -3,36 +3,44 @@
 script_path=$(dirname "$0")
 source $script_path/common.sh
 
-host_name=$(hostname)
 action=$1
 args=("$@")
 components=("${args[@]:1}")
 
-function init_broker {
+function init_metastore {
   init_conf
   init_log
 }
 
+function init_hiveserver2 {
+  init_log
+  init_conf
+}
+
 function init_conf {
-  mkdir_if_not_exists "${KAFKA_CONF_DIR}"
-  if [ -z "$(ls -A $KAFKA_CONF_DIR)" ]; then
-    cp -rf $KAFKA_HOME/config/* $KAFKA_CONF_DIR/
-    cp -rf $HD_HOME/configs/kafka/* $KAFKA_CONF_DIR/
-    set_property_value "broker.id" "${host_name:2:1}" $KAFKA_CONF_DIR/server.properties
+  mkdir_if_not_exists "${HIVE_CONF_DIR}"
+  if [ -z "$(ls -A $HIVE_CONF_DIR)" ]; then
+    cp -rf $HIVE_HOME/conf/* $HIVE_CONF_DIR/
+    cp -rf $HD_HOME/configs/hive/* $HIVE_CONF_DIR/
   fi
 }
 
 function init_log {
-  local KAFKA_DATA_DIR=$(get_property_value "log.dirs" "$KAFKA_CONF_DIR/server.properties")
-  mkdir_if_not_exists $KAFKA_DATA_DIR
-  mkdir_if_not_exists $KAFKA_LOG_DIR
+  mkdir_if_not_exists $HIVE_LOG_DIR
 }
 
-function start_broker {
-  export KAFKA_LOG4J_OPTS="-Dlog4j.configuration=file:$KAFKA_CONF_DIR/log4j.properties"
-  export KAFKA_HEAP_OPTS="-Xmx1G -Xms1G -XX:+UnlockExperimentalVMOptions"
-  export LOG_DIR=$KAFKA_LOG_DIR
-  kafka-server-start.sh -daemon $KAFKA_CONF_DIR/server.properties
+function start_metastore {
+  hdfs dfs -mkdir -p /user/hive/warehouse
+  hdfs dfs -chown hive:hive /user/hive
+  hdfs dfs -chown hive:hive /user/hive/warehouse
+  hdfs dfs -mkdir -p /tmp
+  hdfs dfs -chmod -R 777 /tmp
+  schematool -dbType postgres -initSchema
+  nohup hive --service metastore > $HIVE_LOG_DIR/metastore.log 2>&1 &
+}
+
+function start_hiveserver2 {
+  nohup hive --service hiveserver2 > $HIVE_LOG_DIR/hiveserver2.log 2>&1 &
 }
 
 function main {

@@ -35,3 +35,9 @@ if [[ -n $HBASE_HOME ]]; then
   export HBASE_CONF_DIR=${HD_DATA_HOME}/configs/hbase
   export HBASE_LOG_DIR=${HD_DATA_HOME}/log/hbase
 fi
+
+if [[ -n $HIVE_HOME ]]; then
+  export PATH=$HIVE_HOME/bin:$PATH
+  export HIVE_CONF_DIR=${HD_DATA_HOME}/configs/hive
+  export HIVE_LOG_DIR=${HD_DATA_HOME}/log/hive
+fi
