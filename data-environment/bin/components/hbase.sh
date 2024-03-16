@@ -33,8 +33,7 @@ function init_log {
 }
 
 function start_master {
-  if ps -ef | grep -v grep | grep "HMaster" > /dev/null
-  then
+  if ps -ef | grep -v grep | grep "HMaster" >/dev/null; then
     echo "HMaster already exists"
   else
     hbase-daemon.sh start master
@@ -42,8 +41,7 @@ function start_master {
 }
 
 function start_regionserver {
-  if ps -ef | grep -v grep | grep "HRegionServer" > /dev/null
-  then
+  if ps -ef | grep -v grep | grep "HRegionServer" >/dev/null; then
     echo "HRegionServer already exists"
   else
     hbase-daemon.sh start regionserver
@@ -51,8 +49,7 @@ function start_regionserver {
 }
 
 function main {
-  for(( i=0;i<${#components[@]};i++))
-  do
+  for ((i = 0; i < ${#components[@]}; i++)); do
     component=${components[i]}
     func="${action}_${component}"
     $func

@@ -29,8 +29,7 @@ function init_log {
 }
 
 function start_broker {
-  if ps -ef | grep -v grep | grep "Kafka" > /dev/null
-  then
+  if ps -ef | grep -v grep | grep "Kafka" >/dev/null; then
     echo "Kafka already exists"
   else
     export KAFKA_LOG4J_OPTS="-Dlog4j.configuration=file:$KAFKA_CONF_DIR/log4j.properties"
@@ -41,8 +40,7 @@ function start_broker {
 }
 
 function main {
-  for(( i=0;i<${#components[@]};i++))
-  do
+  for ((i = 0; i < ${#components[@]}; i++)); do
     component=${components[i]}
     func="${action}_${component}"
     $func

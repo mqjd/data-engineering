@@ -30,18 +30,16 @@ function init_log {
 }
 
 function start_metastore {
-  if ps -ef | grep -v grep | grep "HiveMetaStore" > /dev/null
-  then
+  if ps -ef | grep -v grep | grep "HiveMetaStore" >/dev/null; then
     echo "HiveMetaStore already exists"
   else
     do_init_metastore
-    nohup hive --service metastore > $HIVE_LOG_DIR/metastore.log 2>&1 &
+    nohup hive --service metastore >$HIVE_LOG_DIR/metastore.log 2>&1 &
   fi
 }
 
 function do_init_metastore {
-  if hdfs dfs -ls /user/hive | grep "Found" > /dev/null
-  then
+  if hdfs dfs -ls /user/hive | grep "Found" >/dev/null; then
     echo "metastore already initialized"
   else
     hdfs dfs -mkdir -p /user/hive/warehouse
@@ -54,17 +52,15 @@ function do_init_metastore {
 }
 
 function start_hiveserver2 {
-  if ps -ef | grep -v grep | grep "HiveServer2" > /dev/null
-  then
+  if ps -ef | grep -v grep | grep "HiveServer2" >/dev/null; then
     echo "HiveServer2 already exists"
   else
-    nohup hive --service hiveserver2 > $HIVE_LOG_DIR/hiveserver2.log 2>&1 &
+    nohup hive --service hiveserver2 >$HIVE_LOG_DIR/hiveserver2.log 2>&1 &
   fi
 }
 
 function main {
-  for(( i=0;i<${#components[@]};i++))
-  do
+  for ((i = 0; i < ${#components[@]}; i++)); do
     component=${components[i]}
     func="${action}_${component}"
     $func

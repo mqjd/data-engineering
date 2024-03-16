@@ -24,8 +24,7 @@ function init_standlone_dirs {
 }
 
 function start_master {
-  if ps -ef | grep -v grep | grep "spark" | grep "Master" > /dev/null
-  then
+  if ps -ef | grep -v grep | grep "spark" | grep "Master" >/dev/null; then
     echo "spark Master already exists"
   else
     start-master.sh
@@ -38,8 +37,7 @@ function init_worker {
 }
 
 function start_worker {
-  if ps -ef | grep -v grep | grep "spark" | grep "Worker" > /dev/null
-  then
+  if ps -ef | grep -v grep | grep "spark" | grep "Worker" >/dev/null; then
     echo "spark Worker already exists"
   else
     start-worker.sh spark://hd1:7077
@@ -47,8 +45,7 @@ function start_worker {
 }
 
 function main {
-  for(( i=0;i<${#components[@]};i++)) 
-  do
+  for ((i = 0; i < ${#components[@]}; i++)); do
     component=${components[i]}
     func="${action}_${component}"
     $func
@@ -56,4 +53,3 @@ function main {
 }
 
 main
-

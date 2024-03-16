@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
 
 function mkdirs_if_not_exists {
-  local DIRS=("$@") 
-  for(( i=0;i<${#DIRS[@]};i++)) 
-  do
+  local DIRS=("$@")
+  for ((i = 0; i < ${#DIRS[@]}; i++)); do
     mkdir_if_not_exists $1
   done
 }

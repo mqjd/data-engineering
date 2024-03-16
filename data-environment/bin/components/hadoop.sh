@@ -56,10 +56,8 @@ function init_hadoop_conf {
   fi
 }
 
-
 function start_namenode {
-  if ps -ef | grep -v grep | grep "NameNode" > /dev/null
-  then
+  if ps -ef | grep -v grep | grep "NameNode" >/dev/null; then
     echo "NameNode already exists"
   else
     hdfs --daemon start namenode
@@ -67,8 +65,7 @@ function start_namenode {
 }
 
 function start_datanode {
-  if ps -ef | grep -v grep | grep "DataNode" > /dev/null
-  then
+  if ps -ef | grep -v grep | grep "DataNode" >/dev/null; then
     echo "DataNode already exists"
   else
     hdfs --daemon start datanode
@@ -76,8 +73,7 @@ function start_datanode {
 }
 
 function start_resourcemanager {
-  if ps -ef | grep -v grep | grep "ResourceManager" > /dev/null
-  then
+  if ps -ef | grep -v grep | grep "ResourceManager" >/dev/null; then
     echo "ResourceManager already exists"
   else
     yarn --daemon start resourcemanager
@@ -85,8 +81,7 @@ function start_resourcemanager {
 }
 
 function start_nodemanager {
-  if ps -ef | grep -v grep | grep "NodeManager" > /dev/null
-  then
+  if ps -ef | grep -v grep | grep "NodeManager" >/dev/null; then
     echo "NodeManager already exists"
   else
     yarn --daemon start nodemanager
@@ -94,8 +89,7 @@ function start_nodemanager {
 }
 
 function main {
-  for(( i=0;i<${#components[@]};i++)) 
-  do
+  for ((i = 0; i < ${#components[@]}; i++)); do
     component=${components[i]}
     func="${action}_${component}"
     $func

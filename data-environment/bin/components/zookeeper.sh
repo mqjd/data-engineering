@@ -27,7 +27,7 @@ function init_data {
   local ZOO_DATA_DIR=$(get_property_value "dataDir" "$ZOO_CONF_DIR/zoo.cfg")
   mkdir_if_not_exists $ZOO_DATA_DIR
   if [ -z "$(ls -A $ZOO_DATA_DIR)" ]; then
-    echo "${host_name:2:1}" >> $ZOO_DATA_DIR/myid
+    echo "${host_name:2:1}" >>$ZOO_DATA_DIR/myid
   fi
 }
 
@@ -37,8 +37,7 @@ function init_log {
 }
 
 function start_server {
-  if ps -ef | grep -v grep | grep "QuorumPeerMain" > /dev/null
-  then
+  if ps -ef | grep -v grep | grep "QuorumPeerMain" >/dev/null; then
     echo "QuorumPeerMain already exists"
   else
     zkServer.sh --config $ZOO_CONF_DIR start
@@ -46,8 +45,7 @@ function start_server {
 }
 
 function main {
-  for(( i=0;i<${#components[@]};i++))
-  do
+  for ((i = 0; i < ${#components[@]}; i++)); do
     component=${components[i]}
     func="${action}_${component}"
     $func
