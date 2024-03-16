@@ -14,6 +14,7 @@
     <module>data-exercise/spark</module>
     <module>data-exercise/spark/spark-core</module>
     <module>data-exercise/spark/spark-sql</module>
+    <module>data-exercise/hbase</module>
   </modules>
 
   <properties>
@@ -28,7 +29,7 @@
     <hadoop.version>3.3.2</hadoop.version>
     <yarn.version>3.3.2</yarn.version>
     <hdfs.version>3.3.2</hdfs.version>
-    <hbase.version>2.4.10</hbase.version>
+    <hbase.version>2.5.8</hbase.version>
     <elasticsearch.version>8.1.0</elasticsearch.version>
     <junit.version>5.9.2</junit.version>
     <guava.version>31.1-jre</guava.version>

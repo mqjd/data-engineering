@@ -29,3 +29,9 @@ if [[ -n $KAFKA_HOME ]]; then
   export KAFKA_CONF_DIR=${HD_DATA_HOME}/configs/kafka
   export KAFKA_LOG_DIR=${HD_DATA_HOME}/log/kafka
 fi
+
+if [[ -n $HBASE_HOME ]]; then
+  export PATH=$HBASE_HOME/bin:$PATH
+  export HBASE_CONF_DIR=${HD_DATA_HOME}/configs/hbase
+  export HBASE_LOG_DIR=${HD_DATA_HOME}/log/hbase
+fi

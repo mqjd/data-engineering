@@ -18,6 +18,8 @@ services:
       - ${BASE_PACKAGE_PATH}/${SPARK_PACKAGE_DIR}:${BASE_PATH}/${SPARK_DIR}:rw
       - ${BASE_PACKAGE_PATH}/${ZOO_PACKAGE_DIR}:${BASE_PATH}/${ZOO_DIR}:rw
       - ${BASE_PACKAGE_PATH}/${KAFKA_PACKAGE_DIR}:${BASE_PATH}/${KAFKA_DIR}:rw
+      - ${BASE_PACKAGE_PATH}/${HBASE_PACKAGE_DIR}:${BASE_PATH}/${HBASE_DIR}:rw
+      - ${BASE_PACKAGE_PATH}/${HIVE_PACKAGE_DIR}:${BASE_PATH}/${HIVE_DIR}:rw
       - ../../bin:${BASE_PATH}/bin:rw
     environment:
       HD_HOME: ${BASE_PATH}
@@ -27,4 +29,6 @@ services:
       SPARK_HOME: ${SPARK_HOME}
       ZOO_HOME: ${ZOO_HOME}
       KAFKA_HOME: ${KAFKA_HOME}
+      HBASE_HOME: ${HBASE_HOME}
+      HIVE_HOME: ${HIVE_HOME}
     command: bash ${BASE_PATH}/bin/start.sh

@@ -5,7 +5,7 @@ source $script_path/env.sh
 
 host_name=$(hostname)
 
-serve_lines=($(grep "^$host_name:" $script_path/servers.yml))
+serve_lines=($(grep "$host_name:" $script_path/servers.yml))
 
 function init() {
     ./init/hadoop.sh
@@ -27,8 +27,7 @@ function start_serve {
     IFS="," read -ra components <<< "$components_str"
 
     bash $script_path/components/${server}.sh init "${components[@]}"
-
-    if [[ $1 != \##* ]]; then
+    if [[ $1 != \#* ]]; then
         bash $script_path/components/${server}.sh start "${components[@]}"
     fi
 
