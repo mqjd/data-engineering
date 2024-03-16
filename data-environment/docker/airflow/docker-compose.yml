@@ -4,19 +4,6 @@ networks:
     name: hd_bigdata_network_bridge
     external: true
 services:
-  postgres:
-    image: postgres
-    platform: linux/arm64
-    container_name: postgres
-    hostname: postgres
-    restart: always
-    networks:
-      hd_network:
-        ipv4_address: 172.18.0.2
-    environment:
-      POSTGRES_DB: postgres
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: 123456
   airflow:
     image: apache/airflow:2.8.2
     platform: linux/arm64
