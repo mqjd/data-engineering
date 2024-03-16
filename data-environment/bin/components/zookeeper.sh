@@ -37,7 +37,12 @@ function init_log {
 }
 
 function start_server {
-  zkServer.sh --config $ZOO_CONF_DIR start
+  if ps -ef | grep -v grep | grep "QuorumPeerMain" > /dev/null
+  then
+    echo "QuorumPeerMain already exists"
+  else
+    zkServer.sh --config $ZOO_CONF_DIR start
+  fi
 }
 
 function main {

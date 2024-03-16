@@ -58,19 +58,39 @@ function init_hadoop_conf {
 
 
 function start_namenode {
-  hdfs --daemon start namenode
+  if ps -ef | grep -v grep | grep "NameNode" > /dev/null
+  then
+    echo "NameNode already exists"
+  else
+    hdfs --daemon start namenode
+  fi
 }
 
 function start_datanode {
-  hdfs --daemon start datanode
+  if ps -ef | grep -v grep | grep "DataNode" > /dev/null
+  then
+    echo "DataNode already exists"
+  else
+    hdfs --daemon start datanode
+  fi
 }
 
 function start_resourcemanager {
-  yarn --daemon start resourcemanager
+  if ps -ef | grep -v grep | grep "ResourceManager" > /dev/null
+  then
+    echo "ResourceManager already exists"
+  else
+    yarn --daemon start resourcemanager
+  fi
 }
 
 function start_nodemanager {
-  yarn --daemon start nodemanager
+  if ps -ef | grep -v grep | grep "NodeManager" > /dev/null
+  then
+    echo "NodeManager already exists"
+  else
+    yarn --daemon start nodemanager
+  fi
 }
 
 function main {

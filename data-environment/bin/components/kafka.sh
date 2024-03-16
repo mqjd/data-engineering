@@ -29,10 +29,15 @@ function init_log {
 }
 
 function start_broker {
-  export KAFKA_LOG4J_OPTS="-Dlog4j.configuration=file:$KAFKA_CONF_DIR/log4j.properties"
-  export KAFKA_HEAP_OPTS="-Xmx1G -Xms1G -XX:+UnlockExperimentalVMOptions"
-  export LOG_DIR=$KAFKA_LOG_DIR
-  kafka-server-start.sh -daemon $KAFKA_CONF_DIR/server.properties
+  if ps -ef | grep -v grep | grep "Kafka" > /dev/null
+  then
+    echo "Kafka already exists"
+  else
+    export KAFKA_LOG4J_OPTS="-Dlog4j.configuration=file:$KAFKA_CONF_DIR/log4j.properties"
+    export KAFKA_HEAP_OPTS="-Xmx1G -Xms1G -XX:+UnlockExperimentalVMOptions"
+    export LOG_DIR=$KAFKA_LOG_DIR
+    kafka-server-start.sh -daemon $KAFKA_CONF_DIR/server.properties
+  fi
 }
 
 function main {

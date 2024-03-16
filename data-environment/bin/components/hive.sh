@@ -30,17 +30,36 @@ function init_log {
 }
 
 function start_metastore {
-  hdfs dfs -mkdir -p /user/hive/warehouse
-  hdfs dfs -chown hive:hive /user/hive
-  hdfs dfs -chown hive:hive /user/hive/warehouse
-  hdfs dfs -mkdir -p /tmp
-  hdfs dfs -chmod -R 777 /tmp
-  schematool -dbType postgres -initSchema
-  nohup hive --service metastore > $HIVE_LOG_DIR/metastore.log 2>&1 &
+  if ps -ef | grep -v grep | grep "HiveMetaStore" > /dev/null
+  then
+    echo "HiveMetaStore already exists"
+  else
+    do_init_metastore
+    nohup hive --service metastore > $HIVE_LOG_DIR/metastore.log 2>&1 &
+  fi
+}
+
+function do_init_metastore {
+  if hdfs dfs -ls /user/hive | grep "Found" > /dev/null
+  then
+    echo "metastore already initialized"
+  else
+    hdfs dfs -mkdir -p /user/hive/warehouse
+    hdfs dfs -chown hive:hive /user/hive
+    hdfs dfs -chown hive:hive /user/hive/warehouse
+    hdfs dfs -mkdir -p /tmp
+    hdfs dfs -chmod -R 777 /tmp
+    schematool -dbType postgres -initSchema
+  fi
 }
 
 function start_hiveserver2 {
-  nohup hive --service hiveserver2 > $HIVE_LOG_DIR/hiveserver2.log 2>&1 &
+  if ps -ef | grep -v grep | grep "HiveServer2" > /dev/null
+  then
+    echo "HiveServer2 already exists"
+  else
+    nohup hive --service hiveserver2 > $HIVE_LOG_DIR/hiveserver2.log 2>&1 &
+  fi
 }
 
 function main {

@@ -33,11 +33,21 @@ function init_log {
 }
 
 function start_master {
-  hbase-daemon.sh start master
+  if ps -ef | grep -v grep | grep "HMaster" > /dev/null
+  then
+    echo "HMaster already exists"
+  else
+    hbase-daemon.sh start master
+  fi
 }
 
 function start_regionserver {
-  hbase-daemon.sh start regionserver
+  if ps -ef | grep -v grep | grep "HRegionServer" > /dev/null
+  then
+    echo "HRegionServer already exists"
+  else
+    hbase-daemon.sh start regionserver
+  fi
 }
 
 function main {
