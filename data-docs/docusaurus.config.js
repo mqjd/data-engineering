@@ -13,7 +13,7 @@ const config = {
   favicon: 'img/favicon.ico',
 
   url: 'https://mqjd.github.io',
-  baseUrl: '/data-engineering-web',
+  baseUrl: '/data-engineering',
 
   organizationName: 'mqjd', // Usually your GitHub org/user name.
   projectName: 'data-engineering', // Usually your repo name.
@@ -102,8 +102,8 @@ const config = {
               title: 'Docs',
               items: [
                 {
-                  label: 'Lessons',
-                  to: '/docs/intro',
+                  label: 'test',
+                  to: 'https://github.com/mqjd/data-engineering',
                 },
               ],
             },
