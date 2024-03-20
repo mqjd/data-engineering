@@ -13,7 +13,7 @@ const config = {
   favicon: 'img/favicon.ico',
 
   url: 'https://mqjd.github.io',
-  baseUrl: '/',
+  baseUrl: '/data-engineering-web',
 
   organizationName: 'mqjd', // Usually your GitHub org/user name.
   projectName: 'data-engineering', // Usually your repo name.
