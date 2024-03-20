@@ -20,7 +20,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: run build-web.sh
-        run: bash deploy-web.sh
+        run: bash build-web.sh
       - name: deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
