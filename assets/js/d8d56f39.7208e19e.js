@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkdata_docs=self.webpackChunkdata_docs||[]).push([[322],{4259:e=>{e.exports=JSON.parse('{"permalink":"/data-engineering/blog","page":1,"postsPerPage":10,"totalPages":1,"totalCount":1,"blogDescription":"Blog","blogTitle":"Blog"}')}}]);
