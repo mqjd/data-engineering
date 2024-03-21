@@ -28,6 +28,7 @@ function start_serve {
 
   bash $script_path/components/${server}.sh init "${components[@]}"
   if [[ $1 != \#* ]]; then
+    echo "${components[@]}"
     bash $script_path/components/${server}.sh start "${components[@]}"
   fi
 

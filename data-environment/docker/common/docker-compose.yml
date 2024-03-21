@@ -21,6 +21,7 @@ services:
       - ${BASE_PACKAGE_PATH}/${KAFKA_PACKAGE_DIR}:${BASE_PATH}/${KAFKA_DIR}:rw
       - ${BASE_PACKAGE_PATH}/${HBASE_PACKAGE_DIR}:${BASE_PATH}/${HBASE_DIR}:rw
       - ${BASE_PACKAGE_PATH}/${HIVE_PACKAGE_DIR}:${BASE_PATH}/${HIVE_DIR}:rw
+      - ${BASE_PACKAGE_PATH}/${FLINK_PACKAGE_DIR}:${BASE_PATH}/${FLINK_DIR}:rw
       - ../../bin:${BASE_PATH}/bin:rw
     environment:
       HD_HOME: ${BASE_PATH}
@@ -32,4 +33,5 @@ services:
       KAFKA_HOME: ${KAFKA_HOME}
       HBASE_HOME: ${HBASE_HOME}
       HIVE_HOME: ${HIVE_HOME}
+      FLINK_HOME: ${FLINK_HOME}
     command: bash ${BASE_PATH}/bin/start.sh

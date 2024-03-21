@@ -44,6 +44,15 @@ function start_worker {
   fi
 }
 
+function init_client {
+  init_standlone_conf
+  init_standlone_dirs
+}
+
+function start_client {
+  echo "spark client initialized"
+}
+
 function main {
   for ((i = 0; i < ${#components[@]}; i++)); do
     component=${components[i]}

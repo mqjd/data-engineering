@@ -41,3 +41,9 @@ if [[ -n $HIVE_HOME ]]; then
   export HIVE_CONF_DIR=${HD_DATA_HOME}/configs/hive
   export HIVE_LOG_DIR=${HD_DATA_HOME}/log/hive
 fi
+
+if [[ -n $FLINK_HOME ]]; then
+  export PATH=$FLINK_HOME/bin:$PATH
+  export FLINK_CONF_DIR=${HD_DATA_HOME}/configs/flink
+  export FLINK_LOG_DIR=${HD_DATA_HOME}/log/flink
+fi

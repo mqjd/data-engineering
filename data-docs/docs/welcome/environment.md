@@ -9,13 +9,15 @@ sidebar_position: 2
 
 ## 准备工作
 
-
-
 ## 组件支持情况
 
-| 组件      | 支持 | 备注                                                 |
-|---------|----|----------------------------------------------------|
-| Hadoop  | ✅  | 当前组件：namenode、datanode、resourcemanager、nodemanager |
-| Spark   | ✅  | Standalone                                         |
-| Flink   | ❌  |                                                    |
-| Airflow | ✅  | Standalone                                         |
+| 组件         | 支持 | 备注                                                 |
+|------------|----|----------------------------------------------------|
+| Hadoop     | ✅  | 当前组件：namenode,datanode,resourcemanager,nodemanager |
+| Hive       | ✅  | 当前组件：metastore,hiveserver2                         |
+| Hbase      | ✅  | 当前组件：master,regionserver                           |
+| Spark      | ✅  | Standalone:master,worker                           |
+| Flink      | ✅  | Standalone:jobmanager,taskmanager                  |
+| Kafka      | ✅  | 当前组件：broker                                        |
+| ClickHouse | ❌  | 暂不支持                                               |
+| Airflow    | ✅  | Standalone                                         |
