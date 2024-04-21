@@ -29,27 +29,27 @@ sidebar_position: 2
 hdfs classpath [--glob |--jar <path> |-h |--help]
 ```
 
-### version
+#### version
 
 ```shell
 hdfs version
 ```
 
-### dfs
+#### dfs
 
 基本使用如下(类似[hadoop fs](intro))：
 ```shell
 hdfs dfs [COMMAND [COMMAND_OPTIONS]]
 ```
 
-### envvars
+#### envvars
 
 打印hadoop环境变量
 ```shell
 hdfs envvars
 ```
 
-### fetchdt
+#### fetchdt
 
 从NameNode获取Token
 ```shell
