@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkdata_docs=self.webpackChunkdata_docs||[]).push([[91],{5513:e=>{e.exports=JSON.parse('{"title":"Recent posts","items":[{"title":"What is Data Engineering?","permalink":"/data-engineering/en/blog/what-is-data-engieering","unlisted":false}]}')}}]);
