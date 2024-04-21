@@ -7,12 +7,12 @@ action=$1
 args=("$@")
 components=("${args[@]:1}")
 
-function init_metastore {
+function install_metastore {
   init_conf
   init_log
 }
 
-function init_hiveserver2 {
+function install_hiveserver2 {
   init_log
   init_conf
 }
@@ -63,7 +63,9 @@ function main {
   for ((i = 0; i < ${#components[@]}; i++)); do
     component=${components[i]}
     func="${action}_${component}"
-    $func
+    if declare -F "$func" >/dev/null 2>&1; then
+      $func
+    fi
   done
 }
 

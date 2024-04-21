@@ -1,0 +1,7 @@
+systemLog.destination: file
+systemLog.logAppend: true
+systemLog.path: /var/bigdata/log/mongodb/routersvr.log
+processManagement.fork: true
+sharding.configDB: chd/hd1:27019,hd2:27019,hd3:27019
+net.bindIp: 0.0.0.0
+net.port: 27017

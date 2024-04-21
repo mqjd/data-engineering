@@ -33,6 +33,18 @@ function set_property_value {
   sed -i "s/^\($key\s*=\s*\).*\$/\1$value/" $file
 }
 
+function set_yml_property_value {
+  local key=$1
+  local value=$2
+  local file=$3
+
+  if ! grep -q "^${key}:" "$file"; then
+      echo "${key}: ${value}" >> "$file"
+  else
+      sed -i "s/^\($key\s*:\s*\).*\$/\1$value/" "$file"
+  fi
+}
+
 function get_properties_value {
   local property_name=$1
   local file=$2

@@ -7,7 +7,7 @@ action=$1
 args=("$@")
 components=("${args[@]:1}")
 
-function init_master {
+function install_master {
   init_standlone_conf
   init_standlone_dirs
 }
@@ -31,7 +31,7 @@ function start_master {
   fi
 }
 
-function init_worker {
+function install_worker {
   init_standlone_conf
   init_standlone_dirs
 }
@@ -57,7 +57,9 @@ function main {
   for ((i = 0; i < ${#components[@]}; i++)); do
     component=${components[i]}
     func="${action}_${component}"
-    $func
+    if declare -F "$func" >/dev/null 2>&1; then
+      $func
+    fi
   done
 }
 

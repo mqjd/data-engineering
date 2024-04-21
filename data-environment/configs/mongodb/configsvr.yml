@@ -1,0 +1,9 @@
+systemLog.destination: file
+systemLog.logAppend: true
+systemLog.path: /var/bigdata/log/mongodb/configsvr.log
+storage.dbPath: /var/bigdata/data/mongodb/configsvr
+sharding.clusterRole: configsvr
+processManagement.fork: true
+replication.replSetName: chd
+net.bindIp: 0.0.0.0
+net.port: 27019

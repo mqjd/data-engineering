@@ -8,7 +8,7 @@ action=$1
 args=("$@")
 components=("${args[@]:1}")
 
-function init_server {
+function install_server {
   init_conf
   init_data
   init_log
@@ -48,7 +48,9 @@ function main {
   for ((i = 0; i < ${#components[@]}; i++)); do
     component=${components[i]}
     func="${action}_${component}"
-    $func
+    if declare -F "$func" >/dev/null 2>&1; then
+      $func
+    fi
   done
 }
 

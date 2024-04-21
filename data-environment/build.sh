@@ -19,8 +19,18 @@ FROM hd-base:1.0
 
 RUN apt-get -q update \
     && apt-get -q install -y --no-install-recommends\
+      vim \
       python3 \
       python3-pip \
+      libcurl4  \
+      libgssapi-krb5-2  \
+      libldap-2.5-0  \
+      libwrap0  \
+      libsasl2-2  \
+      libsasl2-modules  \
+      libsasl2-modules-gssapi-mit  \
+      openssl  \
+      liblzma5  \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 

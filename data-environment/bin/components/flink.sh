@@ -7,7 +7,7 @@ action=$1
 args=("$@")
 components=("${args[@]:1}")
 
-function init_jobmanager {
+function install_jobmanager {
   init_standlone_conf
   init_standlone_dirs
 }
@@ -32,7 +32,7 @@ function start_jobmanager {
   fi
 }
 
-function init_taskmanager {
+function install_taskmanager {
   init_standlone_conf
   init_standlone_dirs
 }
@@ -58,7 +58,9 @@ function main {
   for ((i = 0; i < ${#components[@]}; i++)); do
     component=${components[i]}
     func="${action}_${component}"
-    $func
+    if declare -F "$func" >/dev/null 2>&1; then
+      $func
+    fi
   done
 }
 

@@ -8,12 +8,12 @@ action=$1
 args=("$@")
 components=("${args[@]:1}")
 
-function init_master {
+function install_master {
   init_conf
   init_log
 }
 
-function init_regionserver {
+function install_regionserver {
   init_conf
   init_log
 }
@@ -52,7 +52,9 @@ function main {
   for ((i = 0; i < ${#components[@]}; i++)); do
     component=${components[i]}
     func="${action}_${component}"
-    $func
+    if declare -F "$func" >/dev/null 2>&1; then
+      $func
+    fi
   done
 }
 

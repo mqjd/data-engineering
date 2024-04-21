@@ -22,6 +22,10 @@ services:
       - ${BASE_PACKAGE_PATH}/${HBASE_PACKAGE_DIR}:${BASE_PATH}/${HBASE_DIR}:rw
       - ${BASE_PACKAGE_PATH}/${HIVE_PACKAGE_DIR}:${BASE_PATH}/${HIVE_DIR}:rw
       - ${BASE_PACKAGE_PATH}/${FLINK_PACKAGE_DIR}:${BASE_PATH}/${FLINK_DIR}:rw
+      - ${BASE_PACKAGE_PATH}/${CH_PACKAGE_DIR}:${BASE_PATH}/${CH_DIR}:rw
+      - ${BASE_PACKAGE_PATH}/${ES_PACKAGE_DIR}:${BASE_PATH}/${ES_DIR}:rw
+      - ${BASE_PACKAGE_PATH}/${MONGODB_PACKAGE_DIR}:${BASE_PATH}/${MONGODB_DIR}:rw
+      - ${BASE_PACKAGE_PATH}/${MONGOSH_PACKAGE_DIR}:${BASE_PATH}/${MONGOSH_DIR}:rw
       - ../../bin:${BASE_PATH}/bin:rw
     environment:
       HD_HOME: ${BASE_PATH}
@@ -34,4 +38,8 @@ services:
       HBASE_HOME: ${HBASE_HOME}
       HIVE_HOME: ${HIVE_HOME}
       FLINK_HOME: ${FLINK_HOME}
+      CH_HOME: ${CH_HOME}
+      ES_HOME: ${ES_HOME}
+      MONGODB_HOME: ${MONGODB_HOME}
+      MONGOSH_HOME: ${MONGOSH_HOME}
     command: bash ${BASE_PATH}/bin/start.sh

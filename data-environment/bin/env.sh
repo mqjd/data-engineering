@@ -47,3 +47,28 @@ if [[ -n $FLINK_HOME ]]; then
   export FLINK_CONF_DIR=${HD_DATA_HOME}/configs/flink
   export FLINK_LOG_DIR=${HD_DATA_HOME}/log/flink
 fi
+
+if [[ -n $CH_HOME ]]; then
+  export CH_CONF_DIR=${HD_DATA_HOME}/configs/ch
+  export CH_LOG_DIR=${HD_DATA_HOME}/log/ch
+  export CH_DATA_DIR=${HD_DATA_HOME}/data/ch
+fi
+
+if [[ -n $ES_HOME ]]; then
+  export PATH=$ES_HOME/bin:$PATH
+  export ES_CONF_DIR=${HD_DATA_HOME}/configs/es
+  export ES_PATH_CONF=$ES_CONF_DIR
+  export ES_LOG_DIR=${HD_DATA_HOME}/log/es
+  export ES_DATA_DIR=${HD_DATA_HOME}/data/es
+fi
+
+if [[ -n $MONGODB_HOME ]]; then
+  export PATH=$MONGODB_HOME/bin:$PATH
+  export MONGODB_CONF_DIR=${HD_DATA_HOME}/configs/mongodb
+  export MONGODB_LOG_DIR=${HD_DATA_HOME}/log/mongodb
+  export MONGODB_DATA_DIR=${HD_DATA_HOME}/data/mongodb
+fi
+
+if [[ -n $MONGOSH_HOME ]]; then
+  export PATH=$MONGOSH_HOME/bin:$PATH
+fi

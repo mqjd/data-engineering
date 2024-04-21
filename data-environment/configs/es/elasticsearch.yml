@@ -1,0 +1,10 @@
+cluster.name: hd
+node.name: hd1
+path.data: /var/bigdata/data/es
+path.logs: /var/bigdata/log/es
+bootstrap.memory_lock: false
+network.host: hd1
+http.port: 9200
+discovery.seed_hosts: ["hd1", "hd2",  "hd3"]
+cluster.initial_master_nodes: [ "hd1", "hd2",  "hd3"]
+xpack.security.enabled: false

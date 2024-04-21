@@ -7,7 +7,7 @@ action=$1
 args=("$@")
 components=("${args[@]:1}")
 
-function init_namenode {
+function install_namenode {
   init_hadoop
   local DFS_NAME_DIR=$(get_property_value "dfs.name.dir" "$HADOOP_CONF_DIR/hdfs-site.xml")
   mkdir_if_not_exists $DFS_NAME_DIR
@@ -21,17 +21,17 @@ function format_namenode {
   fi
 }
 
-function init_datanode {
+function install_datanode {
   init_hadoop
   local DFS_DATA_DIR=$(get_property_value "dfs.data.dir" "$HADOOP_CONF_DIR/hdfs-site.xml")
   mkdir_if_not_exists $DFS_DATA_DIR
 }
 
-function init_resourcemanager {
+function install_resourcemanager {
   init_hadoop
 }
 
-function init_nodemanager {
+function install_nodemanager {
   init_hadoop
 }
 
@@ -92,7 +92,9 @@ function main {
   for ((i = 0; i < ${#components[@]}; i++)); do
     component=${components[i]}
     func="${action}_${component}"
-    $func
+    if declare -F "$func" >/dev/null 2>&1; then
+      $func
+    fi
   done
 }
 
