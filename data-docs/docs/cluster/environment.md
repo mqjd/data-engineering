@@ -18,7 +18,7 @@ sidebar_position: 2
 Base镜像基于linux/arm64 ubuntu:22.04进行构建，修改镜像源为阿里源，具体见[Ubuntu Ports镜像
 ](https://developer.aliyun.com/mirror/ubuntu-ports?spm=a2c6h.13651104.d-1008.9.7e5f4763adNP46)
 
-```shell
+```bash
 docker build -t hd-base:1.0 ./docker/base
 ```
 
@@ -26,7 +26,7 @@ docker build -t hd-base:1.0 ./docker/base
 
 HD镜像基于Base镜像添加数据项目依赖的基础组件Python3、openssl、lib包等
 
-```shell
+```bash
 bash build.sh
 ```
 
@@ -36,7 +36,7 @@ bash build.sh
 
 ## 启动集群
 
-```shell
+```bash
 # 构建并启动HD
 docker-compose -f ./docker/hd/docker-compose.yml up -d
 

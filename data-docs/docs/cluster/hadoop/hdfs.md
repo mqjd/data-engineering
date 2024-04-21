@@ -25,34 +25,34 @@ sidebar_position: 2
 
 ### 基本操作
 
-```shell
+```bash
 hdfs classpath [--glob |--jar <path> |-h |--help]
 ```
 
 #### version
 
-```shell
+```bash
 hdfs version
 ```
 
 #### dfs
 
 基本使用如下(类似[hadoop fs](intro))：
-```shell
+```bash
 hdfs dfs [COMMAND [COMMAND_OPTIONS]]
 ```
 
 #### envvars
 
 打印hadoop环境变量
-```shell
+```bash
 hdfs envvars
 ```
 
 #### fetchdt
 
 从NameNode获取Token
-```shell
+```bash
 hdfs fetchdt <opts> <token_file_path>
 ```
 
@@ -63,7 +63,7 @@ hdfs fetchdt <opts> <token_file_path>
 
 ### 启动
 
-```shell
+```bash
 hdfs --daemon start namenode
 hdfs --daemon start secondarynamenode
 hdfs --daemon start datanode
@@ -73,7 +73,7 @@ hdfs --daemon start dfsrouter
 
 ### 停止
 
-```shell
+```bash
 hdfs --daemon stop namenode
 hdfs --daemon stop secondarynamenode
 hdfs --daemon stop datanode

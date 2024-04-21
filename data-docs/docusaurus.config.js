@@ -36,14 +36,14 @@ const config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-              'https://github.com/mqjd/data-engineering/tree/main/data-docs/sidebars.js',
+              'https://github.com/mqjd/data-engineering/tree/main/data-docs',
         },
         blog: {
           showReadingTime: true,
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-              'https://github.com/mqjd/data-engineering/tree/main/data-docs/blog',
+              'https://github.com/mqjd/data-engineering/tree/main/data-docs',
         },
         theme: {
           customCss: './src/css/custom.css',
@@ -106,16 +106,40 @@ const config = {
               title: 'Docs',
               items: [
                 {
-                  label: 'test',
-                  to: 'https://github.com/mqjd/data-engineering',
+                  label: 'Apache Hadoop',
+                  to: 'https://hadoop.apache.org/',
                 },
+                {
+                  label: 'Apache Spark',
+                  to: 'https://spark.apache.org/',
+                },
+                {
+                  label: 'Apache Flink',
+                  to: 'https://flink.apache.org/',
+                },
+                {
+                  label: 'Apache Kafka',
+                  to: 'https://kafka.apache.org/',
+                },
+                {
+                  label: 'Apache Hive',
+                  to: 'https://hive.apache.org/',
+                },
+                {
+                  label: 'Apache HBase',
+                  to: 'https://hbase.apache.org/',
+                },
+                {
+                  label: 'Apache Zookeeper',
+                  to: 'https://zookeeper.apache.org/',
+                }
               ],
             },
             {
               title: 'Community',
               items: [
                 {
-                  label: 'Stack Overflow',
+                  label: 'Docusaurus Stack Overflow',
                   href: 'https://stackoverflow.com/questions/tagged/docusaurus',
                 },
               ],
@@ -124,12 +148,24 @@ const config = {
               title: 'More',
               items: [
                 {
-                  label: 'Blog',
-                  to: '/blog',
+                  label: 'Docusaurus',
+                  to: 'https://docusaurus.io/',
                 },
                 {
-                  label: 'GitHub',
-                  href: 'https://github.com/facebook/docusaurus',
+                  label: 'ClickHouse',
+                  to: 'https://clickhouse.com/docs',
+                },
+                {
+                  label: 'Apache Airflow',
+                  to: 'https://airflow.apache.org/',
+                },
+                {
+                  label: 'Elasticsearch',
+                  to: 'https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html',
+                },
+                {
+                  label: 'MongoDB',
+                  to: 'https://www.mongodb.com/docs/manual/',
                 },
               ],
             },
@@ -139,6 +175,7 @@ const config = {
         prism: {
           theme: prismThemes.github,
           darkTheme: prismThemes.dracula,
+          additionalLanguages: ['bash'],
         },
       }),
 };

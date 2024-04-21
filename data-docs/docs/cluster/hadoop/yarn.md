@@ -24,19 +24,19 @@ sidebar_position: 3
 
 ### 基本操作
 
-```shell
+```bash
 yarn [SHELL_OPTIONS] COMMAND [GENERIC_OPTIONS] [SUB_COMMAND] [COMMAND_OPTIONS]
 ```
 
 #### application
 
 基本操作
-```shell
+```bash
 yarn application [options] Usage: yarn app [options]
 ```
 
 - 应用列表
-```shell
+```bash
 yarn application -list
 yarn application -list -appStates FINISHED
 ```
@@ -44,36 +44,36 @@ yarn application -list -appStates FINISHED
 #### jar
 
 基本操作
-```shell
+```bash
 yarn jar <jar> [mainClass] args...
 ```
 
 - 提交应用
-```shell
+```bash
 yarn jar $HADOOP_HOME/share/hadoop/mapreduce/hadoop-mapreduce-examples-3.3.6.jar pi 10 10
 ```
 
 #### logs
 
 基本操作
-```shell
+```bash
 yarn logs -applicationId <application ID> [options]
 ```
 
 - 查看日志
-```shell
+```bash
 yarn logs -applicationId application_1713699747940_0001
 ```
 
 #### node
 
 基本操作
-```shell
+```bash
 yarn node [options]
 ```
 
 - 查看节点
-```shell
+```bash
 yarn node -list
 ```
 
@@ -84,7 +84,7 @@ yarn node -list
 
 ### 启动
 
-```shell
+```bash
 yarn --daemon start resourcemanager
 yarn --daemon start nodemanager
 yarn --daemon start proxyserver
@@ -96,7 +96,7 @@ yarn --daemon start registrydns
 
 ### 停止
 
-```shell
+```bash
 yarn --daemon stop resourcemanager
 yarn --daemon stop nodemanager
 yarn --daemon stop proxyserver

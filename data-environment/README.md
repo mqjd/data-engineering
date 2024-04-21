@@ -15,7 +15,7 @@ HD为Hadoop的简写
 Base镜像基于linux/arm64 ubuntu:22.04进行构建，修改镜像源为阿里源，具体见[Ubuntu Ports镜像
 ](https://developer.aliyun.com/mirror/ubuntu-ports?spm=a2c6h.13651104.d-1008.9.7e5f4763adNP46)
 
-```shell
+```bash
 docker build -t hd-base:1.0 ./docker/base
 ```
 
@@ -23,7 +23,7 @@ docker build -t hd-base:1.0 ./docker/base
 
 HD镜像基于Base镜像添加数据项目常用的基础环境Python3、免密等
 
-```shell
+```bash
 bash build.sh
 ```
 
@@ -33,7 +33,7 @@ bash build.sh
 
 编辑 /etc/hosts 增加hosts文件中的内容
 
-```shell
+```bash
 sudo vi /etc/hosts
 ```
 
@@ -45,7 +45,7 @@ sudo vi /etc/hosts
 2. 解压安装包到 **BASE_PACKAGE_PATH** (见[.env](./docker/hd/.env))
 3. 根据解压后的目录名称修改[.env](./docker/hd/.env)文件中以**PACKAGE_DIR**结尾的变量
 
-```shell
+```bash
 # 构建并启动HD
 docker-compose -f ./docker/hd/docker-compose.yml up -d
 
