@@ -2,9 +2,9 @@
 #hd1:zookeeper:server:all
 #hd2:zookeeper:server:all
 #hd3:zookeeper:server:all
-hd1:hadoop:namenode,resourcemanager,datanode,nodemanager:all
-hd2:hadoop:datanode,nodemanager,proxyserver:all
-hd3:hadoop:datanode,nodemanager:all
+#hd1:hadoop:namenode,resourcemanager,datanode,nodemanager:all
+#hd2:hadoop:datanode,nodemanager,proxyserver:all
+#hd3:hadoop:datanode,nodemanager:all
 #hd1:hbase:master,regionserver:all
 #hd2:hbase:regionserver:all
 #hd3:hbase:regionserver:all

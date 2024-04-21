@@ -2,7 +2,7 @@
 sidebar_position: 1
 ---
 
-# hadoop
+# Hadoop
 
 ## 命令
 
