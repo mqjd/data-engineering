@@ -2,7 +2,7 @@
 sidebar_position: 1
 ---
 
-# Welcome!
+# 简介
 
 说明！
 说明！

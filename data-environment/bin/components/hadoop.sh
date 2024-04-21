@@ -88,6 +88,22 @@ function start_nodemanager {
   fi
 }
 
+function start_proxyserver {
+  if ps -ef | grep -v grep | grep "hadoop" | grep "ProxyServer" >/dev/null; then
+    echo "ProxyServer already exists"
+  else
+    yarn --daemon start proxyserver
+  fi
+}
+
+function start_historyserver {
+  if ps -ef | grep -v grep | grep "hadoop" | grep "ApplicationHistoryServer" >/dev/null; then
+    echo "ApplicationHistoryServer already exists"
+  else
+    yarn --daemon start historyserver
+  fi
+}
+
 function main {
   for ((i = 0; i < ${#components[@]}; i++)); do
     component=${components[i]}

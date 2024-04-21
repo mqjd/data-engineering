@@ -65,8 +65,8 @@ const config = {
           items: [
             {
               type: 'docSidebar',
-              sidebarId: 'welcomeSidebar',
-              label: 'Welcome!',
+              sidebarId: 'clusterSidebar',
+              label: '集群',
               position: 'left'
             },
             {
