@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-script_path=$(dirname "$0")
-source "$script_path"/common.sh
+pwd=$(dirname "$0")
+source "$pwd"/common.sh
 
 action=$1
 args=("$@")

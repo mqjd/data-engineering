@@ -8,10 +8,56 @@ sidebar_position: 2
 
 - 准备一台Mac电脑(当前脚本只在Mac下进行测试，后续可能会支持其他平台)
 - 按照官方文档安装[Orbstack](https://docs.orbstack.dev/install)
+- 下载安装包并解压。可参考如下包名按需下载(注意根据自己的平台X86、ARM进行下载)。
+    ```
+    .
+    ├── apache-airflow-2.8.2
+    ├── apache-hive-3.1.3-bin
+    ├── apache-zookeeper-3.8.4-bin
+    ├── hadoop-3.3.6
+    ├── clickhouse-24.2.2.71
+    │   ├── clickhouse-client
+    │   ├── clickhouse-common-static
+    │   └── clickhouse-server
+    ├── elasticsearch-8.13.1
+    ├── flink-1.19.0
+    ├── hbase-2.5.8-hadoop3
+    ├── jdk1.8.0_401
+    ├── kafka_2.13-3.7.0
+    ├── mongodb-linux-aarch64-ubuntu2204-7.0.8
+    ├── mongosh-2.2.3-linux-arm64
+    └── spark-3.5.1-bin-hadoop3-scala2.13
+    ```
+
+## 配置修改
+
+### env配置
+
+配置文件路径：**data-environment/docker/hd/.env**， 主要用于配置数据组件安装包路径和名称
+
+- 修改**BASE_PACKAGE_PATH**为自己的安装包目录
+- 修改以**DIR**结尾的变量名称，调整为自己下载的组件**解压**后的文件夹名称
+
+### docker配置
+
+- 修改**data-environment/docker/base/Dockerfile**的**platform**为自己的平台
+- 修改**data-environment/docker/common/docker-compose.yml**文件，根据自己的硬件平台调整**platform**参数， 修改**user**为自己本地的用户名称
+
+### hosts配置
+
+追加**data-environment/hosts**中的内容到本地hosts文件
+
+### server配置
+
+打开**data-environment/bin/servers.yml**，根据自己需求取消行注释
 
 ## 镜像构建
 
 环境构建相关脚本在项目**data-environment**目录
+
+```bash
+cd data-environment
+```
 
 ### Base镜像构建
 
@@ -30,10 +76,6 @@ HD镜像基于Base镜像添加数据项目依赖的基础组件Python3、openssl
 bash build.sh
 ```
 
-## 组件选择
-
-打开**data-environment/bin/servers.yml**，根据自己需求取消行注释
-
 ## 启动集群
 
 ```bash
@@ -43,7 +85,3 @@ docker-compose -f ./docker/hd/docker-compose.yml up -d
 # 停止HD并删除
 docker-compose -f ./docker/hd/docker-compose.yml down
 ```
-
-## Hosts修改
-
-追加**data-environment/hosts**中的内容到本地hosts文件

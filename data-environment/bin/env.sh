@@ -28,6 +28,7 @@ if [[ -n $KAFKA_HOME ]]; then
   export PATH=$KAFKA_HOME/bin:$PATH
   export KAFKA_CONF_DIR=${HD_DATA_HOME}/configs/kafka
   export KAFKA_LOG_DIR=${HD_DATA_HOME}/log/kafka
+  export KAFKA_HEAP_OPTS="-Xmx256M -XX:+UnlockExperimentalVMOptions"
 fi
 
 if [[ -n $HBASE_HOME ]]; then

@@ -14,7 +14,7 @@ sidebar_position: 1
 | Hadoop        | ✅  | 当前组件：[namenode](http://hd1:50070), datanode, [resourcemanager](http://hd1:8088), nodemanager |
 | Hive          | ✅  | 当前组件：metastore, hiveserver2                                                                  |
 | Hbase         | ✅  | 当前组件：[master](http://hd1:16010/), regionserver                                               |
-| Spark         | ✅  | Standalone: [master](http://hd1:8080/), worker                                               |
+| Spark         | ✅  | Standalone: [master](http://hd1:8001/), worker                                               |
 | Flink         | ✅  | Standalone: jobmanager, taskmanager                                                          |
 | Kafka         | ✅  | 分布式                                                                                          |
 | Zookeeper     | ✅  | 分布式                                                                                          |

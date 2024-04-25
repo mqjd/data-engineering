@@ -13,6 +13,6 @@ services:
     command: standalone
     networks:
       hd_network:
-        ipv4_address: 172.18.0.3
+        ipv4_address: 172.19.0.3
     volumes:
       - ./dags:/opt/airflow/dags:rw

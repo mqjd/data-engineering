@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-script_path=$(dirname "$0")
-source $script_path/common.sh
+pwd=$(dirname "$0")
+source "$pwd"/common.sh
 
 action=$1
 args=("$@")
@@ -13,18 +13,18 @@ function install_master {
 }
 
 function init_standlone_conf {
-  mkdir_if_not_exists $SPARK_CONF_DIR
-  if [ -z "$(ls -A $SPARK_CONF_DIR)" ]; then
-    cp -rf $HD_HOME/configs/spark/* $SPARK_CONF_DIR
+  mkdir_if_not_exists "$SPARK_CONF_DIR"
+  if [ -z "$(ls -A "$SPARK_CONF_DIR")" ]; then
+    cp -rf "$HD_HOME"/configs/spark/* "$SPARK_CONF_DIR"
   fi
 }
 
 function init_standlone_dirs {
-  mkdir_if_not_exists $SPARK_LOG_DIR
+  mkdir_if_not_exists "$SPARK_LOG_DIR"
 }
 
 function start_master {
-  if ps -ef | grep -v grep | grep "spark" | grep "Master" >/dev/null; then
+  if pgrep -f "spark.*Master" >/dev/null; then
     echo "spark Master already exists"
   else
     start-master.sh
@@ -37,7 +37,7 @@ function install_worker {
 }
 
 function start_worker {
-  if ps -ef | grep -v grep | grep "spark" | grep "Worker" >/dev/null; then
+  if pgrep -f "spark.*Worker" >/dev/null; then
     echo "spark Worker already exists"
   else
     start-worker.sh spark://hd1:7077

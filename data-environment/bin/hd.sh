@@ -1,15 +1,16 @@
 #!/usr/bin/env bash
 
-script_path=$(dirname "$0")
-source $script_path/env.sh
+pwd=$(dirname "$0")
+source "$pwd"/components/common.sh
+source "$pwd"/env.sh
 
+pwd=$(dirname "$0")
 host_name=$(hostname)
+serve_lines=()
 
-serve_lines=($(grep "$host_name:" $script_path/servers.yml))
-
-function init() {
-  ./init/hadoop.sh
-}
+while IFS= read -r line; do
+    serve_lines+=("$line")
+done < <(grep "$host_name:" "$pwd"/servers.yml)
 
 function extract_substring {
   IFS="$2" read -ra arr <<<"$1"
@@ -21,7 +22,7 @@ function extract_substring {
   fi
 }
 
-function start_serve {
+function start_server {
   server=$(extract_substring "$1" ":" 2)
   components_str=$(extract_substring "$1" ":" 3)
   action_str=$(extract_substring "$1" ":" 4)
@@ -34,8 +35,7 @@ function start_serve {
   IFS="," read -ra actions <<< "$action_str"
 
   for ((j = 0; j < ${#actions[@]}; j++)); do
-    echo "${server}" "${actions[j]}" "${components[@]}"
-    bash "$script_path/components/${server}.sh" "${actions[j]}" "${components[@]}"
+    log_run bash "${pwd}/components/${server}.sh" "${actions[j]}" "${components[@]}"
   done
 
 }
@@ -44,7 +44,7 @@ function main {
   for ((i = 0; i < ${#serve_lines[@]}; i++)); do
     serve_line=${serve_lines[i]}
     if [[ $serve_line != \#* ]]; then
-      start_serve "${serve_line}"
+      log_round_run start_server "${serve_line}"
     fi
   done
 }

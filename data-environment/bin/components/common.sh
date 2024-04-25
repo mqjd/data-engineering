@@ -1,16 +1,45 @@
 #!/usr/bin/env bash
 
+function log_round_run {
+  start_time=$(date +"%Y-%m-%d %H:%M:%S")
+  echo "$start_time [info] $* start" >> "${HD_HOME}"/run.log
+  "$@" >> "${HD_HOME}"/run.log
+  end_time=$(date +"%Y-%m-%d %H:%M:%S")
+  echo "$end_time [info] $* end" >> "${HD_HOME}"/run.log
+}
+
+function log_run {
+  current_time=$(date +"%Y-%m-%d %H:%M:%S")
+  echo "$current_time [info] $*" >> "${HD_HOME}"/run.log
+  "$@" >> "${HD_HOME}"/run.log
+}
+
+function log_info {
+  current_time=$(date +"%Y-%m-%d %H:%M:%S")
+  echo "$current_time [info] $*" >> "${HD_HOME}"/run.log
+}
+
+function log_warn {
+  current_time=$(date +"%Y-%m-%d %H:%M:%S")
+  echo "$current_time [warn] $*" >> "${HD_HOME}"/run.log
+}
+
+function log_error {
+  current_time=$(date +"%Y-%m-%d %H:%M:%S")
+  echo "$current_time [error] $*" >> "${HD_HOME}"/run.log
+}
+
 function mkdirs_if_not_exists {
   local DIRS=("$@")
   for ((i = 0; i < ${#DIRS[@]}; i++)); do
-    mkdir_if_not_exists $1
+    mkdir_if_not_exists "$1"
   done
 }
 
 function mkdir_if_not_exists {
   dir=$1
   if [[ ! -d "$dir" ]]; then
-    mkdir -p $dir
+    mkdir -p "$dir"
   fi
 }
 
@@ -18,11 +47,14 @@ function get_property_value {
   local property_name=$1
   local file=$2
   if [[ $file == *.xml ]]; then
-    echo $(get_xml_kv_value "$property_name" "$file")
+    value=$(get_xml_kv_value "$property_name" "$file")
+    echo "$value"
   elif [[ $file == *.cfg ]]; then
-    echo $(get_properties_value "$property_name" "$file")
+    value=$(get_properties_value "$property_name" "$file")
+    echo "$value"
   elif [[ $file == *.properties ]]; then
-    echo $(get_properties_value "$property_name" "$file")
+    value=$(get_properties_value "$property_name" "$file")
+    echo "$value"
   fi
 }
 
@@ -48,7 +80,7 @@ function set_yml_property_value {
 function get_properties_value {
   local property_name=$1
   local file=$2
-  value=$(grep "^$property_name=" $file | cut -d'=' -f2)
+  value=$(grep "^$property_name=" "$file" | cut -d'=' -f2)
   echo "$value"
 }
 

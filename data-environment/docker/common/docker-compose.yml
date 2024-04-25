@@ -8,10 +8,10 @@ services:
     cpus: 4
     user: mq
     extra_hosts:
-      - "hd1:172.18.0.11"
-      - "hd2:172.18.0.12"
-      - "hd3:172.18.0.13"
-      - "postgres:172.18.0.2"
+      - "hd1:172.19.0.11"
+      - "hd2:172.19.0.12"
+      - "hd3:172.19.0.13"
+      - "postgres:172.19.0.2"
     volumes:
       - ${CONFIG_PATH}:${BASE_PATH}/${CONFIG_DIR}:rw
       - ${BASE_PACKAGE_PATH}/${JAVA_PACKAGE_DIR}:${BASE_PATH}/${JAVA_DIR}:rw

@@ -20,6 +20,8 @@ FROM hd-base:1.0
 RUN apt-get -q update \
     && apt-get -q install -y --no-install-recommends\
       vim \
+      dos2unix \
+      net-tools \
       python3 \
       python3-pip \
       libcurl4  \

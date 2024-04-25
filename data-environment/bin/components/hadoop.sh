@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-script_path=$(dirname "$0")
-source $script_path/common.sh
+pwd=$(dirname "$0")
+source "$pwd"/common.sh
 
 action=$1
 args=("$@")
@@ -9,22 +9,22 @@ components=("${args[@]:1}")
 
 function install_namenode {
   init_hadoop
-  local DFS_NAME_DIR=$(get_property_value "dfs.name.dir" "$HADOOP_CONF_DIR/hdfs-site.xml")
-  mkdir_if_not_exists $DFS_NAME_DIR
+  DFS_NAME_DIR=$(get_property_value "dfs.name.dir" "$HADOOP_CONF_DIR/hdfs-site.xml")
+  mkdir_if_not_exists "$DFS_NAME_DIR"
   format_namenode
 }
 
 function format_namenode {
-  local DFS_NAME_DIR=$(get_property_value "dfs.name.dir" "$HADOOP_CONF_DIR/hdfs-site.xml")
-  if [ -z "$(ls -A $DFS_NAME_DIR)" ]; then
+  DFS_NAME_DIR=$(get_property_value "dfs.name.dir" "$HADOOP_CONF_DIR/hdfs-site.xml")
+  if [ -z "$(ls -A "$DFS_NAME_DIR")" ]; then
     hdfs namenode -format
   fi
 }
 
 function install_datanode {
   init_hadoop
-  local DFS_DATA_DIR=$(get_property_value "dfs.data.dir" "$HADOOP_CONF_DIR/hdfs-site.xml")
-  mkdir_if_not_exists $DFS_DATA_DIR
+  DFS_DATA_DIR=$(get_property_value "dfs.data.dir" "$HADOOP_CONF_DIR/hdfs-site.xml")
+  mkdir_if_not_exists "$DFS_DATA_DIR"
 }
 
 function install_resourcemanager {
@@ -41,23 +41,23 @@ function init_hadoop {
 }
 
 function init_hadoop_dirs {
-  local HADOOP_TMP_DIR=$(get_property_value "hadoop.tmp.dir" "$HADOOP_CONF_DIR/core-site.xml")
-  local DFS_TMP_DIR=$(get_property_value "dfs.tmp.dir" "$HADOOP_CONF_DIR/hdfs-site.xml")
-  mkdir_if_not_exists $HADOOP_TMP_DIR
-  mkdir_if_not_exists $DFS_TMP_DIR
-  mkdir_if_not_exists $HADOOP_LOG_DIR
+  HADOOP_TMP_DIR=$(get_property_value "hadoop.tmp.dir" "$HADOOP_CONF_DIR/core-site.xml")
+  DFS_TMP_DIR=$(get_property_value "dfs.tmp.dir" "$HADOOP_CONF_DIR/hdfs-site.xml")
+  mkdir_if_not_exists "$HADOOP_TMP_DIR"
+  mkdir_if_not_exists "$DFS_TMP_DIR"
+  mkdir_if_not_exists "$HADOOP_LOG_DIR"
 }
 
 function init_hadoop_conf {
-  mkdir_if_not_exists $HADOOP_CONF_DIR
-  if [ -z "$(ls -A $HADOOP_CONF_DIR)" ]; then
-    cp -rf $HADOOP_HOME/etc/hadoop/* $HADOOP_CONF_DIR
-    cp -rf $HD_HOME/configs/hadoop/* $HADOOP_CONF_DIR
+  mkdir_if_not_exists "$HADOOP_CONF_DIR"
+  if [ -z "$(ls -A "$HADOOP_CONF_DIR")" ]; then
+    cp -rf "$HADOOP_HOME"/etc/hadoop/* "$HADOOP_CONF_DIR"
+    cp -rf "$HD_HOME"/configs/hadoop/* "$HADOOP_CONF_DIR"
   fi
 }
 
 function start_namenode {
-  if ps -ef | grep -v grep | grep "NameNode" >/dev/null; then
+  if  pgrep -f "hadoop.*NameNode" >/dev/null; then
     echo "NameNode already exists"
   else
     hdfs --daemon start namenode
@@ -65,7 +65,7 @@ function start_namenode {
 }
 
 function start_datanode {
-  if ps -ef | grep -v grep | grep "DataNode" >/dev/null; then
+  if pgrep -f "hadoop.*DataNode" >/dev/null; then
     echo "DataNode already exists"
   else
     hdfs --daemon start datanode
@@ -73,7 +73,7 @@ function start_datanode {
 }
 
 function start_resourcemanager {
-  if ps -ef | grep -v grep | grep "ResourceManager" >/dev/null; then
+  if pgrep -f "hadoop.*ResourceManager" >/dev/null; then
     echo "ResourceManager already exists"
   else
     yarn --daemon start resourcemanager
@@ -81,7 +81,7 @@ function start_resourcemanager {
 }
 
 function start_nodemanager {
-  if ps -ef | grep -v grep | grep "NodeManager" >/dev/null; then
+  if  pgrep -f "hadoop.*NodeManager" >/dev/null; then
     echo "NodeManager already exists"
   else
     yarn --daemon start nodemanager
@@ -89,7 +89,7 @@ function start_nodemanager {
 }
 
 function start_proxyserver {
-  if ps -ef | grep -v grep | grep "hadoop" | grep "ProxyServer" >/dev/null; then
+  if  pgrep -f "hadoop.*ProxyServer" >/dev/null; then
     echo "ProxyServer already exists"
   else
     yarn --daemon start proxyserver
@@ -97,7 +97,7 @@ function start_proxyserver {
 }
 
 function start_historyserver {
-  if ps -ef | grep -v grep | grep "hadoop" | grep "ApplicationHistoryServer" >/dev/null; then
+  if  pgrep -f "hadoop.*ApplicationHistoryServer" >/dev/null; then
     echo "ApplicationHistoryServer already exists"
   else
     yarn --daemon start historyserver

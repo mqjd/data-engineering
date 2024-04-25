@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-script_path=$(dirname "$0")
-source $script_path/common.sh
+pwd=$(dirname "$0")
+source "$pwd"/common.sh
 
 action=$1
 args=("$@")
@@ -13,19 +13,19 @@ function install_jobmanager {
 }
 
 function init_standlone_conf {
-  mkdir_if_not_exists $FLINK_CONF_DIR
-  if [ -z "$(ls -A $FLINK_CONF_DIR)" ]; then
-    cp -rf $FLINK_HOME/conf/* $FLINK_CONF_DIR
-    cp -rf $HD_HOME/configs/flink/* $FLINK_CONF_DIR
+  mkdir_if_not_exists "$FLINK_CONF_DIR"
+  if [ -z "$(ls -A "$FLINK_CONF_DIR")" ]; then
+    cp -rf "$FLINK_HOME"/conf/* "$FLINK_CONF_DIR"
+    cp -rf "$HD_HOME"/configs/flink/* "$FLINK_CONF_DIR"
   fi
 }
 
 function init_standlone_dirs {
-  mkdir_if_not_exists $FLINK_LOG_DIR
+  mkdir_if_not_exists "$FLINK_LOG_DIR"
 }
 
 function start_jobmanager {
-  if ps -ef | grep -v grep | grep "flink" | grep "StandaloneSessionClusterEntrypoint" >/dev/null; then
+  if pgrep -f "flink.*StandaloneSessionClusterEntrypoint" >/dev/null; then
     echo "flink JobManager already exists"
   else
     jobmanager.sh start
@@ -38,7 +38,7 @@ function install_taskmanager {
 }
 
 function start_taskmanager {
-  if ps -ef | grep -v grep | grep "flink" | grep "TaskManagerRunner" >/dev/null; then
+  if pgrep -f "flink.*TaskManagerRunner" >/dev/null; then
     echo "flink TaskManager already exists"
   else
     taskmanager.sh start

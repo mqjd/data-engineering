@@ -4,9 +4,9 @@ networks:
     ipam:
       driver: default
       config:
-        - subnet: 172.18.0.0/16
-          gateway: 172.18.0.1
-          ip_range: 172.18.0.0/24
+        - subnet: 172.19.0.0/16
+          gateway: 172.19.0.1
+          ip_range: 172.19.0.0/24
 services:
   postgres:
     image: postgres:9.4
@@ -16,7 +16,7 @@ services:
     restart: always
     networks:
       bigdata_network_bridge:
-        ipv4_address: 172.18.0.2
+        ipv4_address: 172.19.0.2
     volumes:
       - ${CONFIG_PATH}/hive/init-postgres.sh:/docker-entrypoint-initdb.d/init-postgres.sh:rw
     environment:
@@ -32,7 +32,7 @@ services:
     hostname: hd1
     networks:
       bigdata_network_bridge:
-        ipv4_address: 172.18.0.11
+        ipv4_address: 172.19.0.11
   hd2:
     extends:
       file: ../common/docker-compose.yml
@@ -41,7 +41,7 @@ services:
     hostname: hd2
     networks:
       bigdata_network_bridge:
-        ipv4_address: 172.18.0.12
+        ipv4_address: 172.19.0.12
   hd3:
     extends:
       file: ../common/docker-compose.yml
@@ -50,4 +50,4 @@ services:
     hostname: hd3
     networks:
       bigdata_network_bridge:
-        ipv4_address: 172.18.0.13
+        ipv4_address: 172.19.0.13

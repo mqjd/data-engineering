@@ -1,4 +1,4 @@
-#actions:all,pre_install,install,start,post_install
+##actions:all,pre_install,install,start,post_install
 #hd1:zookeeper:server:all
 #hd2:zookeeper:server:all
 #hd3:zookeeper:server:all
@@ -8,6 +8,7 @@
 #hd1:hbase:master,regionserver:all
 #hd2:hbase:regionserver:all
 #hd3:hbase:regionserver:all
+#hd1:hadoop:resourcemanager:install
 #hd1:spark:master,worker:all
 #hd2:spark:worker:all
 #hd3:spark:worker:all
