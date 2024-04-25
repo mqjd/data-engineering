@@ -1,18 +1,7 @@
 #!/usr/bin/env bash
 set -eu
 
-USER_NAME=${SUDO_USER:=$USER}
-USER_ID=$(id -u "${USER_NAME}")
-
-DOCKER_HOME_DIR=${DOCKER_HOME_DIR:-/home/${USER_NAME}}
-
-if [ "$(uname -s)" = "Darwin" ]; then
-  GROUP_ID=100
-fi
-
-if [ "$(uname -s)" = "Linux" ]; then
-  GROUP_ID=$(id -g "${USER_NAME}")
-fi
+echo
 
 docker build -t "hd:1.0" - <<UserSpecificDocker
 FROM hd-base:1.0
@@ -20,6 +9,7 @@ FROM hd-base:1.0
 RUN apt-get -q update \
     && apt-get -q install -y --no-install-recommends\
       vim \
+      net-tools \
       dos2unix \
       net-tools \
       python3 \

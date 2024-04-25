@@ -1,0 +1,39 @@
+---
+slug: docker-on-windows
+title: Docker On Windows
+authors:
+  name: Qiang Ma
+tags: [Docker]
+---
+
+## 安装wsl
+
+此步骤网上资源很多，请自行百度或Google完成
+
+## 准备工作
+
+### 更换镜像为阿里云镜像
+此步骤主要国内访问官方镜像源速度太慢，可以根据自身需求确认是否更换[阿里云镜像](https://developer.aliyun.com/mirror/ubuntu?spm=a2c6h.13651102.0.0.344d1b11eKKtHG)或者其他镜像
+```
+/etc/apt/sources.list
+```
+
+### 安装依赖组件
+
+```bash
+sudo apt install -y curl
+```
+
+## 安装docker
+
+下面的安装脚来自[https://raw.githubusercontent.com/karaage0703/ubuntu-setup/master/install-docker.sh](https://raw.githubusercontent.com/karaage0703/ubuntu-setup/master/install-docker.sh)
+```bash
+sudo apt-get -y install apt-transport-https ca-certificates curl gnupg-agent software-properties-common
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo apt-key fingerprint 0EBFCD88
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+sudo apt-get update
+sudo apt-get -y install docker-ce docker-ce-cli containerd.io
+sudo apt-get -y install docker-compose-plugin
+sudo gpasswd -a $USER docker
+```
