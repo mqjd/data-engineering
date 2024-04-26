@@ -1,10 +1,14 @@
 package org.mqjd.flink.streamming.table;
 
+import java.util.Optional;
+import org.apache.flink.api.common.JobID;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.configuration.CoreOptions;
+import org.apache.flink.core.execution.JobClient;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.table.api.EnvironmentSettings;
 import org.apache.flink.table.api.TableEnvironment;
+import org.apache.flink.table.api.TableResult;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
 
 public class MySQL {
@@ -14,6 +18,7 @@ public class MySQL {
         configuration.set(CoreOptions.DEFAULT_PARALLELISM, 1);
         StreamExecutionEnvironment environment = StreamExecutionEnvironment.getExecutionEnvironment(
             configuration);
+        environment.setParallelism(1);
         TableEnvironment tableEnv = StreamTableEnvironment.create(environment,
             EnvironmentSettings.newInstance().inStreamingMode().build());
         tableEnv.executeSql(
