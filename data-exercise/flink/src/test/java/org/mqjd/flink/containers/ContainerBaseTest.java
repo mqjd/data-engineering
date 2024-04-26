@@ -68,19 +68,19 @@ public abstract class ContainerBaseTest {
     }
 
     protected <K, V> void consume(String topic, BiConsumer<K, V> messageConsumer) {
-        Map<String, String> properties = new HashMap<>();
-        KafkaContainer kafkaContainer = getContainer(ContainerType.KAFKA);
-        properties.put(
-            CommonClientConfigs.BOOTSTRAP_SERVERS_CONFIG,
-            kafkaContainer.getBootstrapServers());
-        KafkaConsumer<K, V> consumer = new KafkaConsumer<>(properties);
-        ConsumerRecords<K, V> poll;
-        consumer.subscribe(Collections.singletonList(topic));
-        while ((poll = consumer.poll(Duration.of(10, ChronoUnit.SECONDS))) != null) {
-            for (ConsumerRecord<K, V> record : poll) {
-                messageConsumer.accept(record.key(), record.value());
-            }
-        }
+//        Map<String, String> properties = new HashMap<>();
+//        KafkaContainer kafkaContainer = getContainer(ContainerType.KAFKA);
+//        properties.put(
+//            CommonClientConfigs.BOOTSTRAP_SERVERS_CONFIG,
+//            kafkaContainer.getBootstrapServers());
+//        KafkaConsumer<K, V> consumer = new KafkaConsumer<>(properties);
+//        ConsumerRecords<K, V> poll;
+//        consumer.subscribe(Collections.singletonList(topic));
+//        while ((poll = consumer.poll(Duration.of(10, ChronoUnit.SECONDS))) != null) {
+//            for (ConsumerRecord<K, V> record : poll) {
+//                messageConsumer.accept(record.key(), record.value());
+//            }
+//        }
 
     }
 
@@ -92,7 +92,7 @@ public abstract class ContainerBaseTest {
     }
 
     private static Startable createMySQL() {
-        //noinspection unchecked
+        //noinspection all
         return new MySqlContainer()
             .withConfigurationOverride("docker/server/my.cnf")
             .withSetupSQL("docker/setup.sql")

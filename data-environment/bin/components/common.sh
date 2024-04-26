@@ -48,13 +48,13 @@ function get_property_value {
   local file=$2
   if [[ $file == *.xml ]]; then
     value=$(get_xml_kv_value "$property_name" "$file")
-    echo "$value"
+    echo "$value" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//'
   elif [[ $file == *.cfg ]]; then
     value=$(get_properties_value "$property_name" "$file")
-    echo "$value"
+    echo "$value" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//'
   elif [[ $file == *.properties ]]; then
     value=$(get_properties_value "$property_name" "$file")
-    echo "$value"
+    echo "$value" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//'
   fi
 }
 

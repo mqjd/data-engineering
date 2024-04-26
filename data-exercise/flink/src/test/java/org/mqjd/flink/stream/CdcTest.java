@@ -111,8 +111,7 @@ public class CdcTest extends ContainerBaseTest {
         env.setParallelism(1);
         env.fromSource(mySqlSource, WatermarkStrategy.noWatermarks(), "mysql-cdc-user")
             .sinkTo(getKafkaSink(TOPIC_NAME));
-        JobClient jobClient = env.executeAsync("mysql cdc + kafka");
-        JobID jobID = jobClient.getJobID();
+        env.execute("mysql cdc + kafka");
     }
 
     private KafkaSink<String> getKafkaSink(String topic) {

@@ -37,3 +37,33 @@ sudo apt-get -y install docker-ce docker-ce-cli containerd.io
 sudo apt-get -y install docker-compose-plugin
 sudo gpasswd -a $USER docker
 ```
+
+## 在windows使用docker
+
+### 安装choco
+
+[官方教程](https://chocolatey.org/install)
+
+### 安装docker-cli
+
+```powershell
+choco install docker-cli
+```
+
+### 配置Docker TCP访问
+
+- 修改docker.service
+  ```bash
+  sudo vi /lib/systemd/system/docker.service
+  ```
+
+- 修改ExecStart参数增加 "-H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock"
+  ```bash
+  ExecStart=/usr/bin/dockerd -H fd:// -H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock  --containerd=/run/containerd/containerd.sock
+  ```
+
+- 重新加载并启动
+  ```
+  sudo systemctl daemon-reload
+  sudo service docker start
+  ```
