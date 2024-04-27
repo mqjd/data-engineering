@@ -58,6 +58,7 @@ public class KafkaUtil {
         if (!StringUtils.isNullOrWhitespaceOnly(loggerPrefix)) {
             logConsumer.withPrefix(loggerPrefix);
         }
+        // noinspection resource
         return new KafkaContainer(DockerImageName.parse(dockerImageVersion))
             .withEnv("KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR", "1")
             .withEnv("KAFKA_TRANSACTION_STATE_LOG_MIN_ISR", "1")
