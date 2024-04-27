@@ -37,6 +37,7 @@ sidebar_position: 2
 
 - 修改**BASE_PACKAGE_PATH**为自己的安装包目录
 - 修改以**DIR**结尾的变量名称，调整为自己下载的组件**解压**后的文件夹名称
+- **其他参数**根据自己需求进行修改
 
 ### docker配置
 
@@ -56,32 +57,15 @@ sidebar_position: 2
 环境构建相关脚本在项目**data-environment**目录
 
 ```bash
-cd data-environment
-```
-
-### Base镜像构建
-
-Base镜像基于linux/arm64 ubuntu:22.04进行构建，修改镜像源为阿里源，具体见[Ubuntu Ports镜像
-](https://developer.aliyun.com/mirror/ubuntu-ports?spm=a2c6h.13651104.d-1008.9.7e5f4763adNP46)
-
-```bash
-docker build -t hd-base:1.0 ./docker/base
-```
-
-### HD基础镜像构建
-
-HD镜像基于Base镜像添加数据项目依赖的基础组件Python3、openssl、lib包等
-
-```bash
-bash build.sh
+bash build.sh build cluster
 ```
 
 ## 启动集群
 
 ```bash
 # 构建并启动HD
-docker-compose -f ./docker/hd/docker-compose.yml up -d
+bash build.sh start cluster
 
 # 停止HD并删除
-docker-compose -f ./docker/hd/docker-compose.yml down
+bash build.sh stop cluster
 ```
