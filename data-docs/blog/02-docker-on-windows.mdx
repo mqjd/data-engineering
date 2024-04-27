@@ -10,12 +10,12 @@ tags: [Docker]
 
 此步骤网上资源很多，请自行百度或Google完成
 
-配置sudoers
+## 准备工作
+
+### 配置sudoers
 ```
 echo "$USER ALL=NOPASSWD: ALL" > "/etc/sudoers.d/$USER"
 ```
-
-## 准备工作
 
 ### 更换镜像为阿里云镜像
 此步骤主要国内访问官方镜像源速度太慢，可以根据自身需求确认是否更换[阿里云镜像](https://developer.aliyun.com/mirror/ubuntu?spm=a2c6h.13651102.0.0.344d1b11eKKtHG)或者其他镜像
@@ -109,7 +109,31 @@ choco install docker-cli
   ```
 
 - 重新加载并启动
-  ```
+  ```bash
   sudo systemctl daemon-reload
   sudo service docker start
   ```
+
+## 在windows访问container
+需要在window和wsl分别设置允许路由转发
+### WSL
+
+```bash
+sudo iptables -P FORWARD ACCEPT
+```
+
+### Windows
+
+#### 启动路由服务
+找到任务管理器 --> 服务 --> 打开服务 --> Routing and Remote Access --> **启动**
+**或者**使用**管理员**执行以下命令
+```powershell
+sc start RemoteAccess
+```
+
+#### 添加路由
+
+> 需要管理员权限执行，更换CONTAINER_IP、WSL_IP 为自己的
+```powershell
+route add -P CONTAINER_IP mask 255.255.255.0 WSL_IP
+```

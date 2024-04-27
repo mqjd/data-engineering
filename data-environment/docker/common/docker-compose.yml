@@ -7,6 +7,7 @@ services:
     cpus: 4
     user: mq
     extra_hosts:
+      - "gateway:172.19.0.1"
       - "hd1:172.19.0.11"
       - "hd2:172.19.0.12"
       - "hd3:172.19.0.13"

@@ -10,6 +10,7 @@ RUN apt-get -q update \
     && apt-get -q install -y --no-install-recommends\
       vim \
       net-tools \
+      iputils-ping \
       dos2unix \
       net-tools \
       python3 \
@@ -45,7 +46,7 @@ RUN ssh-keygen -t rsa -b 4096 -C "${USER_NAME}" -N '' -f ${DOCKER_HOME_DIR}/.ssh
 RUN cat ${DOCKER_HOME_DIR}/.ssh/id_rsa.pub > ${DOCKER_HOME_DIR}/.ssh/authorized_keys
 RUN chown ${USER_NAME}:${GROUP_ID} ${DOCKER_HOME_DIR}/.ssh/ -R
 RUN chown -R ${USER_NAME}:${GROUP_ID} /etc/ssh
-
+RUN usermod -s /bin/bash ${USER_NAME}
 RUN echo "123456" > ${DOCKER_HOME_DIR}/hadoop-http-auth-signature-secret
 
 RUN echo "source /opt/bigdata/bin/env.sh" >> /home/${USER_NAME}/.bashrc
