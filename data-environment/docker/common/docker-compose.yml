@@ -1,7 +1,6 @@
 services:
   common:
     image: hd:1.0
-    platform: linux/arm64
     tty: true
     stdin_open: true
     mem_limit: 8g
@@ -13,7 +12,7 @@ services:
       - "hd3:172.19.0.13"
       - "postgres:172.19.0.2"
     volumes:
-      - ${CONFIG_PATH}:${BASE_PATH}/${CONFIG_DIR}:rw
+      - ${HD_CONFIG_PATH}:${BASE_PATH}/${CONFIG_DIR}:rw
       - ${BASE_PACKAGE_PATH}/${JAVA_PACKAGE_DIR}:${BASE_PATH}/${JAVA_DIR}:rw
       - ${BASE_PACKAGE_PATH}/${HADOOP_PACKAGE_DIR}:${BASE_PATH}/${HADOOP_DIR}:rw
       - ${BASE_PACKAGE_PATH}/${SPARK_PACKAGE_DIR}:${BASE_PATH}/${SPARK_DIR}:rw

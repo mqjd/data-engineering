@@ -8,22 +8,21 @@ networks:
           gateway: 172.19.0.1
           ip_range: 172.19.0.0/24
 services:
-  postgres:
-    image: postgres:9.4
-    platform: linux/arm64
-    container_name: postgres
-    hostname: postgres
-    restart: always
-    networks:
-      bigdata_network_bridge:
-        ipv4_address: 172.19.0.2
-    volumes:
-      - ${CONFIG_PATH}/hive/init-postgres.sh:/docker-entrypoint-initdb.d/init-postgres.sh:rw
-    environment:
-      POSTGRES_HOST_AUTH_METHOD: md5
-      POSTGRES_DB: postgres
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: 123456
+#  postgres:
+#    image: postgres:9.4
+#    container_name: postgres
+#    hostname: postgres
+#    restart: always
+#    networks:
+#      bigdata_network_bridge:
+#        ipv4_address: 172.19.0.2
+#    volumes:
+#      - ${HD_CONFIG_PATH}/hive/init-postgres.sh:/docker-entrypoint-initdb.d/init-postgres.sh:rw
+#    environment:
+#      POSTGRES_HOST_AUTH_METHOD: md5
+#      POSTGRES_DB: postgres
+#      POSTGRES_USER: root
+#      POSTGRES_PASSWORD: 123456
   hd1:
     extends:
       file: ../common/docker-compose.yml

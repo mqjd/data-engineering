@@ -6,7 +6,7 @@ action=$1
 args=("$@")
 components=("${args[@]:1}")
 
-function build {
+function build_cluster {
   bash "${pwd}"/docker/image/build.sh
 }
 

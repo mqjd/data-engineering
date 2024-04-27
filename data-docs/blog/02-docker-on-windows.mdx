@@ -10,12 +10,23 @@ tags: [Docker]
 
 此步骤网上资源很多，请自行百度或Google完成
 
+配置sudoers
+```
+echo "$USER ALL=NOPASSWD: ALL" > "/etc/sudoers.d/$USER"
+```
+
 ## 准备工作
 
 ### 更换镜像为阿里云镜像
 此步骤主要国内访问官方镜像源速度太慢，可以根据自身需求确认是否更换[阿里云镜像](https://developer.aliyun.com/mirror/ubuntu?spm=a2c6h.13651102.0.0.344d1b11eKKtHG)或者其他镜像
 ```
-/etc/apt/sources.list
+sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak
+sudo echo "" > /etc/apt/sources.list
+sudo echo "deb https://mirrors.aliyun.com/ubuntu/ jammy main restricted universe multiverse" >> /etc/apt/sources.list
+sudo echo "deb https://mirrors.aliyun.com/ubuntu/ jammy-security main restricted universe multiverse" >> /etc/apt/sources.list
+sudo echo "deb https://mirrors.aliyun.com/ubuntu/ jammy-updates main restricted universe multiverse" >> /etc/apt/sources.list
+sudo echo "deb https://mirrors.aliyun.com/ubuntu/ jammy-backports main restricted universe multiverse" >> /etc/apt/sources.list
+sudo sudo apt-get update
 ```
 
 ### 安装依赖组件
@@ -36,6 +47,41 @@ sudo apt-get update
 sudo apt-get -y install docker-ce docker-ce-cli containerd.io
 sudo apt-get -y install docker-compose-plugin
 sudo gpasswd -a $USER docker
+sudo usermod -aG docker $USER
+```
+
+启动docker
+```bash
+# 启动
+sudo service docker start
+
+# 查看状态
+sudo service docker status
+```
+
+测试
+```bash
+# pull nginx
+sudo docker pull nginx
+
+# start nginx
+sudo docker run -d --name nginx -p 8080:80 nginx
+
+# 容器IP获取
+docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' 容器名称或ID
+
+curl 172.18.0.1:8080
+```
+
+## 安装 docker-compose
+
+```bash
+# 下载二进制
+sudo curl -L "https://github.com/docker/compose/releases/download/v2.5.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+# 增加执行权限
+sudo chmod +x /usr/local/bin/docker-compose
+# 检查
+docker-compose --version
 ```
 
 ## 在windows使用docker
