@@ -1,4 +1,4 @@
-package org.mqjd.flink.streamming.table;
+package org.mqjd.flink.jobs.streamming.table;
 
 import java.util.Optional;
 import org.apache.flink.api.common.JobID;

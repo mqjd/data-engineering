@@ -1,4 +1,4 @@
-package org.mqjd.flink.streamming;
+package org.mqjd.flink.jobs.streamming;
 
 import java.util.List;
 import java.util.stream.Collectors;

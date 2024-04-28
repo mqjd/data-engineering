@@ -75,13 +75,7 @@ public class MySqlContainer extends JdbcDatabaseContainer {
 
     public String getJdbcUrl(String databaseName) {
         String additionalUrlParams = constructUrlParameters("?", "&");
-        return "jdbc:mysql://"
-            + getHost()
-            + ":"
-            + getDatabasePort()
-            + "/"
-            + databaseName
-            + additionalUrlParams;
+        return STR."jdbc:mysql://\{getHost()}:\{getDatabasePort()}/\{databaseName}\{additionalUrlParams}";
     }
 
     @Override
@@ -99,11 +93,11 @@ public class MySqlContainer extends JdbcDatabaseContainer {
 
         if (!url.contains("useSSL=")) {
             String separator = url.contains("?") ? "&" : "?";
-            url = url + separator + "useSSL=false";
+            url = STR."\{url}\{separator}useSSL=false";
         }
 
         if (!url.contains("allowPublicKeyRetrieval=")) {
-            url = url + "&allowPublicKeyRetrieval=true";
+            url = STR."\{url}&allowPublicKeyRetrieval=true";
         }
 
         return url;

@@ -1,4 +1,4 @@
-package org.mqjd.flink.streamming;
+package org.mqjd.flink.jobs.streamming;
 
 import org.apache.flink.api.common.functions.ReduceFunction;
 import org.apache.flink.api.common.state.ReducingState;

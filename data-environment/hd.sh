@@ -6,6 +6,11 @@ action=$1
 args=("$@")
 components=("${args[@]:1}")
 
+USER_NAME=${SUDO_USER:=$USER}
+USER_ID=$(id -u "${USER_NAME}")
+export USER_ID
+export USER_NAME
+
 function build_cluster {
   bash "${pwd}"/docker/image/build.sh
 }
@@ -23,14 +28,18 @@ function restart_cluster {
   start_cluster
 }
 
+function exec {
+  docker exec -it "$1" /bin/bash
+}
+
 function main {
   for ((i = 0; i < ${#components[@]}; i++)); do
     component=${components[i]}
     func="${action}_${component}"
     if declare -F "$func" >/dev/null 2>&1; then
       $func
-    else
-      echo "no such action: ${action} ${component}"
+    elif declare -F "$action" >/dev/null 2>&1; then
+      $action "$component"
     fi
   done
 }

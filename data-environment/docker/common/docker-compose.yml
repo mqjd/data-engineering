@@ -5,7 +5,7 @@ services:
     stdin_open: true
     mem_limit: 8g
     cpus: 4
-    user: mq
+    user: ${USER}
     extra_hosts:
       - "hd1:172.19.0.11"
       - "hd2:172.19.0.12"

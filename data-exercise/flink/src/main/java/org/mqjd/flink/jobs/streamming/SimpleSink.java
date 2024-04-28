@@ -1,4 +1,4 @@
-package org.mqjd.flink.streamming;
+package org.mqjd.flink.jobs.streamming;
 
 import org.apache.flink.streaming.api.functions.sink.RichSinkFunction;
 import org.apache.logging.log4j.LogManager;

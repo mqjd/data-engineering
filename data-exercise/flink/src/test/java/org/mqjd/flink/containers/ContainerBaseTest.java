@@ -56,7 +56,7 @@ public abstract class ContainerBaseTest {
 
     protected void consume(String topic, String group, BiFunction<String, String, Boolean> messageConsumer) {
         Consumer consumer = new Consumer(messageConsumer, topic, group, getContainer(ContainerType.KAFKA));
-        STARTED_STARTABLE.add(0, consumer);
+        STARTED_STARTABLE.addFirst(consumer);
         consumer.start();
 
     }

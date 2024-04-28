@@ -16,9 +16,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.ClassRule;
 import org.junit.Test;
-import org.mqjd.flink.streamming.CountWithMaxTimeTrigger;
-import org.mqjd.flink.streamming.DataCollectWindowFunction;
-import org.mqjd.flink.streamming.SimpleSink;
+import org.mqjd.flink.jobs.streamming.CountWithMaxTimeTrigger;
+import org.mqjd.flink.jobs.streamming.DataCollectWindowFunction;
+import org.mqjd.flink.jobs.streamming.SimpleSink;
 
 public class FlinkJobTest {
 

@@ -3,8 +3,6 @@ set -eu
 
 pwd=$(dirname "$0")
 
-USER_NAME=${SUDO_USER:=$USER}
-USER_ID=$(id -u "${USER_NAME}")
 DOCKER_HOME_DIR=${DOCKER_HOME_DIR:-/home/${USER_NAME}}
 
 if [ "$(uname -s)" = "Darwin" ]; then
@@ -15,8 +13,6 @@ else
   GROUP_ID=1000
 fi
 
-export USER_ID=$USER_ID
-export USER_NAME
 export GROUP_ID
 export DOCKER_HOME_DIR
 
