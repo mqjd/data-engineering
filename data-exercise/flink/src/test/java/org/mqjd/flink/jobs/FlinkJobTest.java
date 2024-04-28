@@ -4,6 +4,9 @@ import org.apache.flink.configuration.*;
 import org.apache.flink.runtime.testutils.MiniClusterResourceConfiguration;
 import org.apache.flink.test.util.MiniClusterWithClientResource;
 import org.junit.ClassRule;
+import org.mqjd.flink.jobs.chapter1.section1.WordCountTest;
+
+import java.util.Objects;
 
 public class FlinkJobTest {
 
@@ -24,4 +27,8 @@ public class FlinkJobTest {
             .setNumberTaskManagers(1)
             .setConfiguration(configuration)
             .build());
+
+    protected static String getResourceFile(String filePath) {
+        return Objects.requireNonNull(WordCountTest.class.getResource(filePath)).getFile();
+    }
 }

@@ -6,7 +6,6 @@ import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Objects;
 import java.util.stream.Stream;
 
 import org.apache.commons.io.FileUtils;
@@ -68,7 +67,5 @@ public class WordCountTest extends FlinkJobTest {
         Assert.assertThrows(clz, () -> WordCount.main(params));
     }
 
-    private static String getResourceFile(String filePath) {
-        return Objects.requireNonNull(WordCountTest.class.getResource(filePath)).getFile();
-    }
+
 }
