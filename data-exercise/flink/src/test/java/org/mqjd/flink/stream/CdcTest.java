@@ -120,7 +120,7 @@ public class CdcTest extends ContainerBaseTest {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         env.setParallelism(1);
         env.fromSource(mySqlSource, WatermarkStrategy.noWatermarks(), "mysql-cdc-user")
-            .sinkTo(getKafkaSink(TOPIC_NAME));
+            .sinkTo(getKafkaSink());
         JobClient jobClient = env.executeAsync("mysql cdc + kafka");
         CountDownLatch countDownLatch = new CountDownLatch(20);
         consume(TOPIC_NAME, GROUP_NAME, (k, v) -> {
@@ -139,12 +139,12 @@ public class CdcTest extends ContainerBaseTest {
         assertEquals(20, resultInfo.offset());
     }
 
-    private KafkaSink<String> getKafkaSink(String topic) {
+    private KafkaSink<String> getKafkaSink() {
         KafkaContainer container = getContainer(ContainerType.KAFKA);
         return KafkaSink.<String>builder().setBootstrapServers(container.getBootstrapServers())
             .setKafkaProducerConfig(new Properties())
             .setDeliveryGuarantee(DeliveryGuarantee.AT_LEAST_ONCE).setRecordSerializer(
-                KafkaRecordSerializationSchema.builder().setTopic(topic)
+                KafkaRecordSerializationSchema.builder().setTopic(CdcTest.TOPIC_NAME)
                     .setValueSerializationSchema(new SimpleStringSchema()).build()).build();
     }
 }

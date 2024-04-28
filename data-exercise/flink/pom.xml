@@ -73,12 +73,6 @@
       <version>${flink.version}</version>
       <scope>${flink.scope}</scope>
     </dependency>
-    <!--cdc-->
-    <dependency>
-      <groupId>mysql</groupId>
-      <artifactId>mysql-connector-java</artifactId>
-      <version>8.0.28</version>
-    </dependency>
     <dependency>
       <groupId>org.apache.flink</groupId>
       <artifactId>flink-connector-base</artifactId>
@@ -86,9 +80,9 @@
       <scope>${flink.scope}</scope>
     </dependency>
     <dependency>
-      <groupId>com.ververica</groupId>
-      <artifactId>flink-connector-mysql-cdc</artifactId>
-      <version>${mysql-cdc.ververica.version}</version>
+      <groupId>org.apache.flink</groupId>
+      <artifactId>flink-connector-files</artifactId>
+      <version>${flink.version}</version>
       <scope>${flink.scope}</scope>
     </dependency>
     <dependency>
@@ -108,6 +102,21 @@
       <version>${flink.version}</version>
       <scope>${flink.scope}</scope>
     </dependency>
+
+    <!--cdc-->
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>8.0.28</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.ververica</groupId>
+      <artifactId>flink-connector-mysql-cdc</artifactId>
+      <version>${mysql-cdc.ververica.version}</version>
+      <scope>${flink.scope}</scope>
+    </dependency>
+
     <!--test-->
     <dependency>
       <groupId>org.apache.flink</groupId>
