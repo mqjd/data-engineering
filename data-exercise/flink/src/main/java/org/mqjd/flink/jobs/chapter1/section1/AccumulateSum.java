@@ -19,6 +19,6 @@ public class AccumulateSum {
         env.fromSequence(params.getLong(FROM_KEY, 0), params.getLong(TO_KEY, 100)).keyBy(_ -> 0)
             .reduce(new SumAggregator<>(Long.class)).sinkTo(SinkUtil.createSimpleFileSink(output))
             .name("file-sink");
-        env.execute("Counter");
+        env.execute("AccumulateSum");
     }
 }
