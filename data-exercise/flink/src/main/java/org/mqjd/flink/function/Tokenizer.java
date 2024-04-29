@@ -1,4 +1,4 @@
-package org.mqjd.flink.jobs.chapter1.section1.functions;
+package org.mqjd.flink.function;
 
 import org.apache.flink.api.common.functions.FlatMapFunction;
 import org.apache.flink.api.java.tuple.Tuple2;
