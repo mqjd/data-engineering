@@ -1,12 +1,52 @@
-version: '3'
+name: hd
+version: '3.9'
 networks:
-  bigdata_network_bridge:
-    ipam:
-      driver: default
-      config:
-        - subnet: 172.19.0.0/16
-          gateway: 172.19.0.1
-          ip_range: 172.19.0.0/24
+  de_network:
+    name: de_network
+    external: true
+x-common: &common
+  image: hd:1.0
+  tty: true
+  stdin_open: true
+  mem_limit: 8g
+  cpus: 4
+  user: ${USER}
+  extra_hosts:
+    - "hd1:172.19.0.11"
+    - "hd2:172.19.0.12"
+    - "hd3:172.19.0.13"
+    - "postgres:172.19.0.14"
+  volumes:
+    - ${HD_CONFIG_PATH}:${BASE_PATH}/${CONFIG_DIR}:rw
+    - ${BASE_PACKAGE_PATH}/${JAVA_PACKAGE_DIR}:${BASE_PATH}/${JAVA_DIR}:rw
+    - ${BASE_PACKAGE_PATH}/${HADOOP_PACKAGE_DIR}:${BASE_PATH}/${HADOOP_DIR}:rw
+    - ${BASE_PACKAGE_PATH}/${SPARK_PACKAGE_DIR}:${BASE_PATH}/${SPARK_DIR}:rw
+    - ${BASE_PACKAGE_PATH}/${ZOO_PACKAGE_DIR}:${BASE_PATH}/${ZOO_DIR}:rw
+    - ${BASE_PACKAGE_PATH}/${KAFKA_PACKAGE_DIR}:${BASE_PATH}/${KAFKA_DIR}:rw
+    - ${BASE_PACKAGE_PATH}/${HBASE_PACKAGE_DIR}:${BASE_PATH}/${HBASE_DIR}:rw
+    - ${BASE_PACKAGE_PATH}/${HIVE_PACKAGE_DIR}:${BASE_PATH}/${HIVE_DIR}:rw
+    - ${BASE_PACKAGE_PATH}/${FLINK_PACKAGE_DIR}:${BASE_PATH}/${FLINK_DIR}:rw
+    - ${BASE_PACKAGE_PATH}/${CH_PACKAGE_DIR}:${BASE_PATH}/${CH_DIR}:rw
+    - ${BASE_PACKAGE_PATH}/${ES_PACKAGE_DIR}:${BASE_PATH}/${ES_DIR}:rw
+    - ${BASE_PACKAGE_PATH}/${MONGODB_PACKAGE_DIR}:${BASE_PATH}/${MONGODB_DIR}:rw
+    - ${BASE_PACKAGE_PATH}/${MONGOSH_PACKAGE_DIR}:${BASE_PATH}/${MONGOSH_DIR}:rw
+    - ../../bin:${BASE_PATH}/bin:rw
+  environment:
+    HD_HOME: ${BASE_PATH}
+    HD_DATA_HOME: /var/bigdata
+    JAVA_HOME: ${BASE_PATH}/${JAVA_DIR}
+    HADOOP_HOME: ${HADOOP_HOME}
+    SPARK_HOME: ${SPARK_HOME}
+    ZOO_HOME: ${ZOO_HOME}
+    KAFKA_HOME: ${KAFKA_HOME}
+    HBASE_HOME: ${HBASE_HOME}
+    HIVE_HOME: ${HIVE_HOME}
+    FLINK_HOME: ${FLINK_HOME}
+    CH_HOME: ${CH_HOME}
+    ES_HOME: ${ES_HOME}
+    MONGODB_HOME: ${MONGODB_HOME}
+    MONGOSH_HOME: ${MONGOSH_HOME}
+  command: bash ${BASE_PATH}/bin/start.sh
 services:
 #  postgres:
 #    image: postgres:9.4
@@ -14,8 +54,8 @@ services:
 #    hostname: postgres
 #    restart: always
 #    networks:
-#      bigdata_network_bridge:
-#        ipv4_address: 172.19.0.2
+#      de_network:
+#        ipv4_address: 172.19.0.14
 #    volumes:
 #      - ${HD_CONFIG_PATH}/hive/init-postgres.sh:/docker-entrypoint-initdb.d/init-postgres.sh:rw
 #    environment:
@@ -24,29 +64,23 @@ services:
 #      POSTGRES_USER: root
 #      POSTGRES_PASSWORD: 123456
   hd1:
-    extends:
-      file: ../common/docker-compose.yml
-      service: common
+    <<: *common
     container_name: hd1
     hostname: hd1
     networks:
-      bigdata_network_bridge:
+      de_network:
         ipv4_address: 172.19.0.11
   hd2:
-    extends:
-      file: ../common/docker-compose.yml
-      service: common
+    <<: *common
     container_name: hd2
     hostname: hd2
     networks:
-      bigdata_network_bridge:
+      de_network:
         ipv4_address: 172.19.0.12
   hd3:
-    extends:
-      file: ../common/docker-compose.yml
-      service: common
+    <<: *common
     container_name: hd3
     hostname: hd3
     networks:
-      bigdata_network_bridge:
+      de_network:
         ipv4_address: 172.19.0.13

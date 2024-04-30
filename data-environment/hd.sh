@@ -11,19 +11,19 @@ USER_ID=$(id -u "${USER_NAME}")
 export USER_ID
 export USER_NAME
 
-function build_cluster {
-  bash "${pwd}"/docker/image/build.sh
+function build {
+  bash "${pwd}"/docker/hd/image/build.sh
 }
 
-function start_cluster {
+function start {
   docker-compose -f "${pwd}"/docker/hd/docker-compose.yml up -d
 }
 
-function stop_cluster {
+function stop {
   docker-compose -f "${pwd}"/docker/hd/docker-compose.yml down
 }
 
-function restart_cluster {
+function restart {
   stop_cluster
   start_cluster
 }

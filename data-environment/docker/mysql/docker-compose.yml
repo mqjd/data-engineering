@@ -1,4 +1,8 @@
 version: '3'
+networks:
+  de_network:
+    name: de_network
+    external: true
 services:
   mysql:
     image: mysql:8.3.0
@@ -10,12 +14,14 @@ services:
       MYSQL_USER: mysql
       TZ: Asia/Shanghai
       MYSQL_ROOT_HOST: '%'
-    ports:
-      - 3306:3306
     volumes:
       - ./config/my.cnf:/etc/mysql/my.cnf:rw
+      - ./init_db/:/docker-entrypoint-initdb.d/:rw
     command:
       --max_connections=1000
       --character-set-server=utf8mb4
       --collation-server=utf8mb4_general_ci
       --default-authentication-plugin=mysql_native_password
+    networks:
+      de_network:
+        ipv4_address: 172.19.0.3

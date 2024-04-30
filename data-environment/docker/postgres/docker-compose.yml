@@ -1,0 +1,21 @@
+version: '3'
+networks:
+  de_network:
+    name: de_network
+    external: true
+services:
+  pg:
+    image: postgres:16.2
+    container_name: postgres
+    hostname: postgres
+    restart: always
+    network_mode: bridge
+    volumes:
+     - ./init_db/:/docker-entrypoint-initdb.d/:rw
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: 123456
+    networks:
+      de_network:
+        ipv4_address: 172.19.0.2
