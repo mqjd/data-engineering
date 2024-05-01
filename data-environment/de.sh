@@ -3,25 +3,26 @@
 
 set -eu
 
-PWD=$(dirname "$0")
-COMPONENT=$1
-ARGS=("$@")
-ACTIONS=("")
-if [ ${#ARGS[@]} -gt 1 ]; then
-  ACTIONS=("${ARGS[@]:1}")
-fi
+CUR=$(dirname "$0")
 
+USER_NAME=${SUDO_USER:=$USER}
+USER_ID=$(id -u "${USER_NAME}")
+export USER_ID
+export USER_NAME
+
+# Define the network name
 NETWORK_NAME="de_network"
 
-# usql db
+# Define database connection strings
 DB_PG="pg://mq:123456@172.19.0.2/mq"
 DB_MYSQL="mysql://mq:123456@172.19.0.3/mq"
 
-# docker-compose
-CONTAINER_MYSQL="${PWD}"/docker/mysql/docker-compose.yml
-CONTAINER_PG="${PWD}"/docker/pg/docker-compose.yml
-CONTAINER_HD="${PWD}"/docker/hd/docker-compose.yml
+# Define paths to docker-compose files
+CONTAINER_MYSQL="${CUR}"/docker/mysql/docker-compose.yml
+CONTAINER_PG="${CUR}"/docker/pg/docker-compose.yml
+CONTAINER_HD="${CUR}"/docker/hd/docker-compose.yml
 
+# Function to execute docker-compose commands
 function container {
   args=("$@")
   container_key=$(echo "container_${args[0]}" | tr "[:lower:]" "[:upper:]")
@@ -30,10 +31,12 @@ function container {
   docker-compose -f "${container_path}" "${args[@]}"
 }
 
+# Function to execute docker exec
 function exec {
   docker exec -it "$1" /bin/bash
 }
 
+# Function to execute usql commands
 function sql {
   args=("$@")
   db_key=$(echo "db_${args[0]}" | tr "[:lower:]" "[:upper:]")
@@ -49,10 +52,11 @@ function sql {
   fi
 }
 
+# Function to handle Hadoop cluster actions
 function hd {
   args=("$@")
   if [ "${args[0]}" = "build" ]; then
-    bash "${PWD}"/docker/hd/image/build.sh
+    bash "${CUR}"/docker/hd/image/build.sh
   elif ! docker image inspect hd:1.0 &>/dev/null; then
     echo "hd image has not build, run build first!"
   else
@@ -60,35 +64,55 @@ function hd {
   fi
 }
 
-function help {
-  echo "Usage: ./de.sh [TYPE] [OPTIONS]"
-  echo "TYPE:"
-  echo "    container      exec docker-compose commands"
-  echo "    exec           exec docker exec -it"
-  echo "    sql            exec usql"
-  echo "    hd             hadoop cluster"
-}
-
+# Function to create network if it does not exist
 function create_network {
   if ! docker network inspect $NETWORK_NAME &>/dev/null; then
-      echo "Network $NETWORK_NAME does not exist. Creating..."
-      docker network create \
-          --driver bridge \
-          --subnet=172.19.0.0/16 \
-          --gateway=172.19.0.1 \
-          --ip-range=172.19.0.0/24 \
-          $NETWORK_NAME
-      echo "Network $NETWORK_NAME created."
+    echo "Network $NETWORK_NAME does not exist. Creating..."
+    docker network create \
+      --driver bridge \
+      --subnet=172.19.0.0/16 \
+      --gateway=172.19.0.1 \
+      --ip-range=172.19.0.0/24 \
+      $NETWORK_NAME
+    echo "Network $NETWORK_NAME created."
   fi
 }
 
-function main {
-  create_network
-  if declare -F "$COMPONENT" >/dev/null 2>&1; then
-    $COMPONENT "${ACTIONS[@]}"
-  else
-    echo "no such method $COMPONENT"
-  fi
+print_usage() {
+  echo "Usage: $0 -c | --container | -e | --exec | -s | --sql | -h | --hd | --help"
 }
 
-main
+if [[ $# -eq 0 ]]; then
+  print_usage
+  exit 1
+fi
+
+case "$1" in
+-c | --container)
+  action="container"
+  shift
+  ;;
+-e | --exec)
+  action="exec"
+  shift
+  ;;
+-s | --sql)
+  action="sql"
+  shift
+  ;;
+-hd)
+  action="hd"
+  shift
+  ;;
+-h | --help)
+  print_usage
+  exit 0
+  ;;
+*)
+  echo "Error: Invalid argument"
+  print_usage
+  exit 1
+  ;;
+esac
+
+$action "$@"
