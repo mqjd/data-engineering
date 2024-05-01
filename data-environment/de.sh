@@ -79,7 +79,7 @@ function create_network {
 }
 
 print_usage() {
-  echo "Usage: $0 -c | --container | -e | --exec | -s | --sql | -h | --hd | --help"
+  echo "Usage: de -c | --container | -e | --exec | -s | --sql | -h | --hd | --help"
 }
 
 if [[ $# -eq 0 ]]; then
