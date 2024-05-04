@@ -1,0 +1,5 @@
+{"userId":"001","userName":"张三","sex":"MALE","age":22,"distance":120.11,"pace":310,"timestamp":1714536042000}
+{"userId":"001","userName":"张三","sex":"MALE","age":22,"distance":1872.21,"pace":341,"timestamp":1714536503000}
+{"userId":"001","userName":"张三","sex":"MALE","age":22,"distance":2932.12,"pace":372,"timestamp":1714536849000}
+{"userId":"001","userName":"张三","sex":"MALE","age":22,"distance":3741.32,"pace":374,"timestamp":1714537134000}
+{"userId":"001","userName":"张三","sex":"MALE","age":22,"distance":4921.78,"pace":347,"timestamp":1714537472000}
