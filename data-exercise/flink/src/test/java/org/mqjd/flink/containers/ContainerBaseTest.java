@@ -25,24 +25,31 @@ import org.testcontainers.lifecycle.Startables;
 public abstract class ContainerBaseTest {
     private static final Logger LOG = LoggerFactory.getLogger(ContainerBaseTest.class);
     private static final Map<ContainerType, Startable> CONTAINERS = prepareContainers();
-    private static final List<Startable> STARTED_STARTABLE = new ArrayList<>();
+    private static final List<Startable> STARTED_CONTAINERS = new ArrayList<>();
     private static final String INTER_CONTAINER_KAFKA_ALIAS = "kafka";
     private static final Network NETWORK = Network.newNetwork();
     private static AdminClient admin;
 
     public static void startContainers(ContainerType... types) {
         LOG.info("Starting containers...");
+        List<Startable> startables = new ArrayList<>();
         for (ContainerType type : types) {
-            STARTED_STARTABLE.add(CONTAINERS.get(type));
+            if (CONTAINERS.containsKey(type)) {
+                Startable startable = CONTAINERS.remove(type);
+                startables.add(startable);
+            }
         }
-        Startables.deepStart(Arrays.stream(types).map(CONTAINERS::get)).join();
+        if (!startables.isEmpty()) {
+            STARTED_CONTAINERS.addAll(startables);
+            Startables.deepStart(startables.stream()).join();
+        }
         LOG.info("Containers are started.");
     }
 
     @AfterClass
     public static void stopContainers() {
         LOG.info("Stopping containers...");
-        STARTED_STARTABLE.forEach(Startable::stop);
+        STARTED_CONTAINERS.forEach(Startable::stop);
         LOG.info("Containers are stopped.");
     }
 
@@ -56,7 +63,7 @@ public abstract class ContainerBaseTest {
 
     protected void consume(String topic, String group, BiFunction<String, String, Boolean> messageConsumer) {
         Consumer consumer = new Consumer(messageConsumer, topic, group, getContainer(ContainerType.KAFKA));
-        STARTED_STARTABLE.addFirst(consumer);
+        STARTED_CONTAINERS.addFirst(consumer);
         consumer.start();
 
     }
@@ -91,7 +98,7 @@ public abstract class ContainerBaseTest {
         KafkaContainer kafkaContainer = getContainer(ContainerType.KAFKA);
         properties.put(CommonClientConfigs.BOOTSTRAP_SERVERS_CONFIG, kafkaContainer.getBootstrapServers());
         admin = AdminClient.create(properties);
-        STARTED_STARTABLE.add(new Closeable(admin));
+        STARTED_CONTAINERS.add(new Closeable(admin));
         return admin;
     }
 
