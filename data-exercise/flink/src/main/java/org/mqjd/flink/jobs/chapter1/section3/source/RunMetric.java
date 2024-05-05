@@ -2,6 +2,7 @@ package org.mqjd.flink.jobs.chapter1.section3.source;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -13,7 +14,8 @@ import org.mqjd.flink.util.JsonUtil;
 public class RunMetric implements Serializable {
     @Serial
     private static final long serialVersionUID = -3032216750258115148L;
-    private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private static final DateTimeFormatter dateTimeFormatter =
+        DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(ZoneId.systemDefault());
 
     private String userId;
     private String userName;
@@ -73,6 +75,10 @@ public class RunMetric implements Serializable {
 
     public Long getTimestamp() {
         return timestamp;
+    }
+
+    public String getFormatedTimestamp() {
+        return dateTimeFormatter.format(Instant.ofEpochMilli(timestamp));
     }
 
     public void setTimestamp(Long timestamp) {

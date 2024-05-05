@@ -1,38 +1,56 @@
 package org.mqjd.flink.jobs.chapter1.section3.windowing;
 
-import org.mqjd.flink.jobs.chapter1.section3.source.RunMetric;
-
 import java.io.Serial;
 import java.io.Serializable;
+
+import org.mqjd.flink.jobs.chapter1.section3.source.RunMetric;
 
 public class TopSpeedAccumulator implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 3266155111426858813L;
-    private RunMetric f0;
-    private RunMetric f1;
+    private RunMetric result;
+    private RunMetric last;
 
     public void add(RunMetric value) {
-        f0 = max();
-        f1 = value;
+        result = min();
+        last = value;
+
+    }
+
+    private RunMetric min() {
+        if (result == null) {
+            return last;
+        }
+        if (last == null) {
+            return null;
+        }
+
+        if (result.getPace() > last.getPace()) {
+            return last;
+        } else {
+            return result;
+        }
     }
 
     private RunMetric max() {
-        if (f0 == null) {
-            return f1;
-        } else if (f1 != null) {
-            if (f0.getPace() > f1.getPace()) {
-                return f0;
-            } else {
-                return f1;
-            }
+        if (result == null) {
+            return last;
         }
-        return null;
+        if (last == null) {
+            return null;
+        }
+
+        if (result.getPace() > last.getPace()) {
+            return result;
+        } else {
+            return last;
+        }
     }
 
     public RunMetric getResult() {
-        RunMetric result = f0;
-        f0 = f1 = null;
+        RunMetric result = this.result;
+        this.result = last = null;
         return result;
     }
 }

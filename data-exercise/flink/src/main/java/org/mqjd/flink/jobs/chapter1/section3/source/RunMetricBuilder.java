@@ -62,14 +62,14 @@ public final class RunMetricBuilder {
         return this;
     }
 
-    public static RunMetric buildDefault() {
+    public static RunMetric buildDefault(int index) {
         RunMetric runMetric = new RunMetric();
-        runMetric.setUserId("001");
-        runMetric.setUserName("user-001");
+        runMetric.setUserId(String.format("%03d", index));
+        runMetric.setUserName(String.format("user-%03d", index));
         runMetric.setSex(Sex.MALE);
         runMetric.setAge(22);
         runMetric.setDistance(0D);
-        runMetric.setPace(0);
+        runMetric.setPace(300);
         runMetric.setTimestamp(System.currentTimeMillis());
         return runMetric;
     }

@@ -1,5 +1,10 @@
-{"userId":"001","userName":"张三","sex":"MALE","age":22,"distance":120.11,"pace":310,"timestamp":1714536042000}
-{"userId":"001","userName":"张三","sex":"MALE","age":22,"distance":1872.21,"pace":341,"timestamp":1714536503000}
-{"userId":"001","userName":"张三","sex":"MALE","age":22,"distance":2932.12,"pace":372,"timestamp":1714536849000}
-{"userId":"001","userName":"张三","sex":"MALE","age":22,"distance":3741.32,"pace":374,"timestamp":1714537134000}
-{"userId":"001","userName":"张三","sex":"MALE","age":22,"distance":4921.78,"pace":347,"timestamp":1714537472000}
+{"userId":"001","userName":"张三","sex":"MALE","age":22,"distance":999.11,"pace":274,"timestamp":1714536303000}
+{"userId":"002","userName":"李四","sex":"MALE","age":32,"distance":680.44,"pace":301,"timestamp":1714536213000}
+{"userId":"001","userName":"张三","sex":"MALE","age":22,"distance":1270.12,"pace":282,"timestamp":1714536372000}
+{"userId":"002","userName":"李四","sex":"MALE","age":32,"distance":1270.12,"pace":291,"timestamp":1714536372000}
+{"userId":"001","userName":"张三","sex":"MALE","age":22,"distance":2471.73,"pace":329,"timestamp":1714536672000}
+{"userId":"002","userName":"李四","sex":"MALE","age":32,"distance":2471.73,"pace":339,"timestamp":1714536672000}
+{"userId":"001","userName":"张三","sex":"MALE","age":22,"distance":3842.1,"pace":358,"timestamp":1714537114000}
+{"userId":"002","userName":"李四","sex":"MALE","age":32,"distance":3842.1,"pace":358,"timestamp":1714537114000}
+{"userId":"001","userName":"张三","sex":"MALE","age":22,"distance":4531.23,"pace":293,"timestamp":1714537358000}
+{"userId":"002","userName":"李四","sex":"MALE","age":32,"distance":4531.23,"pace":293,"timestamp":1714537358000}
