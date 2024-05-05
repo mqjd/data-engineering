@@ -1,0 +1,23 @@
+source:
+  update-mode: append
+  schema:
+    - name: field1
+      type: VARCHAR
+    - name: field2
+      type: INT
+    - name: field3
+      type: BOOLEAN
+  connector:
+    type: kafka
+    version: 1.0
+    topic: hd-test-chapter2-section1
+    properties:
+      - key: bootstrap.servers
+        value: hd1:9092
+      - key: group.id
+        value: hd-test-chapter2-section1
+    format:
+      type: json
+
+execution:
+  parallelism: 1
