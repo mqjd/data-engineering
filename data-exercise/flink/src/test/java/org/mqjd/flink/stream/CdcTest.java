@@ -37,8 +37,8 @@ import org.testcontainers.containers.KafkaContainer;
 public class CdcTest extends ContainerBaseTest {
 
     private static final Logger LOG = LoggerFactory.getLogger(CdcTest.class);
-    private static final String TOPIC_NAME = "flink-cec-test";
-    private static final String GROUP_NAME = "flink-cec-test";
+    private static final String TOPIC_NAME = "flink-cdc-test";
+    private static final String GROUP_NAME = "flink-cdc-test";
     private static final short REPLICATION_FACTOR = 1;
     private static final short NUM_PARTITIONS = 1;
 
