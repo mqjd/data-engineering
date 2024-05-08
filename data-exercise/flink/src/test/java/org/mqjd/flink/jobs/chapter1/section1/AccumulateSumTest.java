@@ -7,7 +7,7 @@ import org.mqjd.flink.jobs.FlinkJobTest;
 
 public class AccumulateSumTest extends FlinkJobTest {
 
-    private static final String WORK_PATH = "/chapter1/section1";
+    private static final String WORK_PATH = "/jobs/chapter1/section1";
     private static final String OUTPUT_PATH = String.format("target%s/output", WORK_PATH);
     private static final String EXPECTED_PATH = String.format("%s/top-speed.expected.txt", WORK_PATH);
 

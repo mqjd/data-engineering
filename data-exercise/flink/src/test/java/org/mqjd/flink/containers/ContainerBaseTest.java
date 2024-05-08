@@ -35,8 +35,10 @@ public abstract class ContainerBaseTest {
         List<Startable> startables = new ArrayList<>();
         for (ContainerType type : types) {
             if (CONTAINERS.containsKey(type)) {
-                Startable startable = CONTAINERS.remove(type);
-                startables.add(startable);
+                Startable startable = CONTAINERS.get(type);
+                if (!STARTED_CONTAINERS.contains(startable)) {
+                    startables.add(startable);
+                }
             }
         }
         if (!startables.isEmpty()) {

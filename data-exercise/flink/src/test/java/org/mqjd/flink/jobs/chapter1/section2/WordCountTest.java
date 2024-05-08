@@ -10,7 +10,7 @@ import org.mqjd.flink.jobs.FlinkJobTest;
 
 public class WordCountTest extends FlinkJobTest {
 
-    private static final String WORK_PATH = "/chapter1/section2";
+    private static final String WORK_PATH = "/jobs/chapter1/section2";
     public static final String INPUT_PATH = getResourceFile(
         String.format("%s/word-count.input.txt", WORK_PATH));
     private static final String EXPECTED_PATH = String.format("%s/word-count.expected.txt",

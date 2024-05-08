@@ -8,6 +8,8 @@ source:
       value: hd-test-chapter2-section1
     - key: client.id
       value: hd-test-chapter2-section1
+  format:
+    type: json
 sink:
   type: kafka
   topic: hd-test-chapter2-section1-out
@@ -18,6 +20,8 @@ sink:
       value: hd-test-chapter2-section1
     - key: client.id
       value: hd-test-chapter2-section1
+  format:
+    type: json
 
 job-config:
   parallelism.default: 1

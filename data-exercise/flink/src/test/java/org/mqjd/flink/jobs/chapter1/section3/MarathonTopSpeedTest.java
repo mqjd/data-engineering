@@ -4,7 +4,7 @@ import org.junit.Test;
 import org.mqjd.flink.jobs.FlinkJobTest;
 
 public class MarathonTopSpeedTest extends FlinkJobTest {
-    private static final String WORK_PATH = "/chapter1/section3";
+    private static final String WORK_PATH = "/jobs/chapter1/section3";
     public static final String INPUT_PATH = getResourceFile(String.format("%s/user.metric.csv", WORK_PATH));
     private static final String EXPECTED_PATH = String.format("%s/top-speed.expected.txt", WORK_PATH);
     private static final String OUTPUT_PATH = String.format("target%s/output", WORK_PATH);
