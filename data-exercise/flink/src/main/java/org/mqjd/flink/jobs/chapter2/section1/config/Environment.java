@@ -34,4 +34,9 @@ public class Environment {
     public void setJobConfig(JobConfig jobConfig) {
         this.jobConfig = jobConfig;
     }
+
+    public void merge(Environment environment) {
+        source.addProperties(environment.getSource().getProps());
+        sink.addProperties(environment.getSink().getProps());
+    }
 }
