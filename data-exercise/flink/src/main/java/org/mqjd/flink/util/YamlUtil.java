@@ -1,21 +1,13 @@
 package org.mqjd.flink.util;
 
 import java.io.IOException;
-import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Properties;
-import java.util.Queue;
-import java.util.Set;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.core.JsonProcessingException;
 import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.databind.DeserializationFeature;
-import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.databind.JsonNode;
 import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
@@ -36,32 +28,35 @@ public class YamlUtil {
         }
     }
 
-    public static String toYaml(Object properties) {
-        try {
-            return MAPPER.writeValueAsString(properties);
-        } catch (JsonProcessingException e) {
-            throw new IllegalArgumentException("error when write to text", e);
-        }
-    }
-
     public static <T> T fromProperties(Properties properties, Class<T> clz) {
         Pattern pattern = Pattern.compile("\\.");
-        T result = ReflectionUtil.newInstance(clz);
+        ObjectNode resultNode = MAPPER.createObjectNode();
         for (String propertyName : properties.stringPropertyNames()) {
-            LinkedList<String> splits = new LinkedList<>(Arrays.asList(pattern.split(propertyName)));
-            Object target = result;
-            String field ;
-            while ((field = splits.poll()) != null) {
-                splits.getFirst();
-                Object object = ReflectionUtil.setDefaultIfAbsent(field, target);
-                if (object != null) {
-                    target = object;
-                } else {
+            Class<?> currentClass = clz;
+            ObjectNode currentNode = resultNode;
+            String[] split = pattern.split(propertyName);
+            for (int i = 0; i < split.length; i++) {
+                String property = split[i];
+                if (ReflectionUtil.hasField(currentClass, property)) {
+                    if (i < split.length - 1) {
+                        ObjectNode nodeValue = MAPPER.createObjectNode();
+                        currentNode.putIfAbsent(property, nodeValue);
+                        currentNode = nodeValue;
+                        currentClass = ReflectionUtil.getFieldType(currentClass, property);
+                        continue;
+                    } else {
+                        currentNode.put(property, properties.getProperty(propertyName));
+                        break;
+                    }
+                } else if (ReflectionUtil.hasJsonAnySetter(currentClass)) {
+                    String key = String.join(".", Arrays.copyOfRange(split, i + 1, split.length));
+                    currentNode.put(key, properties.getProperty(propertyName));
                     break;
                 }
+                break;
             }
         }
-        return result;
+        return MAPPER.convertValue(resultNode, clz);
     }
 
     public static <T> T fromYaml(URL url, Class<T> clz) {

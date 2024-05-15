@@ -9,6 +9,17 @@ public class Sink extends Vertex {
     }
 
     public void setTopic(String topic) {
-        this.topic = topic;
+        if (topic != null) {
+            this.topic = topic;
+        }
+    }
+
+    public void merge(Sink sink) {
+        if (sink != null) {
+            super.merge(sink);
+            if (sink.getTopic() != null) {
+                this.setTopic(sink.getTopic());
+            }
+        }
     }
 }

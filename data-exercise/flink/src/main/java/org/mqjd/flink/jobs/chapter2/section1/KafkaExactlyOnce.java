@@ -14,7 +14,7 @@ import org.mqjd.flink.jobs.chapter2.section1.config.EnvironmentParser;
 import org.mqjd.flink.jobs.chapter2.section1.config.Sink;
 import org.mqjd.flink.jobs.chapter2.section1.config.Source;
 
-public class KafkaTest {
+public class KafkaExactlyOnce {
 
     private static final String JOB_YAML = "conf/chapter2/section1/job.yaml";
 
@@ -26,22 +26,20 @@ public class KafkaTest {
         Sink sink = environment.getSink();
         KafkaSource<String> kafkaSource = KafkaSource.<String>builder()
             .setTopics(source.getTopics()).setProperties(source.getProps())
-            .setStartingOffsets(OffsetsInitializer.latest())
+            .setStartingOffsets(OffsetsInitializer.earliest())
             .setValueOnlyDeserializer(new SimpleStringSchema()).build();
 
         KafkaSink<String> kafkaSink = KafkaSink.<String>builder()
             .setKafkaProducerConfig(sink.getProps()).setRecordSerializer(
                 KafkaRecordSerializationSchema.builder().setTopic(sink.getTopic())
+                    .setKeySerializationSchema(new SimpleStringSchema())
                     .setValueSerializationSchema(new SimpleStringSchema()).build())
             .setDeliveryGuarantee(DeliveryGuarantee.EXACTLY_ONCE).build();
 
         DataStreamSource<String> kafkaSourceStream = env.fromSource(kafkaSource,
             WatermarkStrategy.noWatermarks(), "Kafka Source");
 
-        kafkaSourceStream.map(v -> {
-            System.out.println(v);
-            return v;
-        }).sinkTo(kafkaSink);
+        kafkaSourceStream.map(new MapException()).sinkTo(kafkaSink);
         env.execute("kafka test");
     }
 }

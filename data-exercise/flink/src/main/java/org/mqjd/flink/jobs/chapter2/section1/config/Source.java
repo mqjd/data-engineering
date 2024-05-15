@@ -9,7 +9,16 @@ public class Source extends Vertex {
     }
 
     public void setTopics(String topics) {
-        this.topics = topics;
+        if (topics != null) {
+            this.topics = topics;
+        }
+    }
+
+    public void merge(Source source) {
+        if (source != null) {
+            super.merge(source);
+            this.setTopics(source.getTopics());
+        }
     }
 
 }

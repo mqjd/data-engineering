@@ -36,7 +36,7 @@ public class Environment {
     }
 
     public void merge(Environment environment) {
-        source.addProperties(environment.getSource().getProps());
-        sink.addProperties(environment.getSink().getProps());
+        source.merge(environment.getSource());
+        sink.merge(environment.getSink());
     }
 }

@@ -39,4 +39,10 @@ public class Vertex {
             props.putAll(properties);
         }
     }
+
+    public void merge(Vertex vertex) {
+        if (vertex != null) {
+            addProperties(vertex.getProps());
+        }
+    }
 }

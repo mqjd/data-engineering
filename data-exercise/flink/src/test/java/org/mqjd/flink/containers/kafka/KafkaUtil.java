@@ -6,6 +6,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import org.apache.flink.util.StringUtils;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
@@ -28,6 +32,8 @@ public class KafkaUtil {
 
     private static final Logger LOG = LoggerFactory.getLogger(KafkaUtil.class);
     private static final Duration CONSUMER_POLL_DURATION = Duration.ofSeconds(1);
+    private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(5);
+
 
     private KafkaUtil() {
     }
@@ -36,9 +42,12 @@ public class KafkaUtil {
         return createKafkaContainer(dockerImageVersion, logger, null);
     }
 
+    public static ScheduledFuture<?> schedule(Runnable command, long period) {
+        return scheduler.scheduleAtFixedRate(command, 0L, period, TimeUnit.MILLISECONDS);
+    }
 
-    public static KafkaContainer createKafkaContainer(
-        String dockerImageVersion, Logger logger, String loggerPrefix) {
+    public static KafkaContainer createKafkaContainer(String dockerImageVersion, Logger logger,
+        String loggerPrefix) {
         String logLevel;
         if (logger.isTraceEnabled()) {
             logLevel = "TRACE";
@@ -59,34 +68,31 @@ public class KafkaUtil {
             logConsumer.withPrefix(loggerPrefix);
         }
         // noinspection resource
-        return new KafkaContainer(DockerImageName.parse(dockerImageVersion))
-            .withEnv("KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR", "1")
+        return new KafkaContainer(DockerImageName.parse(dockerImageVersion)).withEnv(
+                "KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR", "1")
             .withEnv("KAFKA_TRANSACTION_STATE_LOG_MIN_ISR", "1")
             .withEnv("KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR", "1")
             .withEnv("KAFKA_CONFLUENT_SUPPORT_METRICS_ENABLE", "false")
             .withEnv("KAFKA_LOG4J_ROOT_LOGLEVEL", logLevel)
             .withEnv("KAFKA_LOG4J_LOGGERS", "state.change.logger=" + logLevel)
             .withEnv("KAFKA_CONFLUENT_SUPPORT_METRICS_ENABLE", "false")
-            .withEnv(
-                "KAFKA_TRANSACTION_MAX_TIMEOUT_MS",
+            .withEnv("KAFKA_TRANSACTION_MAX_TIMEOUT_MS",
                 String.valueOf(Duration.ofHours(2).toMillis()))
-            .withEnv("KAFKA_LOG4J_TOOLS_ROOT_LOGLEVEL", logLevel)
-            .withLogConsumer(logConsumer);
+            .withEnv("KAFKA_LOG4J_TOOLS_ROOT_LOGLEVEL", logLevel).withLogConsumer(logConsumer);
     }
 
     @SuppressWarnings("unused")
-    public static List<ConsumerRecord<byte[], byte[]>> drainAllRecordsFromTopic(
-        String topic, Properties properties, boolean committed) throws KafkaException {
+    public static List<ConsumerRecord<byte[], byte[]>> drainAllRecordsFromTopic(String topic,
+        Properties properties, boolean committed) throws KafkaException {
         final Properties consumerConfig = new Properties();
         consumerConfig.putAll(properties);
-        consumerConfig.put(
-            ConsumerConfig.ISOLATION_LEVEL_CONFIG,
+        consumerConfig.put(ConsumerConfig.ISOLATION_LEVEL_CONFIG,
             committed ? "read_committed" : "read_uncommitted");
         return drainAllRecordsFromTopic(topic, consumerConfig);
     }
 
-    public static List<ConsumerRecord<byte[], byte[]>> drainAllRecordsFromTopic(
-        String topic, Properties properties) throws KafkaException {
+    public static List<ConsumerRecord<byte[], byte[]>> drainAllRecordsFromTopic(String topic,
+        Properties properties) throws KafkaException {
         final Properties consumerConfig = new Properties();
         consumerConfig.putAll(properties);
         consumerConfig.put("key.deserializer", ByteArrayDeserializer.class.getName());
@@ -107,11 +113,8 @@ public class KafkaUtil {
                 for (final TopicPartition topicPartition : topicPartitions) {
                     final long position = consumer.position(topicPartition);
                     final long endOffset = endOffsets.get(topicPartition);
-                    LOG.debug(
-                        "Endoffset {} and current position {} for partition {}",
-                        endOffset,
-                        position,
-                        topicPartition.partition());
+                    LOG.debug("Endoffset {} and current position {} for partition {}", endOffset,
+                        position, topicPartition.partition());
                     if (endOffset - position > 0) {
                         continue;
                     }
@@ -130,8 +133,8 @@ public class KafkaUtil {
         }
     }
 
-    private static Set<TopicPartition> getAllPartitions(
-        KafkaConsumer<byte[], byte[]> consumer, String topic) {
+    private static Set<TopicPartition> getAllPartitions(KafkaConsumer<byte[], byte[]> consumer,
+        String topic) {
         return consumer.partitionsFor(topic).stream()
             .map(info -> new TopicPartition(info.topic(), info.partition()))
             .collect(Collectors.toSet());

@@ -1,44 +1,48 @@
 package org.mqjd.flink.util;
 
-import java.lang.reflect.Field;
+import java.util.Arrays;
+import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.annotation.JsonAnySetter;
 
 public class ReflectionUtil {
 
-    public static <T> T newInstance(Class<T> clz) {
-        try {
-            return clz.getConstructor().newInstance();
-        } catch (Exception e) {
-            throw new IllegalStateException("class must have a default constructor with out args",
-                e);
-        }
+    public static <T> Boolean hasField(Class<T> clz, String field) {
+        return hasDeclaredField(clz, field) || hasSetter(clz, field);
     }
+
+    public static <T> Boolean hasJsonAnySetter(Class<T> clz) {
+        boolean hasSetter = Arrays.stream(clz.getDeclaredMethods())
+            .anyMatch(m -> m.getAnnotation(JsonAnySetter.class) != null);
+        if (!hasSetter && clz.getSuperclass() != null) {
+            hasSetter = hasJsonAnySetter(clz.getSuperclass());
+        }
+        return hasSetter;
+    }
+
+    private static <T> Boolean hasSetter(Class<T> clz, String field) {
+        return Arrays.stream(clz.getDeclaredMethods())
+            .anyMatch(m -> m.getName().equals(getSetter(field)) && m.getParameterCount() == 1);
+    }
+
+    private static <T> Boolean hasDeclaredField(Class<T> clz, String field) {
+        return Arrays.stream(clz.getDeclaredFields()).anyMatch(f -> f.getName().equals(field));
+    }
+
 
     private static String getSetter(String field) {
         return STR."set\{field.substring(0, 1).toUpperCase()}\{field.substring(1)}";
     }
 
-    public static Object setDefaultIfAbsent(String field, Object object) {
+    public static Class<?> getFieldType(Class<?> currentClass, String property) {
         try {
-            Field declaredField = object.getClass().getDeclaredField(field);
-            declaredField.setAccessible(true);
-            Object value = declaredField.get(object);
-            if (value == null) {
-                value = newInstance(declaredField.getDeclaringClass());
-                setField(field, object, value);
+            if (hasField(currentClass, property)) {
+                return currentClass.getDeclaredField(property).getType();
             }
-            return value;
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    public static <T> boolean setField(String field, T object, Object value) {
-        try {
-            object.getClass().getDeclaredMethod(getSetter(field), value.getClass())
-                .invoke(object, value);
-            return true;
-        } catch (Exception e) {
-            return false;
+            if (hasSetter(currentClass, property)) {
+                return currentClass.getDeclaredMethod(getSetter(property)).getParameterTypes()[0];
+            }
+            throw new NoSuchFieldException(property);
+        } catch (NoSuchFieldException | NoSuchMethodException e) {
+            throw new RuntimeException(e);
         }
     }
 }

@@ -31,12 +31,14 @@ public class FlinkJobTest {
 
     @ClassRule
     public static MiniClusterWithClientResource flinkCluster =
-        new MiniClusterWithClientResource(new MiniClusterResourceConfiguration.Builder().setNumberSlotsPerTaskManager(1)
-            .setNumberTaskManagers(1)
-            .setConfiguration(configuration)
-            .build());
+        new MiniClusterWithClientResource(
+            new MiniClusterResourceConfiguration.Builder().setNumberSlotsPerTaskManager(1)
+                .setNumberTaskManagers(1)
+                .setConfiguration(configuration)
+                .build());
 
-    protected static void compareResultsByLines(String expectedContentPath, String actualDirectory) {
+    protected static void compareResultsByLines(String expectedContentPath,
+        String actualDirectory) {
         ArrayList<String> list = new ArrayList<>();
         try {
             TestBaseUtils.readAllResultLines(list, new File(actualDirectory).toURI().toString());
@@ -46,7 +48,8 @@ public class FlinkJobTest {
         String expectedString = readResourceFile(expectedContentPath);
         String[] actual = list.toArray(new String[0]);
         Arrays.sort(actual);
-        String[] expected = expectedString.isEmpty() ? new String[0] : expectedString.split(System.lineSeparator());
+        String[] expected =
+            expectedString.isEmpty() ? new String[0] : expectedString.split(System.lineSeparator());
         Arrays.sort(expected);
         assertArrayEquals(expected, actual);
     }
@@ -57,7 +60,8 @@ public class FlinkJobTest {
 
     protected static String readResourceFile(String filePath) {
         try {
-            return FileUtils.readFileToString(new File(getResourceFile(filePath)), StandardCharsets.UTF_8);
+            return FileUtils.readFileToString(new File(getResourceFile(filePath)),
+                StandardCharsets.UTF_8);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
