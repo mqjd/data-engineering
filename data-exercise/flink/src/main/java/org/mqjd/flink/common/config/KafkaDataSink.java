@@ -1,6 +1,6 @@
-package org.mqjd.flink.jobs.chapter2.section1.config;
+package org.mqjd.flink.common.config;
 
-public class Sink extends Vertex {
+public class KafkaDataSink extends DataSink {
 
     private String topic;
 
@@ -14,7 +14,7 @@ public class Sink extends Vertex {
         }
     }
 
-    public void merge(Sink sink) {
+    public void merge(KafkaDataSink sink) {
         if (sink != null) {
             super.merge(sink);
             if (sink.getTopic() != null) {

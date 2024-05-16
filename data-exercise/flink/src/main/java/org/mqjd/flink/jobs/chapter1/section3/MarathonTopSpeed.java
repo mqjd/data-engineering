@@ -18,8 +18,8 @@ import org.mqjd.flink.jobs.chapter1.section3.source.RunMetricGeneratorFunction;
 import org.mqjd.flink.jobs.chapter1.section3.windowing.RangeEvictor;
 import org.mqjd.flink.jobs.chapter1.section3.windowing.RangeTrigger;
 import org.mqjd.flink.jobs.chapter1.section3.windowing.TopSpeedAggregateFunction;
-import org.mqjd.flink.sink.SinkUtil;
-import org.mqjd.flink.source.SourceUtil;
+import org.mqjd.flink.util.SinkUtil;
+import org.mqjd.flink.util.SourceUtil;
 
 public class MarathonTopSpeed {
     private static final String INPUT_KEY = "input";

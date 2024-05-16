@@ -1,21 +1,15 @@
-package org.mqjd.flink.jobs.chapter2.section1.config;
+package org.mqjd.flink.common.config;
 
 import java.util.List;
 import java.util.Properties;
 import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.annotation.JsonAnySetter;
 
-public class Vertex {
+public abstract class Node {
 
-    private String type;
+    abstract DataType getDataType();
+
     private final Properties props = new Properties();
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
 
     public Properties getProps() {
         return props;
@@ -40,9 +34,9 @@ public class Vertex {
         }
     }
 
-    public void merge(Vertex vertex) {
-        if (vertex != null) {
-            addProperties(vertex.getProps());
+    public void merge(Node node) {
+        if (node != null) {
+            addProperties(node.getProps());
         }
     }
 }

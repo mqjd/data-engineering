@@ -1,6 +1,6 @@
-package org.mqjd.flink.jobs.chapter2.section1.config;
+package org.mqjd.flink.common.config;
 
-public class Source extends Vertex {
+public class KafkaDataSource extends DataSource {
 
     private String topics;
 
@@ -14,11 +14,10 @@ public class Source extends Vertex {
         }
     }
 
-    public void merge(Source source) {
+    public void merge(KafkaDataSource source) {
         if (source != null) {
             super.merge(source);
             this.setTopics(source.getTopics());
         }
     }
-
 }

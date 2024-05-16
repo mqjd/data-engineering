@@ -1,4 +1,4 @@
-package org.mqjd.flink.source;
+package org.mqjd.flink.util;
 
 import org.apache.flink.api.common.typeinfo.TypeInformation;
 import org.apache.flink.connector.file.src.FileSource;

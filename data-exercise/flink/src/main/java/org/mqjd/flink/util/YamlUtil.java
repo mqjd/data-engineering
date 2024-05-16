@@ -5,11 +5,13 @@ import java.lang.reflect.Type;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Properties;
+import java.util.function.Consumer;
 import java.util.regex.Pattern;
 import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.core.JsonProcessingException;
 import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.databind.DeserializationFeature;
 import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.databind.node.ObjectNode;
+import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.databind.node.TextNode;
 import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 public class YamlUtil {
@@ -28,7 +30,7 @@ public class YamlUtil {
         }
     }
 
-    public static <T> T fromProperties(Properties properties, Class<T> clz) {
+    public static <T> T fromProperties(Properties properties, Class<T> clz, Consumer<ObjectNode> nodeConsumer) {
         Pattern pattern = Pattern.compile("\\.");
         ObjectNode resultNode = MAPPER.createObjectNode();
         for (String propertyName : properties.stringPropertyNames()) {
@@ -56,6 +58,7 @@ public class YamlUtil {
                 break;
             }
         }
+        nodeConsumer.accept(resultNode);
         return MAPPER.convertValue(resultNode, clz);
     }
 

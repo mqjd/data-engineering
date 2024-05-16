@@ -1,29 +1,31 @@
-package org.mqjd.flink.jobs.chapter2.section1.config;
+package org.mqjd.flink.common.config;
 
 import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Environment {
 
-    private Source source;
+    private DataSource source;
 
-    private Sink sink;
+    private DataSink sink;
 
     @JsonProperty("job-config")
     private JobConfig jobConfig;
 
-    public Source getSource() {
-        return source;
+    public <T extends DataSource> T getSource() {
+        //noinspection unchecked
+        return (T) source;
     }
 
-    public void setSource(Source source) {
+    public void setSource(DataSource source) {
         this.source = source;
     }
 
-    public Sink getSink() {
-        return sink;
+    public <T extends DataSink> T getSink() {
+        //noinspection unchecked
+        return (T) sink;
     }
 
-    public void setSink(Sink sink) {
+    public void setSink(DataSink sink) {
         this.sink = sink;
     }
 

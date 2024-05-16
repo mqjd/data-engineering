@@ -9,7 +9,7 @@ import org.apache.flink.core.fs.Path;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.mqjd.flink.function.Tokenizer;
-import org.mqjd.flink.sink.SinkUtil;
+import org.mqjd.flink.util.SinkUtil;
 
 public class WordCount {
 

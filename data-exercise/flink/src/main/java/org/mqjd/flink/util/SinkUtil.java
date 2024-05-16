@@ -1,4 +1,4 @@
-package org.mqjd.flink.sink;
+package org.mqjd.flink.util;
 
 import java.time.Duration;
 

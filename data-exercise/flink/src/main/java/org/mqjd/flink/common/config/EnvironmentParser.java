@@ -1,4 +1,4 @@
-package org.mqjd.flink.jobs.chapter2.section1.config;
+package org.mqjd.flink.common.config;
 
 import java.util.Properties;
 import org.apache.commons.cli.CommandLine;
@@ -6,6 +6,7 @@ import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.databind.node.TextNode;
 import org.mqjd.flink.util.YamlUtil;
 
 public class EnvironmentParser {
@@ -23,7 +24,16 @@ public class EnvironmentParser {
             Environment environment = YamlUtil.fromYaml(
                 EnvironmentParser.class.getClassLoader().getResource(configPath),
                 Environment.class);
-            environment.merge(YamlUtil.fromProperties(optionProperties, Environment.class));
+            environment.merge(YamlUtil.fromProperties(optionProperties, Environment.class, node -> {
+                if (node.has("source")) {
+                    node.withObject("/source")
+                        .set("type", new TextNode(environment.getSource().getType()));
+                }
+                if (node.has("sink")) {
+                    node.withObject("/sink")
+                        .set("type", new TextNode(environment.getSink().getType()));
+                }
+            }));
             return environment;
         } catch (ParseException e) {
             throw new RuntimeException(e);

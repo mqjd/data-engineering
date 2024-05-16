@@ -12,6 +12,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mqjd.flink.containers.ContainerBaseTest;
 import org.mqjd.flink.containers.ContainerType;
+import org.mqjd.flink.function.TroubleMaker;
 import org.mqjd.flink.util.TimerUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
