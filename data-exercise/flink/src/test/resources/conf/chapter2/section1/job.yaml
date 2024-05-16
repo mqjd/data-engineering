@@ -6,8 +6,6 @@ source:
       value: hd1:9092
     - key: group.id
       value: hd-test-chapter2-section1-consumer
-    - key: commit.offsets.on.checkpoint
-      value: "true"
     - key: isolation.level
       value: read_committed
 
@@ -17,10 +15,6 @@ sink:
   properties:
     - key: bootstrap.servers
       value: "hd1:9092"
-    - key: commit.offsets.on.checkpoint
-      value: "true"
-    - key: transaction.timeout.ms
-      value: "120000"
 
 job-config:
   parallelism.default: 1
