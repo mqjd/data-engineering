@@ -1,6 +1,7 @@
 package org.mqjd.flink.common.config;
 
 import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.annotation.JsonProperty;
+import org.mqjd.flink.util.ReflectionUtil;
 
 public class Environment {
 
@@ -37,8 +38,8 @@ public class Environment {
         this.jobConfig = jobConfig;
     }
 
-    public void merge(Environment environment) {
-        source.merge(environment.getSource());
-        sink.merge(environment.getSink());
+    void merge(Environment environment) {
+        ReflectionUtil.invoke(source, "merge", environment.getSource());
+        ReflectionUtil.invoke(sink, "merge", environment.getSink());
     }
 }

@@ -9,6 +9,13 @@ public class ReflectionUtil {
         return hasDeclaredField(clz, field) || hasSetter(clz, field);
     }
 
+    public static void invoke(Object obj, String method, Object value) {
+        try {
+            obj.getClass().getDeclaredMethod(method, value.getClass()).invoke(obj, value);
+        } catch (Exception _) {
+        }
+    }
+
     public static <T> Boolean hasJsonAnySetter(Class<T> clz) {
         boolean hasSetter = Arrays.stream(clz.getDeclaredMethods())
             .anyMatch(m -> m.getAnnotation(JsonAnySetter.class) != null);
