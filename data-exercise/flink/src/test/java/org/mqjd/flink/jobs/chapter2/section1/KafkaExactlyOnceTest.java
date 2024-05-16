@@ -3,13 +3,16 @@ package org.mqjd.flink.jobs.chapter2.section1;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import org.apache.flink.api.common.JobStatus;
 import org.apache.flink.runtime.client.JobStatusMessage;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mqjd.flink.containers.ContainerBaseTest;
 import org.mqjd.flink.containers.ContainerType;
+import org.mqjd.flink.util.TimerUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testcontainers.containers.KafkaContainer;
@@ -18,6 +21,7 @@ public class KafkaExactlyOnceTest extends ContainerBaseTest {
 
     private static final Logger LOG = LoggerFactory.getLogger(KafkaExactlyOnceTest.class);
 
+    private static final String JOB_TEMP_DIR = "/tmp/chapter2-section1-checkpoints/";
     private static final String TOPICS_IN = "hd-test-chapter2-section1-in";
     private static final String TOPICS_OUT = "hd-test-chapter2-section1-out";
     private static final String GROUP = "hd-test-chapter2-section1-out-consumer-test";
@@ -35,7 +39,7 @@ public class KafkaExactlyOnceTest extends ContainerBaseTest {
         createTopic(TOPICS_IN, NUM_PARTITIONS, REPLICATION_FACTOR);
         createTopic(TOPICS_OUT, NUM_PARTITIONS, REPLICATION_FACTOR);
         KafkaContainer container = getContainer(ContainerType.KAFKA);
-        CompletableFuture<JobStatusMessage> result = execute(() -> {
+        CompletableFuture<JobStatusMessage> result = executeJobAsync(() -> {
             try {
                 String bootstrapServers = container.getBootstrapServers();
                 String[] params = {"-D",
@@ -45,17 +49,24 @@ public class KafkaExactlyOnceTest extends ContainerBaseTest {
             } catch (Exception e) {
                 LOG.error("Error running KafkaTest", e);
             }
+        }, jobStatus -> {
+            if (jobStatus.equals(JobStatus.RUNNING)) {
+                TimerUtil.timeout(
+                    () -> TroubleMaker.makeTrouble(new RuntimeException("interrupted by test")),
+                    10_000);
+            }
         });
-        produce(TOPICS_IN, CLIENT_ID, 1L, (i) -> STR."message\{i}");
-        List<String> messages = new ArrayList<>();
-        consume(TOPICS_OUT, GROUP, (_, message) -> {
-            LOG.info("result message: {}", message);
+        kafkaProduce(TOPICS_IN, CLIENT_ID, 10L, (i) -> STR."message\{i}");
+        Collection<String> messages = new ConcurrentLinkedQueue<>();
+        kafkaConsume(TOPICS_OUT, GROUP, (offset, message) -> {
+            LOG.info("result: offset: {}, message: {}", offset, message);
             messages.add(message);
             return true;
         });
         result.get();
-        System.out.println(String.join(System.lineSeparator(), messages));
-        assertEquals(messages.size(),
-            Long.parseLong(messages.getLast().substring("message".length())));
+        deleteDirectory(JOB_TEMP_DIR);
+        assertEquals(
+            Long.parseLong(new ArrayList<>(messages).getLast().substring("message".length())),
+            messages.size());
     }
 }

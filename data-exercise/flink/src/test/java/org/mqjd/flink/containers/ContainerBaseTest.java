@@ -7,20 +7,17 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.function.BiFunction;
 import java.util.function.Function;
-import org.apache.flink.client.program.ClusterClient;
-import org.apache.flink.runtime.client.JobStatusMessage;
 import org.apache.kafka.clients.CommonClientConfigs;
 import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.CreateTopicsResult;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.junit.AfterClass;
-import org.mqjd.flink.containers.kafka.Consumer;
 import org.mqjd.flink.containers.kafka.KafkaUtil;
-import org.mqjd.flink.containers.kafka.Producer;
+import org.mqjd.flink.containers.kafka.TestKafkaConsumer;
+import org.mqjd.flink.containers.kafka.TestKafkaProducer;
 import org.mqjd.flink.containers.mysql.MySqlContainer;
 import org.mqjd.flink.jobs.FlinkJobTest;
 import org.slf4j.Logger;
@@ -73,21 +70,20 @@ public abstract class ContainerBaseTest extends FlinkJobTest {
         result.all().get();
     }
 
-    protected void consume(String topic, String group,
+    protected void kafkaConsume(String topic, String group,
         BiFunction<String, String, Boolean> messageConsumer) {
-        Consumer consumer = new Consumer(messageConsumer, topic, group,
+        TestKafkaConsumer testKafkaConsumer = new TestKafkaConsumer(messageConsumer, topic, group,
             getContainer(ContainerType.KAFKA));
-        STARTED_CONTAINERS.addFirst(consumer);
-        consumer.start();
-
+        STARTED_CONTAINERS.addFirst(testKafkaConsumer);
+        testKafkaConsumer.start();
     }
 
-    protected void produce(String topic, String clientId, Long rate,
+    protected void kafkaProduce(String topic, String clientId, Long rate,
         Function<Long, String> messageGenerator) {
-        Producer producer = new Producer(messageGenerator, clientId, topic, 1000L, rate,
-            getContainer(ContainerType.KAFKA));
-        STARTED_CONTAINERS.addFirst(producer);
-        producer.start();
+        TestKafkaProducer testKafkaProducer = new TestKafkaProducer(messageGenerator, clientId,
+            topic, 1000L, rate, getContainer(ContainerType.KAFKA));
+        STARTED_CONTAINERS.addFirst(testKafkaProducer);
+        testKafkaProducer.start();
     }
 
     private static Map<ContainerType, Startable> prepareContainers() {
@@ -108,28 +104,6 @@ public abstract class ContainerBaseTest extends FlinkJobTest {
     protected static <T> T getContainer(ContainerType type) {
         // noinspection unchecked
         return (T) CONTAINERS.get(type);
-    }
-
-    protected CompletableFuture<JobStatusMessage> execute(Runnable runnable) {
-        CompletableFuture<JobStatusMessage> result = new CompletableFuture<>();
-        new Thread(runnable).start();
-        ClusterClient<?> clusterClient = flinkCluster.getClusterClient();
-        KafkaUtil.schedule(() -> {
-            try {
-                clusterClient.listJobs().thenAccept(jobs -> {
-                    if (!jobs.isEmpty()) {
-                        JobStatusMessage jobStatusMessage = jobs.iterator().next();
-                        if (jobStatusMessage.getJobState().isTerminalState()) {
-                            result.complete(jobStatusMessage);
-                        }
-                    }
-                });
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        }, 1000);
-
-        return result;
     }
 
     protected AdminClient getAdminClient() {

@@ -123,7 +123,7 @@ public class CdcTest extends ContainerBaseTest {
             .sinkTo(getKafkaSink());
         JobClient jobClient = env.executeAsync("mysql cdc + kafka");
         CountDownLatch countDownLatch = new CountDownLatch(20);
-        consume(TOPIC_NAME, GROUP_NAME, (k, v) -> {
+        kafkaConsume(TOPIC_NAME, GROUP_NAME, (k, v) -> {
             countDownLatch.countDown();
             LOG.info("key: {}, value: {}", k, v);
             return true;

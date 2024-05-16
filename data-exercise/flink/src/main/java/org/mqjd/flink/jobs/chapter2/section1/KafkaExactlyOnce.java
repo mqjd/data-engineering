@@ -30,6 +30,7 @@ public class KafkaExactlyOnce {
             .setValueOnlyDeserializer(new SimpleStringSchema()).build();
 
         KafkaSink<String> kafkaSink = KafkaSink.<String>builder()
+            .setTransactionalIdPrefix("chapter2-section1-")
             .setKafkaProducerConfig(sink.getProps()).setRecordSerializer(
                 KafkaRecordSerializationSchema.builder().setTopic(sink.getTopic())
                     .setKeySerializationSchema(new SimpleStringSchema())
@@ -39,7 +40,7 @@ public class KafkaExactlyOnce {
         DataStreamSource<String> kafkaSourceStream = env.fromSource(kafkaSource,
             WatermarkStrategy.noWatermarks(), "Kafka Source");
 
-        kafkaSourceStream.map(new MapException()).sinkTo(kafkaSink);
-        env.execute("kafka test");
+        kafkaSourceStream.map(new TroubleMaker()).name("Trouble Maker").sinkTo(kafkaSink).name("Kafka Sink");
+        env.execute("Kafka Exactly Once");
     }
 }

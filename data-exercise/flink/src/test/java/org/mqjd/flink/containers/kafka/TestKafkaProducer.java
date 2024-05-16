@@ -9,14 +9,15 @@ import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.StringSerializer;
+import org.mqjd.flink.util.TimerUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testcontainers.containers.KafkaContainer;
 import org.testcontainers.lifecycle.Startable;
 
-public class Producer implements Runnable, Startable {
+public class TestKafkaProducer implements Runnable, Startable {
 
-    private static final Logger LOG = LoggerFactory.getLogger(Producer.class);
+    private static final Logger LOG = LoggerFactory.getLogger(TestKafkaProducer.class);
 
     private final KafkaProducer<String, String> kafkaProducer;
     private final String topic;
@@ -27,7 +28,7 @@ public class Producer implements Runnable, Startable {
     private boolean running = false;
     private ScheduledFuture<?> schedule;
 
-    public Producer(Function<Long, String> messageGenerator, String clientId, String topic, Long period, Long rate,
+    public TestKafkaProducer(Function<Long, String> messageGenerator, String clientId, String topic, Long period, Long rate,
         KafkaContainer kafkaContainer) {
         this.period = period;
         this.rate = rate;
@@ -60,7 +61,7 @@ public class Producer implements Runnable, Startable {
             throw new IllegalStateException("KafkaProducer already running");
         }
         this.running = true;
-        schedule = KafkaUtil.schedule(this, period);
+        schedule = TimerUtil.interval(this, period);
     }
 
     @Override

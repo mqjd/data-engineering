@@ -6,10 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import org.apache.flink.util.StringUtils;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
@@ -32,18 +28,12 @@ public class KafkaUtil {
 
     private static final Logger LOG = LoggerFactory.getLogger(KafkaUtil.class);
     private static final Duration CONSUMER_POLL_DURATION = Duration.ofSeconds(1);
-    private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(5);
-
 
     private KafkaUtil() {
     }
 
     public static KafkaContainer createKafkaContainer(String dockerImageVersion, Logger logger) {
         return createKafkaContainer(dockerImageVersion, logger, null);
-    }
-
-    public static ScheduledFuture<?> schedule(Runnable command, long period) {
-        return scheduler.scheduleAtFixedRate(command, 0L, period, TimeUnit.MILLISECONDS);
     }
 
     public static KafkaContainer createKafkaContainer(String dockerImageVersion, Logger logger,
