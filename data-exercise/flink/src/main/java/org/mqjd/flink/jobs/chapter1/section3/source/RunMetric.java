@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
+import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.mqjd.flink.util.JsonUtil;
 
@@ -77,6 +78,7 @@ public class RunMetric implements Serializable {
         return timestamp;
     }
 
+    @JsonIgnore
     public String getFormatedTimestamp() {
         return dateTimeFormatter.format(Instant.ofEpochMilli(timestamp));
     }
