@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import org.apache.flink.api.common.JobStatus;
@@ -66,8 +67,9 @@ public class KafkaExactlyOnceTest extends ContainerBaseTest {
         });
         result.get();
         deleteDirectory(JOB_TEMP_DIR);
-        assertEquals(
-            Long.parseLong(new ArrayList<>(messages).getLast().substring("message".length())),
-            messages.size());
+        long expectedCount = Long.parseLong(
+            new ArrayList<>(messages).getLast().substring("message".length()));
+        assertEquals(expectedCount, messages.size());
+        assertEquals(expectedCount, new HashSet<>(messages).size());
     }
 }
