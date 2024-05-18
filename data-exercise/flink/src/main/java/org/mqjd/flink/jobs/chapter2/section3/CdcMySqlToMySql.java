@@ -34,7 +34,6 @@ public class CdcMySqlToMySql {
               PRIMARY KEY (id) NOT ENFORCED
             ) WITH (
               'connector' = 'mysql-cdc',
-              'server-time-zone' = 'UTC',
               'scan.incremental.snapshot.chunk.key-column' = 'id',
               'table-name' = 'user_source',
               'hostname' = '\{source.getHostname()}',

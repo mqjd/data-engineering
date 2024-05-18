@@ -1,0 +1,31 @@
+source:
+  type: mysql-cdc
+  hostname: mysql
+  port: 3306
+  username: mq
+  password: 123456
+  database-name: mq
+  table-name: user_source
+  properties:
+    - key: scan.startup.mode
+      value: "true"
+    - key: server-id
+      value: hd-test-chapter2-section3
+    - key: scan.incremental.snapshot.enabled
+      value: "true"
+
+sink:
+  type: jdbc
+  url: jdbc:mysql://mysql:3306/mq
+  username: mq
+  password: 123456
+  table-name: user_target
+  properties:
+    - key: connection.max-retry-timeout
+      value: 60s
+
+job-config:
+  parallelism.default: 1
+  restart-strategy.type: none
+  restart-strategy.fixed-delay.attempts: 3
+  restart-strategy.fixed-delay.delay: 3s
