@@ -1,32 +1,34 @@
-package org.mqjd.flink.common.config;
+package org.mqjd.flink.env;
 
 import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.annotation.JsonProperty;
+import org.mqjd.flink.env.node.core.SinkNode;
+import org.mqjd.flink.env.node.core.SourceNode;
 import org.mqjd.flink.util.ReflectionUtil;
 
 public class Environment {
 
-    private DataSource source;
+    private SourceNode source;
 
-    private DataSink sink;
+    private SinkNode sink;
 
     @JsonProperty("job-config")
     private JobConfig jobConfig;
 
-    public <T extends DataSource> T getSource() {
+    public <T extends SourceNode> T getSource() {
         //noinspection unchecked
         return (T) source;
     }
 
-    public void setSource(DataSource source) {
+    public void setSource(SourceNode source) {
         this.source = source;
     }
 
-    public <T extends DataSink> T getSink() {
+    public <T extends SinkNode> T getSink() {
         //noinspection unchecked
         return (T) sink;
     }
 
-    public void setSink(DataSink sink) {
+    public void setSink(SinkNode sink) {
         this.sink = sink;
     }
 

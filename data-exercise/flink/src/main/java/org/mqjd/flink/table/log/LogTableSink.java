@@ -1,4 +1,4 @@
-package org.mqjd.flink.connector.log;
+package org.mqjd.flink.table.log;
 
 import java.io.Serializable;
 import org.apache.flink.table.connector.ChangelogMode;

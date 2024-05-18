@@ -59,6 +59,8 @@ public abstract class ContainerBaseTest extends FlinkJobTest {
     public static void stopContainers() {
         LOG.info("Stopping containers...");
         STARTED_CONTAINERS.forEach(Startable::stop);
+        STARTED_CONTAINERS.clear();
+        admin = null;
         LOG.info("Containers are stopped.");
     }
 

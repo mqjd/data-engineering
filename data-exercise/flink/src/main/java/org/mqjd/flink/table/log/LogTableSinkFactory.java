@@ -1,4 +1,4 @@
-package org.mqjd.flink.connector.log;
+package org.mqjd.flink.table.log;
 
 import java.util.HashSet;
 import java.util.Set;

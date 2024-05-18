@@ -1,6 +1,9 @@
-package org.mqjd.flink.common.config;
+package org.mqjd.flink.env.node.sink;
 
-public class KafkaDataSink extends DataSink {
+import org.mqjd.flink.env.node.core.BaseNode;
+import org.mqjd.flink.env.node.core.SinkNode;
+
+public class KafkaSinkNode extends BaseNode implements SinkNode {
 
     private String topic;
 
@@ -14,7 +17,7 @@ public class KafkaDataSink extends DataSink {
         }
     }
 
-    public void merge(KafkaDataSink sink) {
+    public void merge(KafkaSinkNode sink) {
         if (sink != null) {
             super.merge(sink);
             if (sink.getTopic() != null) {

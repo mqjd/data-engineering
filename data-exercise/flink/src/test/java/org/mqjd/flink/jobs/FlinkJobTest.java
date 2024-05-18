@@ -19,7 +19,10 @@ import org.apache.flink.configuration.CoreOptions;
 import org.apache.flink.configuration.MemorySize;
 import org.apache.flink.configuration.RestOptions;
 import org.apache.flink.configuration.TaskManagerOptions;
+import org.apache.flink.core.execution.JobClient;
 import org.apache.flink.runtime.client.JobStatusMessage;
+import org.apache.flink.runtime.minicluster.MiniClusterJobClient;
+import org.apache.flink.runtime.minicluster.MiniClusterJobClient.JobFinalizationBehavior;
 import org.apache.flink.runtime.testutils.MiniClusterResourceConfiguration;
 import org.apache.flink.test.util.MiniClusterWithClientResource;
 import org.apache.flink.test.util.TestBaseUtils;
@@ -41,16 +44,18 @@ public class FlinkJobTest {
     }
 
     @ClassRule
-    public static MiniClusterWithClientResource flinkCluster =
-        new MiniClusterWithClientResource(
-            new MiniClusterResourceConfiguration.Builder().setNumberSlotsPerTaskManager(1)
-                .setNumberTaskManagers(1)
-                .setConfiguration(configuration)
-                .build());
+    public static MiniClusterWithClientResource flinkCluster = new MiniClusterWithClientResource(
+        new MiniClusterResourceConfiguration.Builder().setNumberSlotsPerTaskManager(1)
+            .setNumberTaskManagers(1).setConfiguration(configuration).build());
 
-    protected CompletableFuture<JobStatusMessage> executeJobAsync(Runnable runnable,
+    protected CompletableFuture<JobClient> executeJobAsync(Runnable runnable) {
+        return executeJobAsync(runnable, _ -> {
+        });
+    }
+
+    protected CompletableFuture<JobClient> executeJobAsync(Runnable runnable,
         Consumer<JobStatus> jobStatusConsumer) {
-        CompletableFuture<JobStatusMessage> result = new CompletableFuture<>();
+        CompletableFuture<JobClient> result = new CompletableFuture<>();
         new Thread(runnable).start();
         ClusterClient<?> clusterClient = flinkCluster.getClusterClient();
         AtomicReference<JobStatus> lastJobStatus = new AtomicReference<>(null);
@@ -58,13 +63,18 @@ public class FlinkJobTest {
             try {
                 clusterClient.listJobs().thenAccept(jobs -> {
                     if (!jobs.isEmpty()) {
+                        if (!result.isDone()) {
+                            result.complete(
+                                new MiniClusterJobClient(jobs.iterator().next().getJobId(),
+                                    flinkCluster.getMiniCluster(),
+                                    flinkCluster.getClass().getClassLoader(),
+                                    JobFinalizationBehavior.NOTHING));
+                        }
+
                         JobStatusMessage jobStatusMessage = jobs.iterator().next();
                         if (!jobStatusMessage.getJobState().equals(lastJobStatus.get())) {
                             lastJobStatus.set(jobStatusMessage.getJobState());
                             jobStatusConsumer.accept(jobStatusMessage.getJobState());
-                        }
-                        if (jobStatusMessage.getJobState().isTerminalState()) {
-                            result.complete(jobStatusMessage);
                         }
                     }
                 });

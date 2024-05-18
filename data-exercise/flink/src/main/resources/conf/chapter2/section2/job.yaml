@@ -1,17 +1,22 @@
 source:
-  type: kafka
-  topics: hd-test-chapter2-section1-in
+  type: mysql-cdc
+  hostname: localhost
+  port: 3306
+  username: root
+  password: 123456
+  database-name: mq
+  table-name: mq
   properties:
-    - key: bootstrap.servers
-      value: hd1:9092
-    - key: group.id
-      value: hd-test-chapter2-section1-consumer
-    - key: isolation.level
-      value: read_committed
+    - key: scan.startup.mode
+      value: "true"
+    - key: server-id
+      value: hd-test-chapter2-section2
+    - key: scan.incremental.snapshot.enabled
+      value: "true"
 
 sink:
   type: kafka
-  topic: hd-test-chapter2-section1-out
+  topic: hd-test-chapter2-section2
   properties:
     - key: bootstrap.servers
       value: "hd1:9092"
@@ -31,5 +36,5 @@ job-config:
   state.backend.type: filesystem
   state.backend.incremental: true
   state.checkpoints.num-retained: 2
-  state.checkpoints.dir: file:///tmp/chapter2-section1/checkpoints
-  state.savepoints.dir: file:///tmp/chapter2-section1/savepoints
+  state.checkpoints.dir: file:///tmp/chapter2-section2/checkpoints
+  state.savepoints.dir: file:///tmp/chapter2-section2/savepoints

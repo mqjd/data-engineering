@@ -1,4 +1,4 @@
-package org.mqjd.flink.common.config;
+package org.mqjd.flink.env;
 
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.annotation.JsonAnySetter;

@@ -9,6 +9,20 @@ public class ReflectionUtil {
         return hasDeclaredField(clz, field) || hasSetter(clz, field);
     }
 
+    public static void copyProperties(Object source, Object target) {
+        Arrays.stream(source.getClass().getDeclaredFields()).forEach(f -> {
+            try {
+                f.setAccessible(true);
+                Object value = f.get(source);
+                if (value != null) {
+                    invoke(target, getSetter(f.getName()), value);
+                }
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
+
     public static void invoke(Object obj, String method, Object value) {
         try {
             obj.getClass().getDeclaredMethod(method, value.getClass()).invoke(obj, value);

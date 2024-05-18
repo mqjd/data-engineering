@@ -1,34 +1,42 @@
-package org.mqjd.flink.jobs.chapter2.section1;
+package org.mqjd.flink.jobs.chapter2.section2;
 
+import com.ververica.cdc.connectors.mysql.source.MySqlSource;
+import com.ververica.cdc.debezium.JsonDebeziumDeserializationSchema;
+import java.time.ZoneOffset;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.common.serialization.SimpleStringSchema;
 import org.apache.flink.connector.base.DeliveryGuarantee;
 import org.apache.flink.connector.kafka.sink.KafkaRecordSerializationSchema;
 import org.apache.flink.connector.kafka.sink.KafkaSink;
-import org.apache.flink.connector.kafka.source.KafkaSource;
-import org.apache.flink.connector.kafka.source.enumerator.initializer.OffsetsInitializer;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.mqjd.flink.env.Environment;
 import org.mqjd.flink.env.EnvironmentParser;
 import org.mqjd.flink.env.node.sink.KafkaSinkNode;
-import org.mqjd.flink.env.node.source.KafkaSourceNode;
+import org.mqjd.flink.env.node.source.MySqlCdcNode;
 import org.mqjd.flink.function.TroubleMaker;
 
-public class KafkaExactlyOnce {
+public class CdcMySqlToKafka {
 
-    private static final String JOB_YAML = "conf/chapter2/section1/job.yaml";
+    private static final String JOB_YAML = "conf/chapter2/section2/job.yaml";
 
     public static void main(String[] args) throws Exception {
         Environment environment = EnvironmentParser.parse(JOB_YAML, args);
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment(
             environment.getJobConfig().getConfiguration());
-        KafkaSourceNode source = environment.getSource();
+        MySqlCdcNode source = environment.getSource();
         KafkaSinkNode sink = environment.getSink();
-        KafkaSource<String> kafkaSource = KafkaSource.<String>builder()
-            .setTopics(source.getTopics()).setProperties(source.getProps())
-            .setStartingOffsets(OffsetsInitializer.earliest())
-            .setValueOnlyDeserializer(new SimpleStringSchema()).build();
+
+        MySqlSource<String> mySqlSource = MySqlSource.<String>builder()
+            .hostname(source.getHostname())
+            .port(source.getPort())
+            .databaseList(source.getDatabaseName())
+            .tableList(source.getTableName())
+            .username(source.getUsername())
+            .password(source.getPassword())
+            .deserializer(new JsonDebeziumDeserializationSchema())
+            .serverTimeZone(source.getProperty("server-time-zone", ZoneOffset.UTC.getId()))
+            .build();
 
         KafkaSink<String> kafkaSink = KafkaSink.<String>builder()
             .setTransactionalIdPrefix("chapter2-section1-").setKafkaProducerConfig(sink.getProps())
@@ -37,11 +45,12 @@ public class KafkaExactlyOnce {
                 .setValueSerializationSchema(new SimpleStringSchema()).build())
             .setDeliveryGuarantee(DeliveryGuarantee.EXACTLY_ONCE).build();
 
-        DataStreamSource<String> kafkaSourceStream = env.fromSource(kafkaSource,
-            WatermarkStrategy.noWatermarks(), "Kafka Source");
+        DataStreamSource<String> cdcSourceStream = env.fromSource(mySqlSource,
+            WatermarkStrategy.noWatermarks(), "MySql CDC Source");
 
-        kafkaSourceStream.map(new TroubleMaker<>()).name("Trouble Maker").sinkTo(kafkaSink)
+        cdcSourceStream.map(new TroubleMaker<>()).name("Trouble Maker").sinkTo(kafkaSink)
             .name("Kafka Sink");
-        env.execute("Kafka Exactly Once");
+        env.execute("MySql Cdc To Kafka");
     }
+
 }

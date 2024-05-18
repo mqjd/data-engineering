@@ -1,15 +1,22 @@
-package org.mqjd.flink.common.config;
+package org.mqjd.flink.env.node.core;
 
 import java.util.List;
 import java.util.Properties;
 import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.annotation.JsonAnySetter;
 
-public abstract class Node {
-
-    abstract DataType getDataType();
+public abstract class BaseNode {
 
     private final Properties props = new Properties();
 
+    private String type;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public Properties getProps() {
         return props;
@@ -34,9 +41,17 @@ public abstract class Node {
         }
     }
 
-    public void merge(Node node) {
-        if (node != null) {
-            addProperties(node.getProps());
+    public String getProperty(String key) {
+        return props.getProperty(key);
+    }
+
+    public String getProperty(String key, String defaultValue) {
+        return props.getProperty(key, defaultValue);
+    }
+
+    public void merge(BaseNode baseNode) {
+        if (baseNode != null) {
+            addProperties(baseNode.getProps());
         }
     }
 }

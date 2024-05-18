@@ -8,7 +8,6 @@ import java.util.HashSet;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import org.apache.flink.api.common.JobStatus;
-import org.apache.flink.runtime.client.JobStatusMessage;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mqjd.flink.containers.ContainerBaseTest;
@@ -37,11 +36,12 @@ public class KafkaExactlyOnceTest extends ContainerBaseTest {
     }
 
     @Test
-    public void given_correct_input_and_output_when_KafkaTest_then_success() throws Exception {
+    public void given_correct_input_and_output_when_execute_then_success() throws Exception {
         createTopic(TOPICS_IN, NUM_PARTITIONS, REPLICATION_FACTOR);
         createTopic(TOPICS_OUT, NUM_PARTITIONS, REPLICATION_FACTOR);
         KafkaContainer container = getContainer(ContainerType.KAFKA);
-        CompletableFuture<JobStatusMessage> result = executeJobAsync(() -> {
+        CompletableFuture<Boolean> result = new CompletableFuture<>();
+        executeJobAsync(() -> {
             try {
                 String bootstrapServers = container.getBootstrapServers();
                 String[] params = {"-D",
@@ -49,13 +49,15 @@ public class KafkaExactlyOnceTest extends ContainerBaseTest {
                     STR."sink.property.bootstrap.servers=\{bootstrapServers}"};
                 KafkaExactlyOnce.main(params);
             } catch (Exception e) {
-                LOG.error("Error running KafkaTest", e);
+                LOG.error("Error execute KafkaExactlyOnce", e);
             }
         }, jobStatus -> {
             if (jobStatus.equals(JobStatus.RUNNING)) {
                 TimerUtil.timeout(
                     () -> TroubleMaker.makeTrouble(new RuntimeException("interrupted by test")),
                     10_000);
+            } else if (jobStatus.isTerminalState()) {
+                result.complete(true);
             }
         });
         kafkaProduce(TOPICS_IN, CLIENT_ID, 10L, (i) -> STR."message\{i}");

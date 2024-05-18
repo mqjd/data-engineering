@@ -1,4 +1,4 @@
-package org.mqjd.flink.common.config;
+package org.mqjd.flink.env.node.core;
 
 public class Property {
     private String key;
