@@ -1,0 +1,35 @@
+source:
+  type: kafka
+  topics: hd-test-chapter3-section1-in
+  properties:
+    - key: bootstrap.servers
+      value: hd1:9092
+    - key: group.id
+      value: hd-test-chapter3-section1-consumer
+    - key: isolation.level
+      value: read_committed
+
+sink:
+  type: kafka
+  topic: hd-test-chapter3-section1-out
+  properties:
+    - key: bootstrap.servers
+      value: "hd1:9092"
+
+job-config:
+  parallelism.default: 2
+  restart-strategy.type: fixed-delay
+  restart-strategy.fixed-delay.attempts: 3
+  restart-strategy.fixed-delay.delay: 3s
+  execution.checkpointing.mode: EXACTLY_ONCE
+  execution.checkpointing.interval: 5s
+  execution.checkpointing.timeout: 3s
+  execution.checkpointing.max-concurrent-checkpoints: 1
+  execution.checkpointing.tolerable-failed-checkpoints: 3
+  execution.checkpointing.externalized-checkpoint-retention: RETAIN_ON_CANCELLATION
+  execution.checkpointing.unaligned.enabled: true
+  state.backend.type: filesystem
+  state.backend.incremental: true
+  state.checkpoints.num-retained: 2
+  state.checkpoints.dir: file:///Users/mq/IdeaProjects/data-engineering/data-exercise/flink/src/test/resources/checkpoints/chapter3/section1/
+  state.savepoints.dir: file:///Users/mq/IdeaProjects/data-engineering/data-exercise/flink/src/test/resources/savepoints/chapter3/section1/

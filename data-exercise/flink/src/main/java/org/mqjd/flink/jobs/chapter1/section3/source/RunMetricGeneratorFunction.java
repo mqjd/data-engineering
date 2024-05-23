@@ -7,7 +7,6 @@ import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 import java.util.Random;
 import java.util.stream.IntStream;
-
 import org.apache.flink.connector.datagen.source.GeneratorFunction;
 import org.mqjd.flink.util.JsonUtil;
 

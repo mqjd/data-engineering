@@ -121,7 +121,14 @@
       <version>${mysql-cdc.ververica.version}</version>
       <scope>${flink.scope}</scope>
     </dependency>
-
+    <!--state-->
+    <dependency>
+      <groupId>org.apache.flink</groupId>
+      <artifactId>flink-state-processor-api</artifactId>
+      <version>${flink.version}</version>
+      <scope>${flink.scope}</scope>
+    </dependency>
+    <!--test-->
     <!--web-->
     <dependency>
       <groupId>org.apache.flink</groupId>

@@ -1,5 +1,6 @@
 package org.mqjd.flink.env;
 
+import org.apache.flink.configuration.ConfigOption;
 import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.annotation.JsonProperty;
 import org.mqjd.flink.env.node.core.SinkNode;
 import org.mqjd.flink.env.node.core.SourceNode;
@@ -34,6 +35,13 @@ public class Environment {
 
     public JobConfig getJobConfig() {
         return jobConfig;
+    }
+
+    public <T> T getConfigOption(ConfigOption<T> option) {
+        if (jobConfig == null) {
+            return null;
+        }
+        return jobConfig.get(option);
     }
 
     public void setJobConfig(JobConfig jobConfig) {
