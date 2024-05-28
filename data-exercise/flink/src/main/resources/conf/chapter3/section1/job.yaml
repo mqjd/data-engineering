@@ -1,23 +1,5 @@
-source:
-  type: kafka
-  topics: hd-test-chapter3-section1-in
-  properties:
-    - key: bootstrap.servers
-      value: hd1:9092
-    - key: group.id
-      value: hd-test-chapter3-section1-consumer
-    - key: isolation.level
-      value: read_committed
-
-sink:
-  type: kafka
-  topic: hd-test-chapter3-section1-out
-  properties:
-    - key: bootstrap.servers
-      value: "hd1:9092"
-
 job-config:
-  parallelism.default: 2
+  parallelism.default: 1
   restart-strategy.type: fixed-delay
   restart-strategy.fixed-delay.attempts: 3
   restart-strategy.fixed-delay.delay: 3s

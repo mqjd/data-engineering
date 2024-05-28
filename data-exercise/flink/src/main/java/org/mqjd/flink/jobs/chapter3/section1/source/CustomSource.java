@@ -55,7 +55,7 @@ public class CustomSource implements Source<Long, CustomIteratorSourceSplit, Col
 
     private List<CustomIteratorSourceSplit> split(long count, int numSplits) {
         final CustomSplittableIterator[] subSequences =
-            new CustomSplittableIterator(count, -numSplits, numSplits).split(numSplits);
+            new CustomSplittableIterator(count, 0, numSplits).split(numSplits);
         final List<CustomIteratorSourceSplit> splits = new ArrayList<>(subSequences.length);
         int splitId = 0;
         for (CustomSplittableIterator seq : subSequences) {
