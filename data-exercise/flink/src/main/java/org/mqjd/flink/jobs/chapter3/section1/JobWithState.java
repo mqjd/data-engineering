@@ -14,10 +14,13 @@ public class JobWithState {
 
     public static void main(String[] args) throws Exception {
         Environment environment = EnvironmentParser.parse(JOB_YAML, args);
-        StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment(
-            environment.getJobConfig().getConfiguration());
+        StreamExecutionEnvironment env =
+            StreamExecutionEnvironment.getExecutionEnvironment(environment.getJobConfig().getConfiguration());
         env.fromSource(new CustomSource(), WatermarkStrategy.noWatermarks(), "custom-input")
-            .map(new TroubleMaker<>()).name("Trouble Maker").sinkTo(new CustomSink<>())
+            .map(new TroubleMaker<>())
+            .name("Trouble Maker")
+            .sinkTo(new CustomSink<>())
+            .setParallelism(1)
             .name("custom-sink");
         env.execute("JobWithState");
     }

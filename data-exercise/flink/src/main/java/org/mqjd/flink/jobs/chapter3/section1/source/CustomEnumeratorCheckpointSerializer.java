@@ -4,13 +4,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
 import org.apache.flink.core.io.SimpleVersionedSerializer;
 import org.apache.flink.core.memory.DataInputDeserializer;
 import org.apache.flink.core.memory.DataOutputSerializer;
 
-public class CustomEnumeratorCheckpointSerializer extends
-    CustomIteratorSourceSplitSerializer implements
-    SimpleVersionedSerializer<Collection<CustomIteratorSourceSplit>> {
+public class CustomEnumeratorCheckpointSerializer extends CustomIteratorSourceSplitSerializer
+    implements SimpleVersionedSerializer<Collection<CustomIteratorSourceSplit>> {
 
     private static final int CURRENT_VERSION = 1;
 
