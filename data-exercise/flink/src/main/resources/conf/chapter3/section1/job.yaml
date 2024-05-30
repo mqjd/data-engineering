@@ -11,7 +11,7 @@ job-config:
   execution.checkpointing.externalized-checkpoint-retention: RETAIN_ON_CANCELLATION
   execution.checkpointing.unaligned.enabled: true
 #  execution.savepoint.path: file:///${user.dir}/target/checkpoints/chapter3/section1/0b5843ef6ea642be9c4394b83ac89992/chk-31
-  state.backend.type: filesystem
+  state.backend.type: hashmap
   state.backend.incremental: true
   state.checkpoints.num-retained: 2
   state.checkpoints.dir: file:///${user.dir}/target/checkpoints/chapter3/section1/

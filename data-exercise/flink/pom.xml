@@ -57,7 +57,12 @@
       <scope>${flink.scope}</scope>
     </dependency>
 
-
+    <dependency>
+      <groupId>org.apache.flink</groupId>
+      <artifactId>flink-yarn</artifactId>
+      <version>${flink.version}</version>
+      <scope>${flink.scope}</scope>
+    </dependency>
     <!--table-->
     <dependency>
       <groupId>org.apache.flink</groupId>
