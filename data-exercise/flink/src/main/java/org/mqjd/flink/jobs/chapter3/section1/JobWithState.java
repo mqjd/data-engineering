@@ -16,13 +16,12 @@ public class JobWithState {
     public static void main(String[] args) throws Exception {
         Environment environment = EnvironmentParser.parse(JOB_YAML, args);
         StreamExecutionEnvironment env =
-            StreamExecutionEnvironment.getExecutionEnvironment(
-                environment.getJobConfig().getConfiguration());
+            StreamExecutionEnvironment.getExecutionEnvironment(environment.getJobConfig().getConfiguration());
         env.fromSource(new CustomSource(), WatermarkStrategy.noWatermarks(), "custom-input")
             .map(new Counter<>())
-            .name("Counter")
+            .name("counter")
             .map(new TroubleMaker<>())
-            .name("Trouble Maker")
+            .name("trouble-maker")
             .sinkTo(new CustomSink<>())
             .setParallelism(1)
             .name("custom-sink");

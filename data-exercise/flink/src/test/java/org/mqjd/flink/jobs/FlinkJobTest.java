@@ -45,7 +45,7 @@ public class FlinkJobTest {
 
     @ClassRule
     public static MiniClusterWithClientResource flinkCluster = new MiniClusterWithClientResource(
-        new MiniClusterResourceConfiguration.Builder().setNumberSlotsPerTaskManager(2)
+        new MiniClusterResourceConfiguration.Builder().setNumberSlotsPerTaskManager(4)
             .setNumberTaskManagers(1).setConfiguration(configuration).build());
 
     protected CompletableFuture<JobClient> executeJobAsync(Runnable runnable) {

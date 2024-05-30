@@ -1,9 +1,45 @@
 package org.mqjd.flink.util;
 
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Arrays;
-import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.annotation.JsonAnySetter;
+import java.util.List;
 
 public class ReflectionUtil {
+
+    public static <T> T read(Object obj, String field) {
+        try {
+            Field declaredField = obj.getClass().getDeclaredField(field);
+            declaredField.setAccessible(true);
+            // noinspection unchecked
+            return (T) declaredField.get(obj);
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(String.format("field [%s] not found", field), e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(String.format("read field [%s] error", field), e);
+        }
+    }
+
+    private static <T> T read(Object obj, Field field) {
+        try {
+            field.setAccessible(true);
+            // noinspection unchecked
+            return (T) field.get(obj);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(String.format("read field [%s] error", field), e);
+        }
+    }
+
+    public static <T> List<T> findAll(Object obj, Class<?> clz) {
+        List<T> list = new ArrayList<>();
+        for (Field v : obj.getClass().getDeclaredFields()) {
+            if (clz.isAssignableFrom(v.getType())) {
+                T read = read(obj, v);
+                list.add(read);
+            }
+        }
+        return list;
+    }
 
     public static <T> Boolean hasField(Class<T> clz, String field) {
         return hasDeclaredField(clz, field) || hasSetter(clz, field);
@@ -30,15 +66,6 @@ public class ReflectionUtil {
         }
     }
 
-    public static <T> Boolean hasJsonAnySetter(Class<T> clz) {
-        boolean hasSetter = Arrays.stream(clz.getDeclaredMethods())
-            .anyMatch(m -> m.getAnnotation(JsonAnySetter.class) != null);
-        if (!hasSetter && clz.getSuperclass() != null) {
-            hasSetter = hasJsonAnySetter(clz.getSuperclass());
-        }
-        return hasSetter;
-    }
-
     private static <T> Boolean hasSetter(Class<T> clz, String field) {
         return Arrays.stream(clz.getDeclaredMethods())
             .anyMatch(m -> m.getName().equals(getSetter(field)) && m.getParameterCount() == 1);
@@ -47,7 +74,6 @@ public class ReflectionUtil {
     private static <T> Boolean hasDeclaredField(Class<T> clz, String field) {
         return Arrays.stream(clz.getDeclaredFields()).anyMatch(f -> f.getName().equals(field));
     }
-
 
     private static String getSetter(String field) {
         return STR."set\{field.substring(0, 1).toUpperCase()}\{field.substring(1)}";

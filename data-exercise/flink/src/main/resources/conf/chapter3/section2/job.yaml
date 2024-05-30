@@ -1,3 +1,4 @@
 job-config:
+  parallelism.default: 4
   state.backend.type: filesystem
   execution.savepoint.path: file:///${user.dir}/src/main/resources/checkpoints/chapter3/section1/577924bc74008d7431d4f631a24cc60c/chk-16

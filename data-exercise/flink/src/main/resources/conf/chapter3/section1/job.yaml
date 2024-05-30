@@ -1,5 +1,5 @@
 job-config:
-  parallelism.default: 1
+  parallelism.default: 4
   restart-strategy.type: fixed-delay
   restart-strategy.fixed-delay.attempts: 3
   restart-strategy.fixed-delay.delay: 3s
