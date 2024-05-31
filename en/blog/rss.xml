@@ -4,7 +4,7 @@
         <title>数据工程 Blog</title>
         <link>https://mqjd.github.io/data-engineering/en/blog</link>
         <description>数据工程 Blog</description>
-        <lastBuildDate>Sat, 27 Apr 2024 13:18:34 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 31 May 2024 09:58:44 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <language>en</language>
@@ -12,7 +12,7 @@
             <title><![CDATA[What is Data Engineering?]]></title>
             <link>https://mqjd.github.io/data-engineering/en/blog/what-is-data-engieering</link>
             <guid>https://mqjd.github.io/data-engineering/en/blog/what-is-data-engieering</guid>
-            <pubDate>Sat, 27 Apr 2024 13:18:34 GMT</pubDate>
+            <pubDate>Fri, 31 May 2024 09:58:44 GMT</pubDate>
             <content:encoded><![CDATA[<iframe width="560" height="315" src="https://www.youtube.com/embed/qWru-b6m030?si=q90v54YMeP8lBi7O" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>]]></content:encoded>
             <category>Data</category>
         </item>
@@ -20,14 +20,14 @@
             <title><![CDATA[Docker On Windows]]></title>
             <link>https://mqjd.github.io/data-engineering/en/blog/docker-on-windows</link>
             <guid>https://mqjd.github.io/data-engineering/en/blog/docker-on-windows</guid>
-            <pubDate>Sat, 27 Apr 2024 13:18:34 GMT</pubDate>
+            <pubDate>Fri, 31 May 2024 09:58:44 GMT</pubDate>
             <description><![CDATA[安装wsl]]></description>
             <content:encoded><![CDATA[<h2 class="anchor anchorWithStickyNavbar_LWe7" id="安装wsl">安装wsl<a href="https://mqjd.github.io/data-engineering/en/blog/docker-on-windows#%E5%AE%89%E8%A3%85wsl" class="hash-link" aria-label="Direct link to 安装wsl" title="Direct link to 安装wsl">​</a></h2>
 <p>此步骤网上资源很多，请自行百度或Google完成</p>
 <h2 class="anchor anchorWithStickyNavbar_LWe7" id="准备工作">准备工作<a href="https://mqjd.github.io/data-engineering/en/blog/docker-on-windows#%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C" class="hash-link" aria-label="Direct link to 准备工作" title="Direct link to 准备工作">​</a></h2>
 <h3 class="anchor anchorWithStickyNavbar_LWe7" id="配置sudoers">配置sudoers<a href="https://mqjd.github.io/data-engineering/en/blog/docker-on-windows#%E9%85%8D%E7%BD%AEsudoers" class="hash-link" aria-label="Direct link to 配置sudoers" title="Direct link to 配置sudoers">​</a></h3>
 <div class="codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">echo "$USER ALL=NOPASSWD: ALL" &gt; "/etc/sudoers.d/$USER"</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copy code to clipboard" title="Copy" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
-<h3 class="anchor anchorWithStickyNavbar_LWe7" id="更换镜像为阿里云镜像">更换镜像为阿里云镜像<a href="https://mqjd.github.io/data-engineering/en/blog/docker-on-windows#%E6%9B%B4%E6%8D%A2%E9%95%9C%E5%83%8F%EF%BF%BD%EF%BF%BD%E4%B8%BA%E9%98%BF%E9%87%8C%E4%BA%91%E9%95%9C%E5%83%8F" class="hash-link" aria-label="Direct link to 更换镜像为阿里云镜像" title="Direct link to 更换镜像为阿里云镜像">​</a></h3>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="更换镜像为阿里云镜像">更换镜像为阿里云镜像<a href="https://mqjd.github.io/data-engineering/en/blog/docker-on-windows#%E6%9B%B4%E6%8D%A2%E9%95%9C%E5%83%8F%E4%B8%BA%E9%98%BF%E9%87%8C%E4%BA%91%E9%95%9C%E5%83%8F" class="hash-link" aria-label="Direct link to 更换镜像为阿里云镜像" title="Direct link to 更换镜像为阿里云镜像">​</a></h3>
 <p>此步骤主要国内访问官方镜像源速度太慢，可以根据自身需求确认是否更换<a href="https://developer.aliyun.com/mirror/ubuntu?spm=a2c6h.13651102.0.0.344d1b11eKKtHG" target="_blank" rel="noopener noreferrer">阿里云镜像</a>或者其他镜像</p>
 <div class="codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">sudo echo "" &gt; /etc/apt/sources.list</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">sudo echo "deb https://mirrors.aliyun.com/ubuntu/ jammy main restricted universe multiverse" &gt;&gt; /etc/apt/sources.list</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">sudo echo "deb https://mirrors.aliyun.com/ubuntu/ jammy-security main restricted universe multiverse" &gt;&gt; /etc/apt/sources.list</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">sudo echo "deb https://mirrors.aliyun.com/ubuntu/ jammy-updates main restricted universe multiverse" &gt;&gt; /etc/apt/sources.list</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">sudo echo "deb https://mirrors.aliyun.com/ubuntu/ jammy-backports main restricted universe multiverse" &gt;&gt; /etc/apt/sources.list</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">sudo sudo apt-get update</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copy code to clipboard" title="Copy" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
 <h3 class="anchor anchorWithStickyNavbar_LWe7" id="安装依赖组件">安装依赖组件<a href="https://mqjd.github.io/data-engineering/en/blog/docker-on-windows#%E5%AE%89%E8%A3%85%E4%BE%9D%E8%B5%96%E7%BB%84%E4%BB%B6" class="hash-link" aria-label="Direct link to 安装依赖组件" title="Direct link to 安装依赖组件">​</a></h3>
