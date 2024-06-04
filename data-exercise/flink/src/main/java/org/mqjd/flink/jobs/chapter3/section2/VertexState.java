@@ -28,7 +28,11 @@ public class VertexState {
         if (!descriptors.containsKey(name)) {
             return null;
         }
+        return getState(descriptors.get(name));
+    }
+
+    public <T> List<T> getState(StateDescriptor<?, ?> state) {
         // noinspection unchecked
-        return (List<T>) states.get(descriptors.get(name));
+        return (List<T>) states.get(state);
     }
 }

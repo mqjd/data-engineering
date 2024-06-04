@@ -38,5 +38,29 @@
     <slf4j.version>2.0.12</slf4j.version>
     <duckdb.version>0.10.0</duckdb.version>
     <spring.version>5.3.32</spring.version>
+    <bytebuddy.version>1.14.17</bytebuddy.version>
+    <bytekit.version>0.0.9</bytekit.version>
   </properties>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>net.bytebuddy</groupId>
+        <artifactId>byte-buddy</artifactId>
+        <version>${bytebuddy.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>net.bytebuddy</groupId>
+        <artifactId>byte-buddy-agent</artifactId>
+        <version>${bytebuddy.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>com.alibaba</groupId>
+        <artifactId>bytekit-core</artifactId>
+        <version>${bytekit.version}</version>
+        <scope>test</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 </project>

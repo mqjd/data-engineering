@@ -11,7 +11,7 @@ import org.mqjd.flink.env.node.source.MySqlCdcNode;
 
 public class CdcMySqlToMySql {
 
-    private static final String JOB_YAML = "conf/chapter2/section3/job.yaml";
+    private static final String JOB_YAML = "jobs/chapter2/section3/job.yaml";
 
     public static void main(String[] args) throws Exception {
         Environment environment = EnvironmentParser.parse(JOB_YAML, args);

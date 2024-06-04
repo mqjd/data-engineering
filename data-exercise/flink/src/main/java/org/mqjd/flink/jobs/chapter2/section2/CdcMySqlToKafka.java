@@ -18,7 +18,7 @@ import org.mqjd.flink.function.TroubleMaker;
 
 public class CdcMySqlToKafka {
 
-    private static final String JOB_YAML = "conf/chapter2/section2/job.yaml";
+    private static final String JOB_YAML = "jobs/chapter2/section2/job.yaml";
 
     public static void main(String[] args) throws Exception {
         Environment environment = EnvironmentParser.parse(JOB_YAML, args);

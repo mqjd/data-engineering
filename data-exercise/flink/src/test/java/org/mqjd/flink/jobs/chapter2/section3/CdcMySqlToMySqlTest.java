@@ -28,7 +28,6 @@ public class CdcMySqlToMySqlTest extends ContainerBaseTest {
         getContainer(ContainerType.MYSQL), "chapter2_section3_source", "hd_user",
         "hd_user_password");
 
-
     private final UniqueDatabase targetDataBase = new UniqueDatabase(
         getContainer(ContainerType.MYSQL), "chapter2_section3_target", "hd_user",
         "hd_user_password");
@@ -44,15 +43,17 @@ public class CdcMySqlToMySqlTest extends ContainerBaseTest {
         targetDataBase.createAndInitialize(CHAPTER, SECTION);
         CompletableFuture<JobClient> jobClientFuture = executeJobAsync(() -> {
             try {
-                String[] params = {"-D", STR."source.port=\{sourceDatabase.getDatabasePort()}",
-                    "-D", STR."source.hostname=\{sourceDatabase.getHost()}", "-D",
-                    STR."source.username=\{sourceDatabase.getUsername()}", "-D",
-                    STR."source.password=\{sourceDatabase.getPassword()}", "-D",
-                    STR."source.database-name=\{sourceDatabase.getDatabaseName()}", "-D",
-                    STR."sink.url=\{targetDataBase.getJdbcUrl()}", "-D",
-                    STR."sink.username=\{targetDataBase.getUsername()}", "-D",
-                    STR."sink.password=\{targetDataBase.getPassword()}", "-D",
-                    STR."sink.database-name=\{targetDataBase.getDatabaseName()}",};
+                String[] params = {
+                    "-D", STR."source.port=\{sourceDatabase.getDatabasePort()}",
+                    "-D", STR."source.hostname=\{sourceDatabase.getHost()}",
+                    "-D", STR."source.username=\{sourceDatabase.getUsername()}",
+                    "-D", STR."source.password=\{sourceDatabase.getPassword()}",
+                    "-D", STR."source.database-name=\{sourceDatabase.getDatabaseName()}",
+                    "-D", STR."sink.url=\{targetDataBase.getJdbcUrl()}",
+                    "-D", STR."sink.username=\{targetDataBase.getUsername()}",
+                    "-D", STR."sink.password=\{targetDataBase.getPassword()}",
+                    "-D", STR."sink.database-name=\{targetDataBase.getDatabaseName()}"
+                };
                 CdcMySqlToMySql.main(params);
             } catch (Exception e) {
                 LOG.error("Error execute CdcMySqlToMySql", e);

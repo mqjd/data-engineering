@@ -53,7 +53,7 @@ public class JobStateReader {
     /**
      * @see SourceOperator#SPLITS_STATE_DESC
      */
-    private final ListStateDescriptor<byte[]> SPLITS_STATE_DESC = new ListStateDescriptor<>(
+    public static final ListStateDescriptor<byte[]> SPLITS_STATE_DESC = new ListStateDescriptor<>(
         "SourceReaderState", BytePrimitiveArraySerializer.INSTANCE);
 
     public JobState read(String jobConfig, String[] args) throws Exception {

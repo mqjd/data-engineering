@@ -11,7 +11,7 @@ import org.mqjd.flink.jobs.chapter3.section1.source.CustomSource;
 
 public class JobWithState {
 
-    private static final String JOB_YAML = "conf/chapter3/section1/job.yaml";
+    private static final String JOB_YAML = "jobs/chapter3/section1/job.yaml";
 
     public static void main(String[] args) throws Exception {
         Environment environment = EnvironmentParser.parse(JOB_YAML, args);

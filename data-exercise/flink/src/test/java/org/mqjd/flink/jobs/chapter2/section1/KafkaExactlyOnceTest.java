@@ -44,9 +44,10 @@ public class KafkaExactlyOnceTest extends ContainerBaseTest {
         executeJobAsync(() -> {
             try {
                 String bootstrapServers = container.getBootstrapServers();
-                String[] params = {"-D",
-                    STR."source.property.bootstrap.servers=\{bootstrapServers}", "-D",
-                    STR."sink.property.bootstrap.servers=\{bootstrapServers}"};
+                String[] params = {
+                    "-D", STR."source.property.bootstrap.servers=\{bootstrapServers}",
+                    "-D", STR."sink.property.bootstrap.servers=\{bootstrapServers}"
+                };
                 KafkaExactlyOnce.main(params);
             } catch (Exception e) {
                 LOG.error("Error execute KafkaExactlyOnce", e);
