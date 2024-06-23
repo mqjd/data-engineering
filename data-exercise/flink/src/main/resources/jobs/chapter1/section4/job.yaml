@@ -1,17 +1,17 @@
 source:
   type: kafka
-  topics: hd-test-chapter2-section1-in
+  topics: hd-test-chapter1-section4-in
   properties:
     - key: bootstrap.servers
       value: hd1:9092
     - key: group.id
-      value: hd-test-chapter2-section1-consumer
+      value: hd-test-chapter1-section4-out-consumer
     - key: isolation.level
       value: read_committed
 
 sink:
   type: kafka
-  topic: hd-test-chapter2-section1-out
+  topic: hd-test-chapter1-section4-out
   properties:
     - key: bootstrap.servers
       value: "hd1:9092"
@@ -31,5 +31,5 @@ job-config:
   state.backend.type: filesystem
   state.backend.incremental: true
   state.checkpoints.num-retained: 2
-  state.checkpoints.dir: file:///${user.dir}/target/checkpoints/chapter2/section1/
-  state.savepoints.dir: file:///${user.dir}/target/savepoints/chapter2/section1/
+  state.checkpoints.dir: file:///${user.dir}/target/checkpoints/chapter1/section4/
+  state.savepoints.dir: file:///${user.dir}/target/savepoints/chapter1/section4/

@@ -1,7 +1,6 @@
 package org.mqjd.flink.env;
 
 import java.util.List;
-
 import org.apache.flink.configuration.ConfigOption;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.shaded.guava31.com.google.common.collect.Lists;
@@ -34,6 +33,12 @@ public class JobConfig {
             result = result.replace("\\", "/");
         }
         return result;
+    }
+
+    public void merge(JobConfig jobConfig) {
+        if (jobConfig != null) {
+            configuration.addAll(jobConfig.getConfiguration());
+        }
     }
 
     public <T> T get(ConfigOption<T> option) {

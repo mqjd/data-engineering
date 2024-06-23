@@ -4,6 +4,8 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.annotation.JsonProperty;
 
 public class ReflectionUtil {
 
@@ -43,6 +45,12 @@ public class ReflectionUtil {
 
     public static <T> Boolean hasField(Class<T> clz, String field) {
         return hasDeclaredField(clz, field) || hasSetter(clz, field);
+    }
+
+    public static <T> Boolean hasJsonProperty(Class<?> clz, String value) {
+        return Arrays.stream(clz.getDeclaredFields()).anyMatch(
+            f -> Optional.ofNullable(f.getAnnotation(JsonProperty.class))
+                .filter(v -> v.value().equals(value)).isPresent());
     }
 
     public static void copyProperties(Object source, Object target) {
@@ -86,6 +94,12 @@ public class ReflectionUtil {
             }
             if (hasSetter(currentClass, property)) {
                 return currentClass.getDeclaredMethod(getSetter(property)).getParameterTypes()[0];
+            }
+            if (hasJsonProperty(currentClass, property)) {
+                return Arrays.stream(currentClass.getDeclaredFields()).filter(
+                        f -> Optional.ofNullable(f.getAnnotation(JsonProperty.class))
+                            .filter(v -> v.value().equals(property)).isPresent()).findAny()
+                    .map(Field::getType).orElseThrow(() -> new NoSuchFieldException(property));
             }
             throw new NoSuchFieldException(property);
         } catch (NoSuchFieldException | NoSuchMethodException e) {

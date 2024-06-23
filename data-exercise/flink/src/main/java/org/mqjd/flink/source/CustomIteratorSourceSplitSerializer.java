@@ -1,4 +1,4 @@
-package org.mqjd.flink.jobs.chapter3.section1.source;
+package org.mqjd.flink.source;
 
 import java.io.IOException;
 import java.util.Collection;

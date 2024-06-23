@@ -7,7 +7,7 @@ import java.util.Comparator;
 import java.util.List;
 import org.junit.Test;
 import org.mqjd.flink.jobs.chapter3.section1.JobWithState;
-import org.mqjd.flink.jobs.chapter3.section1.source.CustomIteratorSourceSplit;
+import org.mqjd.flink.source.CustomIteratorSourceSplit;
 
 public class JobStateReaderTest {
 

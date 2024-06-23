@@ -39,7 +39,8 @@ public class YamlUtil {
             String[] split = pattern.split(propertyName);
             for (int i = 0; i < split.length; i++) {
                 String property = split[i];
-                if (ReflectionUtil.hasField(currentClass, property)) {
+                if (ReflectionUtil.hasField(currentClass, property)
+                    || ReflectionUtil.hasJsonProperty(currentClass, property)) {
                     if (i < split.length - 1) {
                         currentNode.putIfAbsent(property, MAPPER.createObjectNode());
                         currentNode = currentNode.withObject(STR."/\{property}");
@@ -50,9 +51,11 @@ public class YamlUtil {
                 } else if ("property".equals(property)) {
                     String key = String.join(".", Arrays.copyOfRange(split, i + 1, split.length));
                     currentNode.put(key, properties.getProperty(propertyName));
+                    break;
                 } else {
                     String key = String.join(".", Arrays.copyOfRange(split, i, split.length));
                     currentNode.put(key, properties.getProperty(propertyName));
+                    break;
                 }
             }
         }

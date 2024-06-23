@@ -8,13 +8,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
-import java.util.function.BiFunction;
 import java.util.function.Function;
+import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.kafka.clients.CommonClientConfigs;
 import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.CreateTopicsResult;
 import org.apache.kafka.clients.admin.NewTopic;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.apache.kafka.common.serialization.StringDeserializer;
+import org.apache.kafka.common.serialization.StringSerializer;
 import org.junit.AfterClass;
+import org.mqjd.flink.containers.kafka.KafkaConsumerBuilder;
+import org.mqjd.flink.containers.kafka.KafkaProducerBuilder;
 import org.mqjd.flink.containers.kafka.KafkaUtil;
 import org.mqjd.flink.containers.kafka.TestKafkaConsumer;
 import org.mqjd.flink.containers.kafka.TestKafkaProducer;
@@ -73,17 +78,26 @@ public abstract class ContainerBaseTest extends FlinkJobTest {
     }
 
     protected void kafkaConsume(String topic, String group,
-        BiFunction<String, String, Boolean> messageConsumer) {
-        TestKafkaConsumer testKafkaConsumer = new TestKafkaConsumer(messageConsumer, topic, group,
-            getContainer(ContainerType.KAFKA));
+        Function<ConsumerRecord<String, String>, Boolean> messageConsumer) {
+        KafkaContainer kafkaContainer = getContainer(ContainerType.KAFKA);
+        StringDeserializer deserializer = new StringDeserializer();
+        TestKafkaConsumer<String, String> testKafkaConsumer = KafkaConsumerBuilder.<String, String>builder()
+            .withBootstrapServers(kafkaContainer.getBootstrapServers()).withTopic(topic)
+            .withGroupId(group).withKeyDeserializer(deserializer)
+            .withValueDeserializer(deserializer).withMessageConsumer(messageConsumer).build();
         STARTED_CONTAINERS.addFirst(testKafkaConsumer);
         testKafkaConsumer.start();
     }
 
     protected void kafkaProduce(String topic, String clientId, Long rate,
-        Function<Long, String> messageGenerator) {
-        TestKafkaProducer testKafkaProducer = new TestKafkaProducer(messageGenerator, clientId,
-            topic, 1000L, rate, getContainer(ContainerType.KAFKA));
+        Function<Long, Tuple2<String, String>> messageGenerator) {
+        KafkaContainer kafkaContainer = getContainer(ContainerType.KAFKA);
+        StringSerializer stringSerializer = new StringSerializer();
+        TestKafkaProducer<String, String> testKafkaProducer = KafkaProducerBuilder.<String, String>builder()
+            .withBootstrapServers(kafkaContainer.getBootstrapServers()).withTopic(topic)
+            .withClientId(clientId).withPeriod(1000L).withRate(rate)
+            .withKeySerializer(stringSerializer).withValueSerializer(stringSerializer)
+            .withMessageGenerator(messageGenerator).build();
         STARTED_CONTAINERS.addFirst(testKafkaProducer);
         testKafkaProducer.start();
     }

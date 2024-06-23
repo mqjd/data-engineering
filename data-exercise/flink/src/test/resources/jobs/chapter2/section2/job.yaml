@@ -36,5 +36,5 @@ job-config:
   state.backend.type: filesystem
   state.backend.incremental: true
   state.checkpoints.num-retained: 2
-  state.checkpoints.dir: file:///tmp/chapter2-section2/checkpoints
-  state.savepoints.dir: file:///tmp/chapter2-section2/savepoints
+  state.checkpoints.dir: file:///${user.dir}/target/checkpoints/chapter2/section2/
+  state.savepoints.dir: file:///${user.dir}/target/savepoints/chapter2/section2/

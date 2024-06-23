@@ -26,7 +26,6 @@ public class CdcMySqlToKafkaTest extends ContainerBaseTest {
     private static final Logger LOG = LoggerFactory.getLogger(CdcMySqlToKafkaTest.class);
     private static final String CHAPTER = "chapter2";
     private static final String SECTION = "section2";
-    private static final String JOB_TEMP_DIR = "/tmp/chapter2-section2-checkpoints/";
     private static final String TOPIC = "hd-test-chapter2-section2";
     private static final String GROUP = "hd-test-chapter2-section2";
     private static final short REPLICATION_FACTOR = 1;
@@ -63,15 +62,14 @@ public class CdcMySqlToKafkaTest extends ContainerBaseTest {
         });
         int messageCount = 20;
         CountDownLatch countDownLatch = new CountDownLatch(messageCount);
-        kafkaConsume(TOPIC, GROUP, (k, v) -> {
+        kafkaConsume(TOPIC, GROUP, (record) -> {
             countDownLatch.countDown();
-            LOG.info("key: {}, value: {}", k, v);
+            LOG.info("key: {}, value: {}", record.key(), record.value());
             return true;
         });
         boolean await = countDownLatch.await(3, TimeUnit.MINUTES);
         assertTrue(await);
         jobClientFuture.get().cancel().get(10, TimeUnit.SECONDS);
-        deleteDirectory(JOB_TEMP_DIR);
         AdminClient adminClient = getAdminClient();
         TopicPartition topicPartition = new TopicPartition(TOPIC, 0);
         ListOffsetsResult.ListOffsetsResultInfo resultInfo = adminClient.listOffsets(

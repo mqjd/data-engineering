@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import org.apache.flink.api.common.JobStatus;
+import org.apache.flink.api.java.tuple.Tuple2;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mqjd.flink.containers.ContainerBaseTest;
@@ -22,7 +23,6 @@ public class KafkaExactlyOnceTest extends ContainerBaseTest {
 
     private static final Logger LOG = LoggerFactory.getLogger(KafkaExactlyOnceTest.class);
 
-    private static final String JOB_TEMP_DIR = "/tmp/chapter2-section1-checkpoints/";
     private static final String TOPICS_IN = "hd-test-chapter2-section1-in";
     private static final String TOPICS_OUT = "hd-test-chapter2-section1-out";
     private static final String GROUP = "hd-test-chapter2-section1-out-consumer-test";
@@ -44,10 +44,9 @@ public class KafkaExactlyOnceTest extends ContainerBaseTest {
         executeJobAsync(() -> {
             try {
                 String bootstrapServers = container.getBootstrapServers();
-                String[] params = {
-                    "-D", STR."source.property.bootstrap.servers=\{bootstrapServers}",
-                    "-D", STR."sink.property.bootstrap.servers=\{bootstrapServers}"
-                };
+                String[] params = {"-D",
+                    STR."source.property.bootstrap.servers=\{bootstrapServers}", "-D",
+                    STR."sink.property.bootstrap.servers=\{bootstrapServers}"};
                 KafkaExactlyOnce.main(params);
             } catch (Exception e) {
                 LOG.error("Error execute KafkaExactlyOnce", e);
@@ -61,15 +60,15 @@ public class KafkaExactlyOnceTest extends ContainerBaseTest {
                 result.complete(true);
             }
         });
-        kafkaProduce(TOPICS_IN, CLIENT_ID, 10L, (i) -> STR."message\{i}");
+        kafkaProduce(TOPICS_IN, CLIENT_ID, 10L,
+            (i) -> new Tuple2<>(i.toString(), STR."message\{i}"));
         Collection<String> messages = new ConcurrentLinkedQueue<>();
-        kafkaConsume(TOPICS_OUT, GROUP, (offset, message) -> {
-            LOG.info("result: offset: {}, message: {}", offset, message);
-            messages.add(message);
+        kafkaConsume(TOPICS_OUT, GROUP, (record) -> {
+            LOG.info("result: offset: {}, message: {}", record.offset(), record.value());
+            messages.add(record.value());
             return true;
         });
         result.get();
-        deleteDirectory(JOB_TEMP_DIR);
         long expectedCount = Long.parseLong(
             new ArrayList<>(messages).getLast().substring("message".length()));
         assertEquals(expectedCount, messages.size());

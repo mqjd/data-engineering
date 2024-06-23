@@ -1,4 +1,4 @@
-package org.mqjd.flink.jobs.chapter3.section1.sink;
+package org.mqjd.flink.sink;
 
 import java.io.Serial;
 

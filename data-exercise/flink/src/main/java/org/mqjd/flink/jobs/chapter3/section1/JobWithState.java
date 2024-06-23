@@ -6,8 +6,8 @@ import org.mqjd.flink.env.Environment;
 import org.mqjd.flink.env.EnvironmentParser;
 import org.mqjd.flink.function.TroubleMaker;
 import org.mqjd.flink.jobs.chapter3.section1.function.Counter;
-import org.mqjd.flink.jobs.chapter3.section1.sink.CustomSink;
-import org.mqjd.flink.jobs.chapter3.section1.source.CustomSource;
+import org.mqjd.flink.sink.CustomSink;
+import org.mqjd.flink.source.CustomSource;
 
 public class JobWithState {
 
@@ -17,7 +17,7 @@ public class JobWithState {
         Environment environment = EnvironmentParser.parse(JOB_YAML, args);
         StreamExecutionEnvironment env =
             StreamExecutionEnvironment.getExecutionEnvironment(environment.getJobConfig().getConfiguration());
-        env.fromSource(new CustomSource(), WatermarkStrategy.noWatermarks(), "custom-input")
+        env.fromSource(new CustomSource(), WatermarkStrategy.noWatermarks(), "custom-source")
             .map(new Counter<>())
             .name("counter")
             .map(new TroubleMaker<>())

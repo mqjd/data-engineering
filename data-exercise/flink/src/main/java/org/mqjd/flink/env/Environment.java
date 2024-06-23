@@ -51,5 +51,6 @@ public class Environment {
     void merge(Environment environment) {
         ReflectionUtil.invoke(source, "merge", environment.getSource());
         ReflectionUtil.invoke(sink, "merge", environment.getSink());
+        ReflectionUtil.invoke(jobConfig, "merge", environment.getJobConfig());
     }
 }

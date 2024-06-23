@@ -7,9 +7,12 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Comparator;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import org.apache.commons.io.FileUtils;
 import org.apache.flink.api.common.JobStatus;
@@ -46,7 +49,7 @@ public class FlinkJobTest {
     @ClassRule
     public static MiniClusterWithClientResource flinkCluster = new MiniClusterWithClientResource(
         new MiniClusterResourceConfiguration.Builder().setNumberSlotsPerTaskManager(4)
-            .setNumberTaskManagers(1).setConfiguration(configuration).build());
+            .setNumberTaskManagers(2).setConfiguration(configuration).build());
 
     protected CompletableFuture<JobClient> executeJobAsync(Runnable runnable) {
         return executeJobAsync(runnable, _ -> {
@@ -54,36 +57,56 @@ public class FlinkJobTest {
     }
 
     protected CompletableFuture<JobClient> executeJobAsync(Runnable runnable,
-        Consumer<JobStatus> jobStatusConsumer) {
-        CompletableFuture<JobClient> result = new CompletableFuture<>();
-        new Thread(runnable).start();
+        BiConsumer<JobClient, JobStatus> jobStatusConsumer) {
         ClusterClient<?> clusterClient = flinkCluster.getClusterClient();
-        AtomicReference<JobStatus> lastJobStatus = new AtomicReference<>(null);
+        CompletableFuture<JobClient> result = new CompletableFuture<>();
+        AtomicReference<JobClient> jobClientReference = new AtomicReference<>();
+        AtomicReference<JobStatusMessage> currentJobReference = new AtomicReference<>();
+        AtomicReference<JobStatus> currentJobStatus = new AtomicReference<>(null);
+        final int jobSize;
+        try {
+            jobSize = clusterClient.listJobs().get().size();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        new Thread(runnable).start();
         TimerUtil.interval(() -> {
             try {
-                clusterClient.listJobs().thenAccept(jobs -> {
-                    if (!jobs.isEmpty()) {
-                        if (!result.isDone()) {
-                            result.complete(
-                                new MiniClusterJobClient(jobs.iterator().next().getJobId(),
-                                    flinkCluster.getMiniCluster(),
-                                    flinkCluster.getClass().getClassLoader(),
-                                    JobFinalizationBehavior.NOTHING));
-                        }
+                Collection<JobStatusMessage> statusMessages = clusterClient.listJobs().get();
+                if (statusMessages.size() <= jobSize) {
+                    return;
+                }
+                if (currentJobReference.get() == null) {
+                    currentJobReference.set(statusMessages.stream()
+                        .max(Comparator.comparingLong(JobStatusMessage::getStartTime))
+                        .orElseThrow(() -> new RuntimeException("Job not found")));
+                }
 
-                        JobStatusMessage jobStatusMessage = jobs.iterator().next();
-                        if (!jobStatusMessage.getJobState().equals(lastJobStatus.get())) {
-                            lastJobStatus.set(jobStatusMessage.getJobState());
-                            jobStatusConsumer.accept(jobStatusMessage.getJobState());
-                        }
-                    }
-                });
+                JobStatusMessage currentJob = statusMessages.stream().filter(v -> v.getJobId().equals(currentJobReference.get().getJobId()))
+                    .findFirst().orElseThrow(() -> new RuntimeException("Job not found"));
+
+                if (!result.isDone()) {
+                    jobClientReference.set(new MiniClusterJobClient(currentJob.getJobId(),
+                        flinkCluster.getMiniCluster(), flinkCluster.getClass().getClassLoader(),
+                        JobFinalizationBehavior.NOTHING));
+                    result.complete(jobClientReference.get());
+                }
+
+                if (!currentJob.getJobState().equals(currentJobStatus.get())) {
+                    currentJobStatus.set(currentJob.getJobState());
+                    jobStatusConsumer.accept(jobClientReference.get(), currentJob.getJobState());
+                }
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         }, 1000);
 
         return result;
+    }
+
+    protected CompletableFuture<JobClient> executeJobAsync(Runnable runnable,
+        Consumer<JobStatus> jobStatusConsumer) {
+        return executeJobAsync(runnable, (_, jobStatus) -> jobStatusConsumer.accept(jobStatus));
     }
 
     protected static void compareResultsByLines(String expectedContentPath,
