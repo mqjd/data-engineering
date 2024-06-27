@@ -55,7 +55,7 @@ public class KafkaExactlyOnceTest extends ContainerBaseTest {
             if (jobStatus.equals(JobStatus.RUNNING)) {
                 TimerUtil.timeout(
                     () -> TroubleMaker.makeTrouble(new RuntimeException("interrupted by test")),
-                    10_000);
+                    10_000L);
             } else if (jobStatus.isTerminalState()) {
                 result.complete(true);
             }

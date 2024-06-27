@@ -50,7 +50,7 @@ public class ParallelismAdjustmentTest extends FlinkJobTest {
             }
         }, (client, jobStatus) -> {
             if (jobStatus.equals(JobStatus.RUNNING)) {
-                TimerUtil.timeout(client::cancel, (long) 10 * 1000);
+                TimerUtil.timeout(client::cancel, 10L * 1000);
             } else if (jobStatus.isTerminalState()) {
                 result.complete(true);
             }
