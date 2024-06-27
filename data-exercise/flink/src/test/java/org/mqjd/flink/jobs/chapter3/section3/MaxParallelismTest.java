@@ -12,6 +12,7 @@ import org.mqjd.flink.containers.ContainerBaseTest;
 import org.mqjd.flink.jobs.chapter3.section2.JobStateBackend;
 import org.mqjd.flink.jobs.chapter3.section2.JobStateReader;
 import org.mqjd.flink.jobs.chapter3.section2.VertexStateBackend;
+import org.mqjd.flink.jobs.chapter3.section2.core.States;
 import org.mqjd.flink.util.TimerUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,7 +48,8 @@ public class MaxParallelismTest extends ContainerBaseTest {
         JobStateBackend jobStateBackend = new JobStateReader().read(JOB_YAML, args);
         VertexStateBackend vertexStateBackend = jobStateBackend.getVertexStateBackend(1);
         assertTrue(vertexStateBackend.getVertex().getName().contains("GlobalWindows"));
-        Map<Integer, Map<Tuple2<?, ?>, Long>> state = vertexStateBackend.readKeyedState("count");
+        Map<Integer, Map<Tuple2<?, ?>, Long>> state = vertexStateBackend.readKeyedState(
+            States.COUNT_TRIGGER_STATE_DESC);
         assertEquals(2, state.size());
         assertEquals(2, state.get(0).size());
         assertEquals(8, state.get(1).size());
