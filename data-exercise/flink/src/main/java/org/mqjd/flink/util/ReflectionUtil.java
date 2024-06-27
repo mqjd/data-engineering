@@ -52,7 +52,7 @@ public class ReflectionUtil {
         return hasDeclaredField(clz, field) || hasSetter(clz, field);
     }
 
-    public static <T> Boolean hasJsonProperty(Class<?> clz, String value) {
+    public static Boolean hasJsonProperty(Class<?> clz, String value) {
         return Arrays.stream(clz.getDeclaredFields()).anyMatch(
             f -> Optional.ofNullable(f.getAnnotation(JsonProperty.class))
                 .filter(v -> v.value().equals(value)).isPresent());
