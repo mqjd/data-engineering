@@ -1,4 +1,4 @@
-package org.mqjd.flink.jobs.chapter3.section3;
+package org.mqjd.flink.jobs.chapter3.section4;
 
 import java.util.concurrent.CompletableFuture;
 import org.apache.flink.api.common.JobStatus;
@@ -22,7 +22,8 @@ public class JobStateObserverTest extends ContainerBaseTest {
         CompletableFuture<Boolean> result = new CompletableFuture<>();
         executeJobAsync(() -> {
             try {
-                JobWithState.main(new String[0]);
+                String[] params = new String[]{"-D", "job-config.restart-strategy.type=none"};
+                JobWithState.main(params);
             } catch (Exception e) {
                 LOG.error("Error execute JobWithState", e);
             }

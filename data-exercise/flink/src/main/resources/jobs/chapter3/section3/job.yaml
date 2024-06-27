@@ -1,0 +1,19 @@
+job-config:
+  parallelism.default: 2
+  pipeline.max-parallelism: 4
+  restart-strategy.type: fixed-delay
+  restart-strategy.fixed-delay.attempts: 3
+  restart-strategy.fixed-delay.delay: 3s
+  execution.checkpointing.mode: EXACTLY_ONCE
+  execution.checkpointing.interval: 3s
+  execution.checkpointing.timeout: 3s
+  execution.checkpointing.max-concurrent-checkpoints: 1
+  execution.checkpointing.tolerable-failed-checkpoints: 3
+  execution.checkpointing.externalized-checkpoint-retention: RETAIN_ON_CANCELLATION
+  execution.checkpointing.unaligned.enabled: true
+  execution.savepoint.path: file:///${user.dir}/src/main/resources/checkpoints/chapter3/section3/bfe684bc7dad88340a920e54ea4fe458/chk-3
+  state.backend.type: hashmap
+  state.backend.incremental: true
+  state.checkpoints.num-retained: 2
+  state.checkpoints.dir: file:///${user.dir}/target/checkpoints/chapter3/section3/
+  state.savepoints.dir: file:///${user.dir}/target/savepoints/chapter3/section3/

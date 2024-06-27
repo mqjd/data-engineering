@@ -40,6 +40,12 @@ public class CustomSource implements
         this.maxParallelism = maxParallelism;
     }
 
+    public CustomSource(double rate, Integer maxParallelism) {
+        this.messageCount = 0;
+        this.rateLimiterStrategy = _ -> new GuavaRateLimiter(rate);
+        this.maxParallelism = maxParallelism;
+    }
+
     public CustomSource() {
         this(0);
     }

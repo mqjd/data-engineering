@@ -19,7 +19,6 @@ public class Counter<T> implements MapFunction<T, T>, CheckpointedFunction {
     public T map(T value) throws Exception {
         ListState<Long> listState = context.getOperatorStateStore().getListState(stateDescriptor);
         Long count = increase(listState.get().iterator().next());
-        System.out.println(STR."Count: \{count}");
         listState.update(List.of(count));
         return value;
     }

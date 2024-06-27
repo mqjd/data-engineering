@@ -6,8 +6,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.annotation.JsonProperty;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ReflectionUtil {
+
+    private static final Logger LOG = LoggerFactory.getLogger(ReflectionUtil.class);
 
     public static <T> T read(Object obj, String field) {
         try {
@@ -16,7 +20,8 @@ public class ReflectionUtil {
             // noinspection unchecked
             return (T) declaredField.get(obj);
         } catch (NoSuchFieldException e) {
-            throw new RuntimeException(String.format("field [%s] not found", field), e);
+            LOG.warn("field {} not found", field, e);
+            return null;
         } catch (IllegalAccessException e) {
             throw new RuntimeException(String.format("read field [%s] error", field), e);
         }
@@ -65,6 +70,15 @@ public class ReflectionUtil {
                 throw new RuntimeException(e);
             }
         });
+    }
+
+    public static <T> T invoke(Object obj, String method) {
+        try {
+            //noinspection unchecked
+            return (T) obj.getClass().getDeclaredMethod(method).invoke(obj);
+        } catch (Exception _) {
+        }
+        return null;
     }
 
     public static void invoke(Object obj, String method, Object value) {
