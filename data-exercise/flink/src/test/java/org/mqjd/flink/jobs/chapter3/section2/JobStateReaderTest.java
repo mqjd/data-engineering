@@ -19,8 +19,7 @@ public class JobStateReaderTest {
         String[] args = {"-c", JobWithState.class.getName()};
         JobStateBackend jobStateBackend = new JobStateReader().read(JOB_YAML, args);
         Map<Integer, List<CustomIteratorSourceSplit>> actualState = jobStateBackend.getVertexStateBackend(
-                0)
-            .readOperatorState(States.SOURCE_SPLITS_STATE_DESC);
+            0).readOperatorState(States.SOURCE_SPLITS_STATE_DESC);
 
         Map<Integer, List<CustomIteratorSourceSplit>> expectState = new HashMap<>();
         expectState.put(0, List.of(new CustomIteratorSourceSplit(0, 150, 4, 1)));

@@ -25,7 +25,9 @@ public class JobWithStateTest extends ContainerBaseTest {
             }
         }, jobStatus -> {
             if (jobStatus.equals(JobStatus.RUNNING)) {
-                TimerUtil.timeout(() -> TroubleMaker.makeTrouble(new RuntimeException("interrupted by test")), 10_000L);
+                TimerUtil.timeout(
+                    () -> TroubleMaker.makeTrouble(new RuntimeException("interrupted by test")),
+                    10_000L);
             } else if (jobStatus.isTerminalState()) {
                 result.complete(true);
             }
