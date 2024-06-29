@@ -1,0 +1,2 @@
+job-config:
+  parallelism.default: 1

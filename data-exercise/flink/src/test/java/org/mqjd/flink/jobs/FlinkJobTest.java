@@ -4,6 +4,7 @@ import static org.junit.Assert.assertArrayEquals;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,7 +30,11 @@ import org.apache.flink.runtime.minicluster.MiniClusterJobClient.JobFinalization
 import org.apache.flink.runtime.testutils.MiniClusterResourceConfiguration;
 import org.apache.flink.test.util.MiniClusterWithClientResource;
 import org.apache.flink.test.util.TestBaseUtils;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.LoggerContext;
 import org.junit.ClassRule;
+import org.junit.rules.ExternalResource;
 import org.mqjd.flink.util.TimerUtil;
 
 public class FlinkJobTest {
@@ -46,7 +51,7 @@ public class FlinkJobTest {
         configuration.set(RestOptions.ENABLE_FLAMEGRAPH, true);
     }
 
-    @ClassRule
+    @ClassRule(order = 10)
     public static MiniClusterWithClientResource flinkCluster = new MiniClusterWithClientResource(
         new MiniClusterResourceConfiguration.Builder().setNumberSlotsPerTaskManager(4)
             .setNumberTaskManagers(2).setConfiguration(configuration).build());
@@ -82,7 +87,8 @@ public class FlinkJobTest {
                         .orElseThrow(() -> new RuntimeException("Job not found")));
                 }
 
-                JobStatusMessage currentJob = statusMessages.stream().filter(v -> v.getJobId().equals(currentJobReference.get().getJobId()))
+                JobStatusMessage currentJob = statusMessages.stream()
+                    .filter(v -> v.getJobId().equals(currentJobReference.get().getJobId()))
                     .findFirst().orElseThrow(() -> new RuntimeException("Job not found"));
 
                 if (!result.isDone()) {
@@ -102,6 +108,10 @@ public class FlinkJobTest {
         }, 1000);
 
         return result;
+    }
+
+    public Level rootLoggerLevel() {
+        return null;
     }
 
     protected CompletableFuture<JobClient> executeJobAsync(Runnable runnable,
@@ -145,5 +155,17 @@ public class FlinkJobTest {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    protected static ExternalResource newLogConfiguration(String logConfig) {
+        return new ExternalResource() {
+            @Override
+            protected void before() {
+                LoggerContext context = (org.apache.logging.log4j.core.LoggerContext) LogManager.getContext(
+                    false);
+                context.setConfigLocation(URI.create(getResourceFile(logConfig)));
+                context.reconfigure();
+            }
+        };
     }
 }

@@ -157,4 +157,8 @@ public class VertexDescription {
     public TypeSerializer<?> getWindowSerializer() {
         return windowSerializer;
     }
+
+    public Class<?> getOperatorClass() {
+        return operatorClass;
+    }
 }
