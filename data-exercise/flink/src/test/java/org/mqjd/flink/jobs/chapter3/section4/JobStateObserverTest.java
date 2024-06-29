@@ -42,7 +42,7 @@ public class JobStateObserverTest extends ContainerBaseTest {
             }
         }, (client, jobStatus) -> {
             if (jobStatus.equals(JobStatus.RUNNING)) {
-                TimerUtil.timeout(client::cancel, 1_000);
+                TimerUtil.timeout(client::cancel, 3_000);
             } else if (jobStatus.isTerminalState()) {
                 result.complete(true);
             }
@@ -57,7 +57,8 @@ public class JobStateObserverTest extends ContainerBaseTest {
             "JobGraph getJobGraph(Pipeline, Configuration, ClassLoader)");
         ByteKitUtil.interceptWithLog(MiniCluster.class,
             "CompletableFuture<JobSubmissionResult> submitJob(JobGraph)");
-        ByteKitUtil.interceptWithLog(JobMasterServiceLeadershipRunner.class, "void start()");
+        ByteKitUtil.interceptWithLog(JobMasterServiceLeadershipRunner.class, "void start()",
+            "CompletableFuture<Acknowledge> cancel(Time)");
         ByteKitUtil.interceptWithLog(JobMaster.class, "void onStart()", "void startJobExecution()");
         ByteKitUtil.interceptWithLog(DefaultScheduler.class, "void startSchedulingInternal()",
             "void allocateSlotsAndDeploy(List<ExecutionVertexID>)");
