@@ -19,7 +19,7 @@ public class MaxParallelism {
             environment.getJobConfig().getConfiguration());
         env.fromSource(new CustomSource(500D, 8), WatermarkStrategy.noWatermarks(), "custom-source")
             .keyBy(new MyKeySelector()).countWindow(100).aggregate(new CountAggregator<>())
-            .sinkTo(new CustomSink<>()).name("custom-sink");
+            .sinkTo(new CustomSink<>(true)).name("custom-sink");
         env.execute("MaxParallelism");
     }
 

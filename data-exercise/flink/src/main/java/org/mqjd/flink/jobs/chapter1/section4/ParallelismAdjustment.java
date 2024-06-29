@@ -16,7 +16,7 @@ public class ParallelismAdjustment {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment(
             environment.getJobConfig().getConfiguration());
         env.fromSource(new CustomSource(0, 8), WatermarkStrategy.noWatermarks(), "custom-source")
-            .sinkTo(new CustomSink<>()).name("custom-sink");
+            .sinkTo(new CustomSink<>(true)).name("custom-sink");
         env.execute("ParallelismAdjustment");
     }
 

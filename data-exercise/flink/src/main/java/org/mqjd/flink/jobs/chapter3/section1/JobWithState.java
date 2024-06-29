@@ -22,7 +22,7 @@ public class JobWithState {
             .name("counter")
             .map(new TroubleMaker<>())
             .name("trouble-maker")
-            .sinkTo(new CustomSink<>())
+            .sinkTo(new CustomSink<>(true))
             .setParallelism(1)
             .name("custom-sink");
         env.execute("JobWithState");
