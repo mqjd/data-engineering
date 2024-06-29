@@ -39,11 +39,6 @@ sidebar_position: 2
 - 修改以**DIR**结尾的变量名称，调整为自己下载的组件**解压**后的文件夹名称
 - **其他参数**根据自己需求进行修改
 
-### docker配置
-
-- 修改**data-environment/docker/base/Dockerfile**的**platform**为自己的平台
-- 修改**data-environment/docker/common/docker-compose.yml**文件，根据自己的硬件平台调整**platform**参数， 修改**user**为自己本地的用户名称
-
 ### hosts配置
 
 追加**data-environment/hosts**中的内容到本地hosts文件
@@ -57,15 +52,15 @@ sidebar_position: 2
 环境构建相关脚本在项目**data-environment**目录
 
 ```bash
-bash build.sh build cluster
+./de.sh -hd build
 ```
 
 ## 启动集群
 
 ```bash
 # 构建并启动HD
-bash build.sh start cluster
+./de.sh -hd up -d
 
 # 停止HD并删除
-bash build.sh stop cluster
+./de.sh -hd down
 ```
