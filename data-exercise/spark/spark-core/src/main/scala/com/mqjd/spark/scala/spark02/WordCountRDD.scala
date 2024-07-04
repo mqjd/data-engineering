@@ -1,11 +1,11 @@
-package com.mqjd.spark.core.spark02
+package com.mqjd.spark.scala.spark02
 
-import com.mqjd.spark.core.spark01.HelloSparkRDD.createSparkContext
+import com.mqjd.spark.scala.spark01.HelloSparkRDD.sparkContext
 import org.apache.spark.rdd.RDD
 
 object WordCountRDD {
   def main(args: Array[String]): Unit = {
-    val spark = createSparkContext()
+    val spark = sparkContext()
     // 内容来自于 https://www.altexsoft.com/blog/big-data-engineer/
     val lines: RDD[String] = spark.textFile("assets/spark/word-count.txt")
     val words = lines.flatMap(v => v.split(" "))
