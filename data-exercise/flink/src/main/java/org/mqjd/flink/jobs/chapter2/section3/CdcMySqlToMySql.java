@@ -1,5 +1,7 @@
 package org.mqjd.flink.jobs.chapter2.section3;
 
+import static java.lang.StringTemplate.STR;
+
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.table.api.EnvironmentSettings;
 import org.apache.flink.table.api.TableEnvironment;

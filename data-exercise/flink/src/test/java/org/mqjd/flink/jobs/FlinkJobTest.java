@@ -57,7 +57,7 @@ public class FlinkJobTest {
             .setNumberTaskManagers(2).setConfiguration(configuration).build());
 
     protected CompletableFuture<JobClient> executeJobAsync(Runnable runnable) {
-        return executeJobAsync(runnable, _ -> {
+        return executeJobAsync(runnable, v -> {
         });
     }
 
@@ -116,7 +116,7 @@ public class FlinkJobTest {
 
     protected CompletableFuture<JobClient> executeJobAsync(Runnable runnable,
         Consumer<JobStatus> jobStatusConsumer) {
-        return executeJobAsync(runnable, (_, jobStatus) -> jobStatusConsumer.accept(jobStatus));
+        return executeJobAsync(runnable, (v, jobStatus) -> jobStatusConsumer.accept(jobStatus));
     }
 
     protected static void compareResultsByLines(String expectedContentPath,
