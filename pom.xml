@@ -18,8 +18,8 @@
   </modules>
 
   <properties>
-    <maven.compiler.source>21</maven.compiler.source>
-    <maven.compiler.target>8</maven.compiler.target>
+    <java.source.version>21</java.source.version>
+    <java.target.version>21</java.target.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <scala.version>2.13.12</scala.version>
     <scala.binary.version>2.13</scala.binary.version>
@@ -32,7 +32,7 @@
     <hdfs.version>3.3.2</hdfs.version>
     <hbase.version>2.5.8</hbase.version>
     <elasticsearch.version>8.1.0</elasticsearch.version>
-    <junit.version>5.9.2</junit.version>
+    <junit.version>4.13.1</junit.version>
     <guava.version>31.1-jre</guava.version>
     <log4j2.version>2.17.2</log4j2.version>
     <slf4j.version>2.0.12</slf4j.version>
@@ -40,6 +40,7 @@
     <spring.version>5.3.32</spring.version>
     <bytebuddy.version>1.14.17</bytebuddy.version>
     <bytekit.version>0.0.9</bytekit.version>
+    <scalatest.version>3.2.19</scalatest.version>
     <maven-surefire-plugin.version>3.3.0</maven-surefire-plugin.version>
   </properties>
   <dependencyManagement>
@@ -62,18 +63,121 @@
         <version>${bytekit.version}</version>
         <scope>test</scope>
       </dependency>
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>${junit.version}</version>
+        <scope>test</scope>
+      </dependency>
     </dependencies>
   </dependencyManagement>
   <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>${maven-surefire-plugin.version}</version>
-        <configuration>
-          <argLine>--add-exports java.base/sun.nio.ch=ALL-UNNAMED -XX:+EnableDynamicAgentLoading </argLine>
-        </configuration>
-      </plugin>
-    </plugins>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>${maven-surefire-plugin.version}</version>
+          <configuration>
+            <argLine>
+              -XX:+EnableDynamicAgentLoading
+            </argLine>
+            <includes>
+              <include>**/*Test.*</include>
+              <include>**/*Suite.*</include>
+              <include>**/*Spec.*</include>
+            </includes>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.8.0</version>
+          <configuration>
+            <source>${java.source.version}</source>
+            <target>${java.target.version}</target>
+            <useIncrementalCompilation>false</useIncrementalCompilation>
+            <compilerArgs>
+              <arg>-Xpkginfo:always</arg>
+            </compilerArgs>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>net.alchim31.maven</groupId>
+          <artifactId>scala-maven-plugin</artifactId>
+          <version>4.9.2</version>
+          <executions>
+            <execution>
+              <goals>
+                <goal>compile</goal>
+                <goal>testCompile</goal>
+              </goals>
+            </execution>
+          </executions>
+          <configuration>
+            <args>
+              <arg>-nobootcp</arg>
+            </args>
+            <jvmArgs>
+              <arg>-Xss2m</arg>
+              <arg>--add-opens=java.base/java.lang=ALL-UNNAMED</arg>
+              <arg>--add-opens=java.base/java.lang.invoke=ALL-UNNAMED</arg>
+              <arg>--add-opens=java.base/java.lang.reflect=ALL-UNNAMED</arg>
+              <arg>--add-opens=java.base/java.io=ALL-UNNAMED</arg>
+              <arg>--add-opens=java.base/java.net=ALL-UNNAMED</arg>
+              <arg>--add-opens=java.base/java.nio=ALL-UNNAMED</arg>
+              <arg>--add-opens=java.base/java.util=ALL-UNNAMED</arg>
+              <arg>--add-opens=java.base/java.util.concurrent=ALL-UNNAMED</arg>
+              <arg>--add-opens=java.base/java.util.concurrent.atomic=ALL-UNNAMED</arg>
+              <arg>--add-opens=java.base/sun.nio.ch=ALL-UNNAMED</arg>
+              <arg>--add-opens=java.base/sun.nio.cs=ALL-UNNAMED</arg>
+              <arg>--add-opens=java.base/sun.security.action=ALL-UNNAMED</arg>
+              <arg>--add-opens=java.base/sun.util.calendar=ALL-UNNAMED</arg>
+              <arg>--add-opens=java.security.jgss/sun.security.krb5=ALL-UNNAMED</arg>
+            </jvmArgs>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.scalatest</groupId>
+          <artifactId>scalatest-maven-plugin</artifactId>
+          <version>2.2.0</version>
+          <configuration>
+            <argLine>
+              --add-opens=java.base/java.lang=ALL-UNNAMED
+              --add-opens=java.base/java.lang.invoke=ALL-UNNAMED
+              --add-opens=java.base/java.lang.reflect=ALL-UNNAMED
+              --add-opens=java.base/java.io=ALL-UNNAMED
+              --add-opens=java.base/java.net=ALL-UNNAMED
+              --add-opens=java.base/java.nio=ALL-UNNAMED
+              --add-opens=java.base/java.util=ALL-UNNAMED
+              --add-opens=java.base/java.util.concurrent=ALL-UNNAMED
+              --add-opens=java.base/java.util.concurrent.atomic=ALL-UNNAMED
+              --add-opens=java.base/sun.nio.ch=ALL-UNNAMED
+              --add-opens=java.base/sun.nio.cs=ALL-UNNAMED
+              --add-opens=java.base/sun.security.action=ALL-UNNAMED
+              --add-opens=java.base/sun.util.calendar=ALL-UNNAMED
+              --add-opens=java.security.jgss/sun.security.krb5=ALL-UNNAMED
+            </argLine>
+          </configuration>
+          <executions>
+            <execution>
+              <id>test</id>
+              <goals>
+                <goal>test</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+      </plugins>
+    </pluginManagement>
   </build>
+  <profiles>
+    <profile>
+      <id>java11</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+        <jdk>11</jdk>
+      </activation>
+    </profile>
+  </profiles>
 </project>
