@@ -13,9 +13,9 @@ public class HelloSparkDF extends SparkDFBase {
         ParameterTool parameterTool = ParameterTool.fromArgs(args);
         String output = parameterTool.get(ParameterTool.OUTPUT());
         SparkSession spark = createSession("HelloSparkDF");
-        Dataset<Row> df = spark.range(1, 10).toDF("number");
-        Dataset<Row> mapped_df = df.select(df.col("number").plus(10).alias("number"));
-        mapped_df.write().option("delimiter", ",").option("header", "true").mode(SaveMode.Overwrite)
+        Dataset<Row> source = spark.range(1, 10).toDF("number");
+        Dataset<Row> mapped = source.select(source.col("number").plus(10).alias("number"));
+        mapped.write().option("delimiter", ",").option("header", "true").mode(SaveMode.Overwrite)
             .csv(output);
         spark.stop();
     }

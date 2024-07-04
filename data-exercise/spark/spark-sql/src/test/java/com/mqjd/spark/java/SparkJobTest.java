@@ -16,7 +16,7 @@ public class SparkJobTest {
         return Objects.requireNonNull(SparkJobTest.class.getResource(filePath)).getFile();
     }
 
-    protected static void assertDataFrameEquals(Dataset<?> expect, Dataset<?> actual) {
+    protected static void assertDatasetEquals(Dataset<?> expect, Dataset<?> actual) {
         assertEquals(expect.schema(), actual.schema());
         assertEquals(expect.collectAsList(), actual.collectAsList());
     }

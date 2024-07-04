@@ -17,6 +17,6 @@ public class HelloSparkDFTest extends SparkJobTest {
             .csv(targetDir).toDF();
         Dataset<Row> actualResult = spark.read().option("delimiter", ",").option("header", "true")
             .csv(getResourceFile("/spark01.csv")).toDF();
-        assertDataFrameEquals(expectResult, actualResult);
+        assertDatasetEquals(expectResult, actualResult);
     }
 }
