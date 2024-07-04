@@ -1,6 +1,6 @@
-package com.mqjd.spark.sql.spark03
+package com.mqjd.spark.scala.spark03
 
-import com.mqjd.spark.sql.base.SparkDFBase
+import com.mqjd.spark.scala.base.SparkDFBase
 import org.apache.spark.sql.functions.col
 import org.apache.spark.sql.functions.count
 import org.apache.spark.sql.functions.sum

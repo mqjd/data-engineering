@@ -1,6 +1,6 @@
-package com.mqjd.spark.sql.spark04
+package com.mqjd.spark.scala.spark04
 
-import com.mqjd.spark.sql.base.SparkDFBase
+import com.mqjd.spark.scala.base.SparkDFBase
 import org.apache.spark.sql.types.IntegerType
 import org.apache.spark.sql.types.StringType
 import org.apache.spark.sql.types.StructField

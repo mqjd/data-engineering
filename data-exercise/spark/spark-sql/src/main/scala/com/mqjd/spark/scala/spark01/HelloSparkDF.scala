@@ -1,7 +1,7 @@
-package com.mqjd.spark.sql.spark01
+package com.mqjd.spark.scala.spark01
 
-import com.mqjd.spark.sql.base.ParameterTool
-import com.mqjd.spark.sql.base.SparkDFBase
+import com.mqjd.spark.scala.base.ParameterTool
+import com.mqjd.spark.scala.base.SparkDFBase
 import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.SaveMode
 import org.apache.spark.sql.SparkSession
@@ -12,7 +12,7 @@ object HelloSparkDF extends SparkDFBase {
     val parameterTool = ParameterTool.fromArgs(args)
     val output = parameterTool.get(ParameterTool.OUTPUT)
     val df: DataFrame = spark.range(1, 10).toDF("number")
-    val mapped_df = df.select(df.col("number") + 10)
+    val mapped_df = df.select((df.col("number") + 10).alias("number"))
     mapped_df.write.option("delimiter", ",").option("header", "true").mode(SaveMode.Overwrite).csv(output)
     spark.stop()
   }

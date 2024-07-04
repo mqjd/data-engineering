@@ -1,6 +1,6 @@
-package com.mqjd.spark.sql.spark11
+package com.mqjd.spark.scala.spark11
 
-import com.mqjd.spark.sql.base.SparkDFBase
+import com.mqjd.spark.scala.base.SparkDFBase
 import org.apache.spark.sql.expressions.Window
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types._

@@ -1,4 +1,4 @@
-package com.mqjd.spark.sql.base
+package com.mqjd.spark.scala.base
 
 import org.apache.spark.sql.SparkSession
 

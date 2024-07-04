@@ -1,4 +1,4 @@
-package com.mqjd.spark.spark01;
+package com.mqjd.spark.java.spark01;
 
 import org.junit.Test;
 

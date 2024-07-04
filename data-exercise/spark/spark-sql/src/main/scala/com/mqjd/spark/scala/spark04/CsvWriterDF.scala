@@ -1,7 +1,7 @@
-package com.mqjd.spark.sql.spark04
+package com.mqjd.spark.scala.spark04
 
-import com.mqjd.spark.sql.base.SparkDFBase
-import com.mqjd.spark.sql.spark04.CsvReaderDF.readChargingData
+import com.mqjd.spark.scala.base.SparkDFBase
+import com.mqjd.spark.scala.spark04.CsvReaderDF.readChargingData
 import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.SaveMode
 import org.apache.spark.sql.SparkSession

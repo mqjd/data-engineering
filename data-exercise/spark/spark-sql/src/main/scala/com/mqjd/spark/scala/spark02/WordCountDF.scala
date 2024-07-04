@@ -1,6 +1,6 @@
-package com.mqjd.spark.sql.spark02
+package com.mqjd.spark.scala.spark02
 
-import com.mqjd.spark.sql.base.SparkDFBase
+import com.mqjd.spark.scala.base.SparkDFBase
 import org.apache.spark.sql.functions.col
 import org.apache.spark.sql.functions.desc
 import org.apache.spark.sql.functions.explode
