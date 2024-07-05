@@ -1,19 +1,19 @@
 #!/usr/bin/env bash
 set -eu
 
-echo
-
-docker build -t "hd:1.0" - <<UserSpecificDocker
+docker build -t "hd:1.0" --progress=plain - <<UserSpecificDocker
 FROM hd-base:1.0
 
 RUN apt-get -q update \
     && apt-get -q install -y --no-install-recommends\
       vim \
+      gcc \
       net-tools \
       iputils-ping \
       dos2unix \
       net-tools \
       python3 \
+      python3-dev \
       python3-pip \
       libcurl4  \
       libgssapi-krb5-2  \
@@ -35,6 +35,7 @@ RUN useradd -g ${GROUP_ID} -u ${USER_ID} -k /root -m ${USER_NAME} -d "${DOCKER_H
 RUN echo "${USER_NAME} ALL=NOPASSWD: ALL" > "/etc/sudoers.d/${USER_NAME}"
 ENV HOME "${DOCKER_HOME_DIR}"
 
+RUN mkdir -p /home/${USER_NAME}
 RUN mkdir -p /opt/bigdata
 RUN mkdir -p /var/bigdata
 
@@ -50,5 +51,10 @@ RUN usermod -s /bin/bash ${USER_NAME}
 RUN echo "123456" > ${DOCKER_HOME_DIR}/hadoop-http-auth-signature-secret
 
 RUN echo "source /opt/bigdata/bin/env.sh" >> /home/${USER_NAME}/.bashrc
+
+RUN AIRFLOW_VERSION="2.9.2" \
+  && PYTHON_VERSION="\$(python3 -c 'import sys; print(f"{sys.version_info.major}.{sys.version_info.minor}")')" \
+  && CONSTRAINT_URL="https://raw.githubusercontent.com/apache/airflow/constraints-\${AIRFLOW_VERSION}/constraints-\${PYTHON_VERSION}.txt" \
+  && pip3 install "apache-airflow==\${AIRFLOW_VERSION}" --constraint "\${CONSTRAINT_URL}"
 
 UserSpecificDocker

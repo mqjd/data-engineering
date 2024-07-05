@@ -25,7 +25,7 @@ function init_conf {
   mkdir_if_not_exists "${CH_CONF_DIR}"
   mkdir_if_not_exists "${CH_DATA_DIR}"
   if [ -z "$(ls -A "$CH_CONF_DIR")" ]; then
-    cp -rf "${HD_HOME}/configs/ch/*" "${CH_CONF_DIR}/"
+    cp -rf "${HD_HOME}"/configs/ch/* "${CH_CONF_DIR}/"
     sed -i "s/<shard>hd1<\/shard>/<shard>${host_name}<\/shard>/g; s/<replica>chd1<\/replica>/<replica>c${host_name}<\/replica>/g" "$CH_CONF_DIR"/server/config.xml
   fi
 }

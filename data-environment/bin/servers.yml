@@ -16,9 +16,9 @@
 #hd2:kafka:broker:all
 #hd3:kafka:broker:all
 #hd1:hive:metastore,hiveserver2:all
-hd1:flink:jobmanager,taskmanager:all
-hd2:flink:taskmanager:all
-hd3:flink:taskmanager:all
+#hd1:flink:jobmanager,taskmanager:all
+#hd2:flink:taskmanager:all
+#hd3:flink:taskmanager:all
 #hd1:clickhouse:server,client:all
 #hd2:clickhouse:server:all
 #hd3:clickhouse:server:all
@@ -28,3 +28,4 @@ hd3:flink:taskmanager:all
 #hd1:mongodb:configsvr,shardsvr,routersvr:all
 #hd2:mongodb:configsvr,shardsvr:all
 #hd3:mongodb:configsvr,shardsvr:all
+hd1:airflow:standalone:all

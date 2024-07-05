@@ -73,3 +73,7 @@ fi
 if [[ -n $MONGOSH_HOME ]]; then
   export PATH=$MONGOSH_HOME/bin:$PATH
 fi
+
+export AIRFLOW_HOME=${HD_DATA_HOME}/configs/airflow
+export AIRFLOW_CONF_DIR=${HD_DATA_HOME}/configs/airflow
+export AIRFLOW_LOG_DIR=${HD_DATA_HOME}/log/airflow
