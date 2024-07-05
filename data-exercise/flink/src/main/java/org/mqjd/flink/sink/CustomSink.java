@@ -1,6 +1,5 @@
 package org.mqjd.flink.sink;
 
-import java.io.Serial;
 import org.apache.flink.api.common.SupportsConcurrentExecutionAttempts;
 import org.apache.flink.api.connector.sink2.Sink;
 import org.apache.flink.api.connector.sink2.SinkWriter;
@@ -9,7 +8,6 @@ public class CustomSink<IN> implements Sink<IN>, SupportsConcurrentExecutionAtte
 
     private final boolean exactlyOnce;
 
-    @Serial
     private static final long serialVersionUID = 233269414242168070L;
 
     public CustomSink(boolean exactlyOnce) {

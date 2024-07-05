@@ -18,8 +18,8 @@
   </modules>
 
   <properties>
-    <java.source.version>21</java.source.version>
-    <java.target.version>21</java.target.version>
+    <maven.compiler.source>8</maven.compiler.source>
+    <maven.compiler.target>8</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <scala.version>2.13.12</scala.version>
     <scala.binary.version>2.13</scala.binary.version>
@@ -88,33 +88,11 @@
               </goals>
             </execution>
           </executions>
-          <configuration>
-            <args>
-              <arg>-nobootcp</arg>
-            </args>
-            <jvmArgs>
-              <arg>-Xss2m</arg>
-              <arg>--add-opens=java.base/java.lang=ALL-UNNAMED</arg>
-              <arg>--add-opens=java.base/java.lang.invoke=ALL-UNNAMED</arg>
-              <arg>--add-opens=java.base/java.lang.reflect=ALL-UNNAMED</arg>
-              <arg>--add-opens=java.base/java.io=ALL-UNNAMED</arg>
-              <arg>--add-opens=java.base/java.net=ALL-UNNAMED</arg>
-              <arg>--add-opens=java.base/java.nio=ALL-UNNAMED</arg>
-              <arg>--add-opens=java.base/java.util=ALL-UNNAMED</arg>
-              <arg>--add-opens=java.base/java.util.concurrent=ALL-UNNAMED</arg>
-              <arg>--add-opens=java.base/java.util.concurrent.atomic=ALL-UNNAMED</arg>
-              <arg>--add-opens=java.base/sun.nio.ch=ALL-UNNAMED</arg>
-              <arg>--add-opens=java.base/sun.nio.cs=ALL-UNNAMED</arg>
-              <arg>--add-opens=java.base/sun.security.action=ALL-UNNAMED</arg>
-              <arg>--add-opens=java.base/sun.util.calendar=ALL-UNNAMED</arg>
-              <arg>--add-opens=java.security.jgss/sun.security.krb5=ALL-UNNAMED</arg>
-            </jvmArgs>
-          </configuration>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.8.0</version>
+          <version>3.13.0</version>
           <executions>
             <execution>
               <id>java-compile-second</id>
@@ -125,85 +103,12 @@
             </execution>
           </executions>
           <configuration>
-            <source>${java.source.version}</source>
-            <target>${java.target.version}</target>
+            <source>${maven.compiler.source}</source>
+            <target>${maven.compiler.target}</target>
             <useIncrementalCompilation>false</useIncrementalCompilation>
-            <compilerArgs>
-              <arg>-Xpkginfo:always</arg>
-              <arg>--enable-preview</arg>
-            </compilerArgs>
           </configuration>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-surefire-plugin</artifactId>
-          <version>${maven-surefire-plugin.version}</version>
-          <configuration>
-            <argLine>
-              -XX:+EnableDynamicAgentLoading
-              --add-opens=java.base/java.lang=ALL-UNNAMED
-              --add-opens=java.base/java.lang.invoke=ALL-UNNAMED
-              --add-opens=java.base/java.lang.reflect=ALL-UNNAMED
-              --add-opens=java.base/java.io=ALL-UNNAMED
-              --add-opens=java.base/java.net=ALL-UNNAMED
-              --add-opens=java.base/java.nio=ALL-UNNAMED
-              --add-opens=java.base/java.util=ALL-UNNAMED
-              --add-opens=java.base/java.util.concurrent=ALL-UNNAMED
-              --add-opens=java.base/java.util.concurrent.atomic=ALL-UNNAMED
-              --add-opens=java.base/sun.nio.ch=ALL-UNNAMED
-              --add-opens=java.base/sun.nio.cs=ALL-UNNAMED
-              --add-opens=java.base/sun.security.action=ALL-UNNAMED
-              --add-opens=java.base/sun.util.calendar=ALL-UNNAMED
-              --add-opens=java.security.jgss/sun.security.krb5=ALL-UNNAMED
-            </argLine>
-            <includes>
-              <include>**/*Test.*</include>
-              <include>**/*Suite.*</include>
-              <include>**/*Spec.*</include>
-            </includes>
-          </configuration>
-        </plugin>
-        <plugin>
-          <groupId>org.scalatest</groupId>
-          <artifactId>scalatest-maven-plugin</artifactId>
-          <version>2.2.0</version>
-          <configuration>
-            <argLine>
-              --add-opens=java.base/java.lang=ALL-UNNAMED
-              --add-opens=java.base/java.lang.invoke=ALL-UNNAMED
-              --add-opens=java.base/java.lang.reflect=ALL-UNNAMED
-              --add-opens=java.base/java.io=ALL-UNNAMED
-              --add-opens=java.base/java.net=ALL-UNNAMED
-              --add-opens=java.base/java.nio=ALL-UNNAMED
-              --add-opens=java.base/java.util=ALL-UNNAMED
-              --add-opens=java.base/java.util.concurrent=ALL-UNNAMED
-              --add-opens=java.base/java.util.concurrent.atomic=ALL-UNNAMED
-              --add-opens=java.base/sun.nio.ch=ALL-UNNAMED
-              --add-opens=java.base/sun.nio.cs=ALL-UNNAMED
-              --add-opens=java.base/sun.security.action=ALL-UNNAMED
-              --add-opens=java.base/sun.util.calendar=ALL-UNNAMED
-              --add-opens=java.security.jgss/sun.security.krb5=ALL-UNNAMED
-            </argLine>
-          </configuration>
-          <executions>
-            <execution>
-              <id>test</id>
-              <goals>
-                <goal>test</goal>
-              </goals>
-            </execution>
-          </executions>
         </plugin>
       </plugins>
     </pluginManagement>
   </build>
-  <profiles>
-    <profile>
-      <id>java21</id>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-        <jdk>21</jdk>
-      </activation>
-    </profile>
-  </profiles>
 </project>

@@ -2,6 +2,7 @@ package org.mqjd.flink.jobs.chapter3.section2;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import org.apache.commons.cli.CommandLine;
@@ -192,7 +193,8 @@ public class JobStateContext {
         for (JobVertex vertex : jobGraph.getVertices()) {
             idPairs.addAll(vertex.getOperatorIDs());
         }
-        return idPairs.reversed();
+        Collections.reverse(idPairs);
+        return idPairs;
     }
 
 }

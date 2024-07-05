@@ -1,5 +1,6 @@
 package org.mqjd.flink.jobs.chapter3.section2.core;
 
+import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.Future;
 import org.apache.flink.api.common.ExecutionConfig;
@@ -114,7 +115,7 @@ public class StateEnvironment implements Environment {
 
     @Override
     public Map<String, Future<Path>> getDistributedCacheEntries() {
-        return Map.of();
+        return Collections.emptyMap();
     }
 
     @Override

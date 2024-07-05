@@ -1,21 +1,19 @@
 package org.mqjd.flink.jobs.chapter1.section3.source;
 
-import java.io.Serial;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
-import java.util.Random;
 import java.util.stream.IntStream;
+
+import org.apache.commons.lang3.RandomUtils;
 import org.apache.flink.connector.datagen.source.GeneratorFunction;
 import org.mqjd.flink.util.JsonUtil;
 
 public class RunMetricGeneratorFunction implements GeneratorFunction<Long, RunMetric> {
-    @Serial
     private static final long serialVersionUID = -2158355894836795654L;
     private final RunMetric[] lastMetrics;
     private int nextUser;
-    private final Random rand = new Random();
 
     public RunMetricGeneratorFunction(int numOfUsers) {
         lastMetrics =
@@ -26,7 +24,7 @@ public class RunMetricGeneratorFunction implements GeneratorFunction<Long, RunMe
     public RunMetric map(Long numOfUsers) throws Exception {
         RunMetric lastMetric = lastMetrics[nextUser];
         RunMetricBuilder builder = RunMetricBuilder.builder().from(lastMetric);
-        int newPace = Math.max(240, lastMetric.getPace() + rand.nextInt(0, 120) - 60);
+        int newPace = Math.max(240, lastMetric.getPace() + RandomUtils.nextInt(0, 120) - 60);
         newPace = Math.min(480, newPace);
         builder.withPace(newPace);
         long newTimestamp = System.currentTimeMillis();

@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class LogInterceptor {
+
     private static final String RED = "\u001B[31m";
     private static final String GREEN = "\u001B[32m";
     private static final String YELLOW = "\u001B[33m";
@@ -20,16 +21,18 @@ public class LogInterceptor {
 
     @AtEnter(suppressHandler = ExceptionSuppressHandler.class)
     public static void atEnter(@Binding.Class Class<?> clz, @Binding.Method Method method,
-        @Binding.Args Object[] args, @Binding.ArgNames String[] argNames) {
+        @Binding.Args Object[] args,
+        @Binding.ArgNames String[] argNames) {
         StackTraceElement stackTraceElement = Thread.currentThread().getStackTrace()[2];
-        LOG.info(STR."[\{GREEN}Method Call\{RESET}] at {}.{}({}:{})", stackTraceElement.getClassName(),
+        LOG.info("[{}Method Call{}] at {}.{}({}:{})", GREEN, RESET,
+            stackTraceElement.getClassName(),
             stackTraceElement.getMethodName(), stackTraceElement.getFileName(),
             stackTraceElement.getLineNumber());
     }
 
     @AtExit(suppressHandler = ExceptionSuppressHandler.class)
     public static void atExit(@Binding.Return Object returnObject) {
-//        LOG.info("method return: {}", returnObject);
+        // LOG.info("method return: {}", returnObject);
     }
 
     @AtExceptionExit(onException = RuntimeException.class, suppressHandler = ExceptionSuppressHandler.class)

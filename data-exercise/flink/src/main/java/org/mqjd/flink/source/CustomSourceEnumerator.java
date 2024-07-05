@@ -9,21 +9,22 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import javax.annotation.Nullable;
+
 import org.apache.flink.api.connector.source.SplitEnumerator;
 import org.apache.flink.api.connector.source.SplitEnumeratorContext;
 import org.apache.flink.api.connector.source.SplitsAssignment;
 import org.apache.flink.api.connector.source.lib.util.IteratorSourceSplit;
 
-public class CustomSourceEnumerator<SplitT extends IteratorSourceSplit<?, ?>> implements
-    SplitEnumerator<SplitT, Collection<SplitT>> {
+public class CustomSourceEnumerator<SplitT extends IteratorSourceSplit<?, ?>>
+    implements SplitEnumerator<SplitT, Collection<SplitT>> {
 
     private final Map<Integer, Set<SplitT>> pendingPartitionSplitAssignment;
     private final SplitEnumeratorContext<SplitT> context;
     private final Collection<SplitT> allSplits;
 
-    public CustomSourceEnumerator(SplitEnumeratorContext<SplitT> context,
-        Collection<SplitT> splits) {
+    public CustomSourceEnumerator(SplitEnumeratorContext<SplitT> context, Collection<SplitT> splits) {
         this.allSplits = splits;
         this.pendingPartitionSplitAssignment = new HashMap<>();
         this.context = checkNotNull(context);
@@ -50,10 +51,9 @@ public class CustomSourceEnumerator<SplitT extends IteratorSourceSplit<?, ?>> im
     }
 
     @Override
-    public Collection<SplitT> snapshotState(long checkpointId) throws Exception {
+    public Collection<SplitT> snapshotState(long checkpointId) {
         return allSplits;
     }
-
 
     @Override
     public void addSplitsBack(List<SplitT> splits, int subtaskId) {
@@ -68,8 +68,7 @@ public class CustomSourceEnumerator<SplitT extends IteratorSourceSplit<?, ?>> im
             checkReaderRegistered(pendingReader);
             Set<SplitT> splits = pendingPartitionSplitAssignment.remove(pendingReader);
             if (splits != null) {
-                splits.forEach(
-                    split -> context.assignSplits(new SplitsAssignment<>(split, pendingReader)));
+                splits.forEach(split -> context.assignSplits(new SplitsAssignment<>(split, pendingReader)));
             }
         }
     }
@@ -85,8 +84,7 @@ public class CustomSourceEnumerator<SplitT extends IteratorSourceSplit<?, ?>> im
         int numReaders = context.currentParallelism();
         for (SplitT split : newPartitionSplits) {
             int ownerReader = getSplitOwner(split, numReaders);
-            pendingPartitionSplitAssignment.computeIfAbsent(ownerReader, _ -> new HashSet<>())
-                .add(split);
+            pendingPartitionSplitAssignment.computeIfAbsent(ownerReader, v -> new HashSet<>()).add(split);
         }
     }
 

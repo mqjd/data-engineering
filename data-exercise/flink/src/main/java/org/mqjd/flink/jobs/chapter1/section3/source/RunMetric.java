@@ -1,6 +1,5 @@
 package org.mqjd.flink.jobs.chapter1.section3.source;
 
-import java.io.Serial;
 import java.io.Serializable;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -13,7 +12,6 @@ import org.mqjd.flink.util.JsonUtil;
 
 @JsonPropertyOrder({ "userId", "userName", "sex", "age", "distance", "pace", "timestamp" })
 public class RunMetric implements Serializable {
-    @Serial
     private static final long serialVersionUID = -3032216750258115148L;
     private static final DateTimeFormatter dateTimeFormatter =
         DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(ZoneId.systemDefault());

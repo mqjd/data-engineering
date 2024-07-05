@@ -1,6 +1,5 @@
 package org.mqjd.flink.jobs.chapter1.section3.windowing;
 
-import java.io.Serial;
 import java.util.Iterator;
 
 import org.apache.flink.streaming.api.windowing.evictors.Evictor;
@@ -8,7 +7,6 @@ import org.apache.flink.streaming.api.windowing.windows.Window;
 import org.apache.flink.streaming.runtime.operators.windowing.TimestampedValue;
 
 public class RangeEvictor<W extends Window> implements Evictor<Object, W> {
-    @Serial
     private static final long serialVersionUID = 2685659698075882148L;
 
     @Override

@@ -1,11 +1,8 @@
 package org.mqjd.flink.source;
 
-import java.io.Serial;
-
 import org.apache.flink.util.SplittableIterator;
 
 public class CustomSplittableIterator extends SplittableIterator<Long> {
-    @Serial
     private static final long serialVersionUID = 1756116767452321974L;
 
     private final long messageCount;

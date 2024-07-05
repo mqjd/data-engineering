@@ -13,6 +13,7 @@ import org.junit.Test;
 import org.mqjd.flink.containers.ContainerBaseTest;
 import org.mqjd.flink.containers.ContainerType;
 import org.mqjd.flink.containers.mysql.UniqueDatabase;
+import org.mqjd.flink.jobs.CommandArgs;
 import org.mqjd.flink.util.JdbcUtil;
 import org.mqjd.flink.util.TimerUtil;
 import org.slf4j.Logger;
@@ -24,13 +25,11 @@ public class CdcMySqlToMySqlTest extends ContainerBaseTest {
     private static final String CHAPTER = "chapter2";
     private static final String SECTION = "section3";
 
-    private final UniqueDatabase sourceDatabase = new UniqueDatabase(
-        getContainer(ContainerType.MYSQL), "chapter2_section3_source", "hd_user",
-        "hd_user_password");
+    private final UniqueDatabase sourceDatabase = new UniqueDatabase(getContainer(ContainerType.MYSQL),
+        "chapter2_section3_source", "hd_user", "hd_user_password");
 
-    private final UniqueDatabase targetDataBase = new UniqueDatabase(
-        getContainer(ContainerType.MYSQL), "chapter2_section3_target", "hd_user",
-        "hd_user_password");
+    private final UniqueDatabase targetDataBase = new UniqueDatabase(getContainer(ContainerType.MYSQL),
+        "chapter2_section3_target", "hd_user", "hd_user_password");
 
     @BeforeClass
     public static void startContainers() {
@@ -43,17 +42,18 @@ public class CdcMySqlToMySqlTest extends ContainerBaseTest {
         targetDataBase.createAndInitialize(CHAPTER, SECTION);
         CompletableFuture<JobClient> jobClientFuture = executeJobAsync(() -> {
             try {
-                String[] params = {
-                    "-D", STR."source.port=\{sourceDatabase.getDatabasePort()}",
-                    "-D", STR."source.hostname=\{sourceDatabase.getHost()}",
-                    "-D", STR."source.username=\{sourceDatabase.getUsername()}",
-                    "-D", STR."source.password=\{sourceDatabase.getPassword()}",
-                    "-D", STR."source.database-name=\{sourceDatabase.getDatabaseName()}",
-                    "-D", STR."sink.url=\{targetDataBase.getJdbcUrl()}",
-                    "-D", STR."sink.username=\{targetDataBase.getUsername()}",
-                    "-D", STR."sink.password=\{targetDataBase.getPassword()}",
-                    "-D", STR."sink.database-name=\{targetDataBase.getDatabaseName()}"
-                };
+                String[] params = CommandArgs.builder()
+                    .defaultKey("D")
+                    .kvOption("source.port", sourceDatabase.getDatabasePort())
+                    .kvOption("source.hostname", sourceDatabase.getHost())
+                    .kvOption("source.username", sourceDatabase.getUsername())
+                    .kvOption("source.password", sourceDatabase.getPassword())
+                    .kvOption("source.database-name", sourceDatabase.getDatabaseName())
+                    .kvOption("sink.url", targetDataBase.getJdbcUrl())
+                    .kvOption("sink.username", targetDataBase.getUsername())
+                    .kvOption("sink.password", targetDataBase.getPassword())
+                    .kvOption("sink.database-name", targetDataBase.getDatabaseName())
+                    .build();
                 CdcMySqlToMySql.main(params);
             } catch (Exception e) {
                 LOG.error("Error execute CdcMySqlToMySql", e);
@@ -61,8 +61,8 @@ public class CdcMySqlToMySqlTest extends ContainerBaseTest {
         });
         CompletableFuture<Boolean> sinkSuccess = new CompletableFuture<>();
         ScheduledFuture<?> interval = TimerUtil.interval(() -> {
-            List<Map<String, Object>> result = JdbcUtil.query(targetDataBase.getJdbcConnection(),
-                "SELECT * FROM user_target");
+            List<Map<String, Object>> result =
+                JdbcUtil.query(targetDataBase.getJdbcConnection(), "SELECT * FROM user_target");
             if (result.size() == 20) {
                 sinkSuccess.complete(true);
             }

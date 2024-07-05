@@ -38,7 +38,7 @@ public class MarathonTopSpeed {
             int userNums = params.getInt(USER_NUMS_KEY, 2);
             DataGeneratorSource<RunMetric> carGeneratorSource =
                 new DataGeneratorSource<>(new RunMetricGeneratorFunction(userNums), Long.MAX_VALUE,
-                    v -> new GuavaRateLimiter(userNums), TypeInformation.of(new TypeHint<>() {
+                    v -> new GuavaRateLimiter(userNums), TypeInformation.of(new TypeHint<RunMetric>() {
                     }));
             source =
                 env.fromSource(carGeneratorSource, WatermarkStrategy.noWatermarks(), "run metric generator source");

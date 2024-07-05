@@ -76,7 +76,7 @@ public class ReflectionUtil {
         try {
             //noinspection unchecked
             return (T) obj.getClass().getDeclaredMethod(method).invoke(obj);
-        } catch (Exception _) {
+        } catch (Exception ignore) {
         }
         return null;
     }
@@ -84,7 +84,7 @@ public class ReflectionUtil {
     public static void invoke(Object obj, String method, Object value) {
         try {
             obj.getClass().getDeclaredMethod(method, value.getClass()).invoke(obj, value);
-        } catch (Exception _) {
+        } catch (Exception ignore) {
         }
     }
 
@@ -98,7 +98,7 @@ public class ReflectionUtil {
     }
 
     private static String getSetter(String field) {
-        return STR."set\{field.substring(0, 1).toUpperCase()}\{field.substring(1)}";
+        return String.format("set%s%s", field.substring(0, 1).toUpperCase(), field.substring(1));
     }
 
     public static Class<?> getFieldType(Class<?> currentClass, String property) {

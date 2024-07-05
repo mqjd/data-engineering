@@ -1,13 +1,9 @@
 package org.mqjd.flink.jobs.chapter1.section3.windowing;
 
-import java.io.Serial;
-
 import org.apache.flink.api.common.functions.AggregateFunction;
 import org.mqjd.flink.jobs.chapter1.section3.source.RunMetric;
 
-public class TopSpeedAggregateFunction implements
-    AggregateFunction<RunMetric, TopSpeedAccumulator, RunMetric> {
-    @Serial
+public class TopSpeedAggregateFunction implements AggregateFunction<RunMetric, TopSpeedAccumulator, RunMetric> {
     private static final long serialVersionUID = -5776350726334361144L;
 
     @Override

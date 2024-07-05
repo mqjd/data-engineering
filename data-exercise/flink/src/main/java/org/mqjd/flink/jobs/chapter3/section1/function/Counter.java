@@ -1,11 +1,11 @@
 package org.mqjd.flink.jobs.chapter3.section1.function;
 
-import java.util.List;
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.common.state.ListState;
 import org.apache.flink.api.common.state.ListStateDescriptor;
 import org.apache.flink.runtime.state.FunctionInitializationContext;
 import org.apache.flink.runtime.state.FunctionSnapshotContext;
+import org.apache.flink.shaded.guava31.com.google.common.collect.Lists;
 import org.apache.flink.streaming.api.checkpoint.CheckpointedFunction;
 
 public class Counter<T> implements MapFunction<T, T>, CheckpointedFunction {
@@ -19,7 +19,7 @@ public class Counter<T> implements MapFunction<T, T>, CheckpointedFunction {
     public T map(T value) throws Exception {
         ListState<Long> listState = context.getOperatorStateStore().getListState(stateDescriptor);
         Long count = increase(listState.get().iterator().next());
-        listState.update(List.of(count));
+        listState.update(Lists.newArrayList(count));
         return value;
     }
 

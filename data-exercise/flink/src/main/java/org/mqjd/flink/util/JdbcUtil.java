@@ -13,7 +13,7 @@ import java.util.Map;
 public class JdbcUtil {
 
     public static List<Map<String, Object>> query(Connection connection, String sql) {
-        try (Statement statement = connection.createStatement(); connection) {
+        try (Connection conn = connection; Statement statement = conn.createStatement()) {
             ResultSet resultSet = statement.executeQuery(sql);
             List<Map<String, Object>> result = new ArrayList<>();
             Map<String, Object> row;
@@ -28,7 +28,7 @@ public class JdbcUtil {
             }
             return result;
         } catch (SQLException e) {
-            throw new RuntimeException(STR."error when execute sql: \{sql}", e);
+            throw new RuntimeException("error when execute sql: " + sql, e);
         }
 
     }

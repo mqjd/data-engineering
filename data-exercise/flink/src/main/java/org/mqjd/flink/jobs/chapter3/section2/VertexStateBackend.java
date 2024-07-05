@@ -32,7 +32,7 @@ public class VertexStateBackend {
 
     public <T> Map<Integer, List<T>> readOperatorState(String name) {
         Optional<StateDescriptor<?, ?>> stateDescriptor = vertex.findStateDescriptor(name);
-        if (stateDescriptor.isEmpty() || !registeredOperatorStateNames.contains(name)) {
+        if (!stateDescriptor.isPresent() || !registeredOperatorStateNames.contains(name)) {
             return null;
         }
         StateDescriptor<?, ?> descriptor = stateDescriptor.get();
@@ -53,7 +53,7 @@ public class VertexStateBackend {
 
     public <T> Map<Integer, Map<Tuple2<?, ?>, T>> readKeyedState(String name) {
         Optional<StateDescriptor<?, ?>> stateDescriptor = vertex.findStateDescriptor(name);
-        if (stateDescriptor.isEmpty() || !registeredStates.contains(name)) {
+        if (!stateDescriptor.isPresent() || !registeredStates.contains(name)) {
             return null;
         }
         return stateBackend.entrySet().stream().collect(Collectors.toMap(Entry::getKey, v -> {

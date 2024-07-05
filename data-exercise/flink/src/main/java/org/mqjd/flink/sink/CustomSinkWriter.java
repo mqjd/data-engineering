@@ -1,15 +1,12 @@
 package org.mqjd.flink.sink;
 
-import java.io.Serial;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.Queue;
-
 import org.apache.flink.api.connector.sink2.SinkWriter;
 
 public class CustomSinkWriter<IN> implements Serializable, SinkWriter<IN> {
 
-    @Serial
     private static final long serialVersionUID = 2024694137259736309L;
 
     private final Queue<IN> queue = new LinkedList<>();
@@ -30,7 +27,7 @@ public class CustomSinkWriter<IN> implements Serializable, SinkWriter<IN> {
         if (exactlyOnce) {
             queue.add(element);
         } else {
-            System.err.println(STR."\{sinkIdentifier}> \{element.toString()}");
+            System.err.printf("%s> %s%n", sinkIdentifier, element.toString());
         }
     }
 
@@ -39,7 +36,7 @@ public class CustomSinkWriter<IN> implements Serializable, SinkWriter<IN> {
         if (exactlyOnce) {
             while (!queue.isEmpty()) {
                 IN element = queue.poll();
-                System.err.println(STR."\{sinkIdentifier}> \{element.toString()}");
+                System.err.printf("%s> %s%n", sinkIdentifier, element.toString());
             }
         }
     }

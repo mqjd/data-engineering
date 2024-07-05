@@ -1,7 +1,5 @@
 package org.mqjd.flink.jobs.chapter1.section3.windowing;
 
-import java.io.Serial;
-
 import org.apache.flink.api.common.state.ValueState;
 import org.apache.flink.api.common.state.ValueStateDescriptor;
 import org.apache.flink.api.common.typeutils.base.LongSerializer;
@@ -11,7 +9,6 @@ import org.apache.flink.streaming.api.windowing.windows.GlobalWindow;
 import org.mqjd.flink.jobs.chapter1.section3.source.RunMetric;
 
 public class RangeTrigger extends Trigger<RunMetric, GlobalWindow> {
-    @Serial
     private static final long serialVersionUID = 7402512908425711584L;
 
     private final long size;
@@ -39,17 +36,17 @@ public class RangeTrigger extends Trigger<RunMetric, GlobalWindow> {
     }
 
     @Override
-    public TriggerResult onProcessingTime(long time, GlobalWindow window, TriggerContext ctx) throws Exception {
+    public TriggerResult onProcessingTime(long time, GlobalWindow window, TriggerContext ctx) {
         return TriggerResult.CONTINUE;
     }
 
     @Override
-    public TriggerResult onEventTime(long time, GlobalWindow window, TriggerContext ctx) throws Exception {
+    public TriggerResult onEventTime(long time, GlobalWindow window, TriggerContext ctx) {
         return TriggerResult.CONTINUE;
     }
 
     @Override
-    public void clear(GlobalWindow window, TriggerContext ctx) throws Exception {
+    public void clear(GlobalWindow window, TriggerContext ctx) {
     }
 
     public static Trigger<? super RunMetric, ? super GlobalWindow> create(long size) {

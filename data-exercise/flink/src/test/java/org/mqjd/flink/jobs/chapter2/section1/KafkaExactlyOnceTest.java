@@ -14,6 +14,7 @@ import org.junit.Test;
 import org.mqjd.flink.containers.ContainerBaseTest;
 import org.mqjd.flink.containers.ContainerType;
 import org.mqjd.flink.function.TroubleMaker;
+import org.mqjd.flink.jobs.CommandArgs;
 import org.mqjd.flink.util.TimerUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,24 +45,23 @@ public class KafkaExactlyOnceTest extends ContainerBaseTest {
         executeJobAsync(() -> {
             try {
                 String bootstrapServers = container.getBootstrapServers();
-                String[] params = {"-D",
-                    STR."source.property.bootstrap.servers=\{bootstrapServers}", "-D",
-                    STR."sink.property.bootstrap.servers=\{bootstrapServers}"};
+                String[] params = CommandArgs.builder()
+                    .defaultKey("D")
+                    .kvOption("source.property.bootstrap.servers", bootstrapServers)
+                    .kvOption("sink.property.bootstrap.servers", bootstrapServers)
+                    .build();
                 KafkaExactlyOnce.main(params);
             } catch (Exception e) {
                 LOG.error("Error execute KafkaExactlyOnce", e);
             }
         }, jobStatus -> {
             if (jobStatus.equals(JobStatus.RUNNING)) {
-                TimerUtil.timeout(
-                    () -> TroubleMaker.makeTrouble(new RuntimeException("interrupted by test")),
-                    10_000L);
+                TimerUtil.timeout(() -> TroubleMaker.makeTrouble(new RuntimeException("interrupted by test")), 10_000L);
             } else if (jobStatus.isTerminalState()) {
                 result.complete(true);
             }
         });
-        kafkaProduce(TOPICS_IN, CLIENT_ID, 10L,
-            (i) -> new Tuple2<>(i.toString(), STR."message\{i}"));
+        kafkaProduce(TOPICS_IN, CLIENT_ID, 10L, (i) -> new Tuple2<>(i.toString(), "message" + i));
         Collection<String> messages = new ConcurrentLinkedQueue<>();
         kafkaConsume(TOPICS_OUT, GROUP, (record) -> {
             LOG.info("result: offset: {}, message: {}", record.offset(), record.value());
@@ -69,8 +69,9 @@ public class KafkaExactlyOnceTest extends ContainerBaseTest {
             return true;
         });
         result.get();
-        long expectedCount = Long.parseLong(
-            new ArrayList<>(messages).getLast().substring("message".length()));
+
+        long expectedCount =
+            Long.parseLong(new ArrayList<>(messages).get(messages.size() - 1).substring("message".length()));
         assertEquals(expectedCount, messages.size());
         assertEquals(expectedCount, new HashSet<>(messages).size());
     }
