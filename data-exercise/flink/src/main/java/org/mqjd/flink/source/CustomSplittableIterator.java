@@ -3,6 +3,7 @@ package org.mqjd.flink.source;
 import org.apache.flink.util.SplittableIterator;
 
 public class CustomSplittableIterator extends SplittableIterator<Long> {
+
     private static final long serialVersionUID = 1756116767452321974L;
 
     private final long messageCount;
@@ -34,13 +35,14 @@ public class CustomSplittableIterator extends SplittableIterator<Long> {
         }
 
         if (numPartitions == 1) {
-            return new CustomSplittableIterator[] {
-                new CustomSplittableIterator(messageCount, current, numPartitions) };
+            return new CustomSplittableIterator[]{
+                new CustomSplittableIterator(messageCount, current, numPartitions)};
         }
 
         CustomSplittableIterator[] splits = new CustomSplittableIterator[numPartitions];
         for (int i = 0; i < numPartitions; i++) {
-            splits[i] = new CustomSplittableIterator(messageCount, i - numPartitions + 1, numPartitions);
+            splits[i] = new CustomSplittableIterator(messageCount, i - numPartitions + 1,
+                numPartitions);
         }
         return splits;
     }

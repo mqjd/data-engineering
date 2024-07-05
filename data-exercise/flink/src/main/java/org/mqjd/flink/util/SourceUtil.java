@@ -9,6 +9,7 @@ import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.dataformat.csv.Csv
 import org.apache.flink.util.function.SerializableFunction;
 
 public class SourceUtil {
+
     public static <IN> FileSource<IN> createSimpleCsvSource(Class<IN> clz, Path... inputs) {
         SerializableFunction<CsvMapper, CsvSchema> schemaGenerator =
             mapper -> mapper.schemaFor(clz).withHeader().withColumnSeparator(',');

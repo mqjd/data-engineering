@@ -7,7 +7,6 @@ import java.util.Arrays;
 import java.util.Properties;
 import java.util.function.Consumer;
 import java.util.regex.Pattern;
-
 import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.core.JsonProcessingException;
 import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.databind.DeserializationFeature;
 import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.databind.ObjectMapper;
@@ -30,7 +29,8 @@ public class YamlUtil {
         }
     }
 
-    public static <T> T fromProperties(Properties properties, Class<T> clz, Consumer<ObjectNode> nodeConsumer) {
+    public static <T> T fromProperties(Properties properties, Class<T> clz,
+        Consumer<ObjectNode> nodeConsumer) {
         Pattern pattern = Pattern.compile("\\.");
         ObjectNode resultNode = MAPPER.createObjectNode();
         for (String propertyName : properties.stringPropertyNames()) {

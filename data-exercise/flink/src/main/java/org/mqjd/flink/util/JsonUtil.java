@@ -1,12 +1,12 @@
 package org.mqjd.flink.util;
 
 import java.lang.reflect.Type;
-
 import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.core.JsonProcessingException;
 import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.databind.DeserializationFeature;
 import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.databind.ObjectMapper;
 
 public class JsonUtil {
+
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
     static {

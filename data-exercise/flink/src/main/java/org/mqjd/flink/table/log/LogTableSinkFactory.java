@@ -7,9 +7,11 @@ import org.apache.flink.table.connector.sink.DynamicTableSink;
 import org.apache.flink.table.factories.DynamicTableSinkFactory;
 
 public class LogTableSinkFactory implements DynamicTableSinkFactory {
+
     @Override
     public DynamicTableSink createDynamicTableSink(Context context) {
-        return new LogTableSink(context.getCatalogTable().getResolvedSchema().toPhysicalRowDataType());
+        return new LogTableSink(
+            context.getCatalogTable().getResolvedSchema().toPhysicalRowDataType());
     }
 
     @Override

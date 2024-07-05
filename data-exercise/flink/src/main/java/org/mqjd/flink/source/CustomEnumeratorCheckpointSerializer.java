@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
 import org.apache.flink.core.io.SimpleVersionedSerializer;
 import org.apache.flink.core.memory.DataInputDeserializer;
 import org.apache.flink.core.memory.DataOutputSerializer;
@@ -30,7 +29,8 @@ public class CustomEnumeratorCheckpointSerializer extends CustomIteratorSourceSp
     }
 
     @Override
-    public Collection<CustomIteratorSourceSplit> deserialize(int version, byte[] serialized) throws IOException {
+    public Collection<CustomIteratorSourceSplit> deserialize(int version, byte[] serialized)
+        throws IOException {
         if (version != CURRENT_VERSION) {
             throw new IOException("Unrecognized version:" + version);
         }

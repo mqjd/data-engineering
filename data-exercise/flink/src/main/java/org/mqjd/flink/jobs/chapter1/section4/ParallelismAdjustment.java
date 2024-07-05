@@ -20,5 +20,4 @@ public class ParallelismAdjustment {
         env.execute("ParallelismAdjustment");
     }
 
-
 }

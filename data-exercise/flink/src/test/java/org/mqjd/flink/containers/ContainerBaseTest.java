@@ -73,7 +73,8 @@ public abstract class ContainerBaseTest extends FlinkJobTest {
         throws ExecutionException, InterruptedException {
         AdminClient adminClient = getAdminClient();
         final CreateTopicsResult result =
-            adminClient.createTopics(Collections.singletonList(new NewTopic(topic, numPartitions, replicationFactor)));
+            adminClient.createTopics(
+                Collections.singletonList(new NewTopic(topic, numPartitions, replicationFactor)));
         result.all().get();
     }
 
@@ -81,7 +82,7 @@ public abstract class ContainerBaseTest extends FlinkJobTest {
         Function<ConsumerRecord<String, String>, Boolean> messageConsumer) {
         KafkaContainer kafkaContainer = getContainer(ContainerType.KAFKA);
         StringDeserializer deserializer = new StringDeserializer();
-        TestKafkaConsumer<String, String> testKafkaConsumer = KafkaConsumerBuilder.<String, String> builder()
+        TestKafkaConsumer<String, String> testKafkaConsumer = KafkaConsumerBuilder.<String, String>builder()
             .withBootstrapServers(kafkaContainer.getBootstrapServers())
             .withTopic(topic)
             .withGroupId(group)
@@ -97,7 +98,7 @@ public abstract class ContainerBaseTest extends FlinkJobTest {
         Function<Long, Tuple2<String, String>> messageGenerator) {
         KafkaContainer kafkaContainer = getContainer(ContainerType.KAFKA);
         StringSerializer stringSerializer = new StringSerializer();
-        TestKafkaProducer<String, String> testKafkaProducer = KafkaProducerBuilder.<String, String> builder()
+        TestKafkaProducer<String, String> testKafkaProducer = KafkaProducerBuilder.<String, String>builder()
             .withBootstrapServers(kafkaContainer.getBootstrapServers())
             .withTopic(topic)
             .withClientId(clientId)
@@ -139,7 +140,8 @@ public abstract class ContainerBaseTest extends FlinkJobTest {
         }
         Map<String, Object> properties = new HashMap<>();
         KafkaContainer kafkaContainer = getContainer(ContainerType.KAFKA);
-        properties.put(CommonClientConfigs.BOOTSTRAP_SERVERS_CONFIG, kafkaContainer.getBootstrapServers());
+        properties.put(CommonClientConfigs.BOOTSTRAP_SERVERS_CONFIG,
+            kafkaContainer.getBootstrapServers());
         admin = AdminClient.create(properties);
         STARTED_CONTAINERS.add(new Closeable(admin));
         return admin;

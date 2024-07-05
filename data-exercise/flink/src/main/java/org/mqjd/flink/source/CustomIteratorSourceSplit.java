@@ -3,7 +3,8 @@ package org.mqjd.flink.source;
 import java.util.Objects;
 import org.apache.flink.api.connector.source.lib.util.IteratorSourceSplit;
 
-public class CustomIteratorSourceSplit implements IteratorSourceSplit<Long, CustomSplittableIterator> {
+public class CustomIteratorSourceSplit implements
+    IteratorSourceSplit<Long, CustomSplittableIterator> {
 
     private final long messageCount;
     private final long current;
@@ -52,7 +53,8 @@ public class CustomIteratorSourceSplit implements IteratorSourceSplit<Long, Cust
 
     @Override
     public String toString() {
-        return String.format("CustomIteratorSourceSplit{messageCount=%s, current=%s, splitId=%s, numSplits=%s}",
+        return String.format(
+            "CustomIteratorSourceSplit{messageCount=%s, current=%s, splitId=%s, numSplits=%s}",
             messageCount, current, splitId, numSplits);
     }
 
@@ -65,8 +67,8 @@ public class CustomIteratorSourceSplit implements IteratorSourceSplit<Long, Cust
             return false;
         }
         CustomIteratorSourceSplit that = (CustomIteratorSourceSplit) o;
-        return messageCount == that.messageCount && current == that.current && splitId == that.splitId
-            && numSplits == that.numSplits;
+        return messageCount == that.messageCount && current == that.current
+            && splitId == that.splitId && numSplits == that.numSplits;
     }
 
     @Override

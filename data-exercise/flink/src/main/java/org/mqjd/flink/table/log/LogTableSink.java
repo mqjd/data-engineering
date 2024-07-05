@@ -7,6 +7,7 @@ import org.apache.flink.table.connector.sink.SinkFunctionProvider;
 import org.apache.flink.table.types.DataType;
 
 public class LogTableSink implements DynamicTableSink, Serializable {
+
     private final DataType dataType;
 
     public LogTableSink(DataType dataType) {
@@ -20,7 +21,8 @@ public class LogTableSink implements DynamicTableSink, Serializable {
 
     @Override
     public SinkRuntimeProvider getSinkRuntimeProvider(Context context) {
-        DataStructureConverter dataStructureConverter = context.createDataStructureConverter(dataType);
+        DataStructureConverter dataStructureConverter = context.createDataStructureConverter(
+            dataType);
         return SinkFunctionProvider.of(new LogSinkFunction(dataStructureConverter));
     }
 
