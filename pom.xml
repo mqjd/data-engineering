@@ -15,6 +15,7 @@
     <module>data-exercise/spark/spark-core</module>
     <module>data-exercise/spark/spark-sql</module>
     <module>data-exercise/hbase</module>
+    <module>data-package</module>
   </modules>
 
   <properties>
