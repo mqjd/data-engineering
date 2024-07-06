@@ -67,7 +67,7 @@ taskmanager:
   #
   # To enable this, set the bind-host address to one that has access to an outside facing network
   # interface, such as 0.0.0.0.
-  bind-host: localhost
+  bind-host: 0.0.0.0
   # The address of the host on which the TaskManager runs and can be reached by the JobManager and
   # other TaskManagers. If not specified, the TaskManager will try different strategies to identify
   # the address.
@@ -77,9 +77,9 @@ taskmanager:
   #
   # Note also that unless all TaskManagers are running on the same machine, this address needs to be
   # configured separately for each TaskManager.
-  host: localhost
+  host: 0.0.0.0
   # The number of task slots that each TaskManager offers. Each slot runs one parallel pipeline.
-  numberOfTaskSlots: 1
+  numberOfTaskSlots: 4
   memory:
     process:
       # The total process memory size for the TaskManager.
@@ -164,7 +164,6 @@ parallelism:
 #==============================================================================
 # Rest & web frontend
 #==============================================================================
-
 rest:
   # The address to which the REST client will connect to
   address: hd1
@@ -177,10 +176,11 @@ rest:
   bind-address: 0.0.0.0
   # # The port to which the REST client connects to. If rest.bind-port has
   # # not been specified, then the server will bind to this port as well.
-  # port: 8081
+  port: 8081
   # # Port range for the REST and web server to bind to.
-  # bind-port: 8080-8090
-
+  bind-port: 8080-8090
+  profiling:
+    enabled: true
 # web:
 #   submit:
 #     # Flag to specify whether job submission is enabled from the web-based
@@ -213,7 +213,8 @@ rest:
 #     # high-throughput RAIDs.
 #     dirs: /tmp
 
-# classloader:
+classloader:
+  check-leaked-classloader: true
 #   resolve:
 #     # The classloading resolve order. Possible values are 'child-first' (Flink's default)
 #     # and 'parent-first' (Java's default).

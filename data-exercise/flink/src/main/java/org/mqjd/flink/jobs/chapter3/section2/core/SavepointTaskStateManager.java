@@ -26,8 +26,10 @@ import org.apache.flink.runtime.checkpoint.CheckpointMetaData;
 import org.apache.flink.runtime.checkpoint.CheckpointMetrics;
 import org.apache.flink.runtime.checkpoint.InflightDataRescalingDescriptor;
 import org.apache.flink.runtime.checkpoint.PrioritizedOperatorSubtaskState;
+import org.apache.flink.runtime.checkpoint.SubTaskInitializationMetrics;
 import org.apache.flink.runtime.checkpoint.TaskStateSnapshot;
 import org.apache.flink.runtime.checkpoint.channel.SequentialChannelStateReader;
+import org.apache.flink.runtime.checkpoint.filemerging.FileMergingSnapshotManager;
 import org.apache.flink.runtime.jobgraph.OperatorID;
 import org.apache.flink.runtime.state.LocalRecoveryConfig;
 import org.apache.flink.runtime.state.TaskStateManager;
@@ -48,6 +50,12 @@ public final class SavepointTaskStateManager implements TaskStateManager {
         Preconditions.checkNotNull(
                 prioritizedOperatorSubtaskState, "Operator subtask state must not be null");
         this.prioritizedOperatorSubtaskState = prioritizedOperatorSubtaskState;
+    }
+
+    @Override
+    public void reportInitializationMetrics(
+        SubTaskInitializationMetrics subTaskInitializationMetrics) {
+
     }
 
     @Override
@@ -108,6 +116,11 @@ public final class SavepointTaskStateManager implements TaskStateManager {
     @Override
     public StateChangelogStorageView<?> getStateChangelogStorageView(
             Configuration configuration, ChangelogStateHandle changelogStateHandle) {
+        return null;
+    }
+
+    @Override
+    public FileMergingSnapshotManager getFileMergingSnapshotManager() {
         return null;
     }
 

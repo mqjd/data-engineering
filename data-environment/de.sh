@@ -57,6 +57,9 @@ function hd {
   args=("$@")
   if [ "${args[0]}" = "build" ]; then
     bash "${CUR}"/docker/hd/image/build.sh
+  elif [ "${args[0]}" = "restart" ]; then
+      container hd down
+      container hd up -d
   elif ! docker image inspect hd:1.0 &>/dev/null; then
     echo "hd image has not build, run build first!"
   else

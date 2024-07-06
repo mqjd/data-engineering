@@ -2,10 +2,13 @@ package org.mqjd.flink.jobs.chapter3.section2.core;
 
 import java.util.Collections;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import org.apache.flink.api.common.ExecutionConfig;
 import org.apache.flink.api.common.JobID;
+import org.apache.flink.api.common.JobInfo;
 import org.apache.flink.api.common.TaskInfo;
+import org.apache.flink.api.common.operators.MailboxExecutor;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.core.fs.Path;
 import org.apache.flink.runtime.accumulators.AccumulatorRegistry;
@@ -29,6 +32,7 @@ import org.apache.flink.runtime.memory.MemoryManager;
 import org.apache.flink.runtime.memory.SharedResources;
 import org.apache.flink.runtime.metrics.groups.TaskMetricGroup;
 import org.apache.flink.runtime.query.TaskKvStateRegistry;
+import org.apache.flink.runtime.state.CheckpointStorageAccess;
 import org.apache.flink.runtime.state.TaskStateManager;
 import org.apache.flink.runtime.taskexecutor.GlobalAggregateManager;
 import org.apache.flink.runtime.taskmanager.TaskManagerActions;
@@ -75,6 +79,11 @@ public class StateEnvironment implements Environment {
 
     @Override
     public Configuration getJobConfiguration() {
+        return null;
+    }
+
+    @Override
+    public JobInfo getJobInfo() {
         return null;
     }
 
@@ -197,6 +206,36 @@ public class StateEnvironment implements Environment {
     @Override
     public TaskManagerActions getTaskManagerActions() {
         return null;
+    }
+
+    @Override
+    public void setMainMailboxExecutor(MailboxExecutor mainMailboxExecutor) {
+        Environment.super.setMainMailboxExecutor(mainMailboxExecutor);
+    }
+
+    @Override
+    public MailboxExecutor getMainMailboxExecutor() {
+        return Environment.super.getMainMailboxExecutor();
+    }
+
+    @Override
+    public void setAsyncOperationsThreadPool(ExecutorService executorService) {
+        Environment.super.setAsyncOperationsThreadPool(executorService);
+    }
+
+    @Override
+    public ExecutorService getAsyncOperationsThreadPool() {
+        return Environment.super.getAsyncOperationsThreadPool();
+    }
+
+    @Override
+    public void setCheckpointStorageAccess(CheckpointStorageAccess checkpointStorageAccess) {
+        Environment.super.setCheckpointStorageAccess(checkpointStorageAccess);
+    }
+
+    @Override
+    public CheckpointStorageAccess getCheckpointStorageAccess() {
+        return Environment.super.getCheckpointStorageAccess();
     }
 
     @Override

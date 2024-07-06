@@ -7,6 +7,11 @@ action=$1
 args=("$@")
 components=("${args[@]:1}")
 
+function install_client {
+  init_standlone_conf
+  init_standlone_dirs
+}
+
 function install_jobmanager {
   init_standlone_conf
   init_standlone_dirs

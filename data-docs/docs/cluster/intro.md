@@ -15,7 +15,7 @@ sidebar_position: 1
 | Hive          | ✅  | 当前组件：metastore, hiveserver2                                                                  |
 | Hbase         | ✅  | 当前组件：[master](http://hd1:16010/), regionserver                                               |
 | Spark         | ✅  | Standalone: [master](http://hd1:8001), worker                                                |
-| Flink         | ✅  | Standalone: jobmanager, taskmanager                                                          |
+| Flink         | ✅  | Standalone: [jobmanager](http://hd1:8081), taskmanager                                       |
 | Kafka         | ✅  | 分布式                                                                                          |
 | Zookeeper     | ✅  | 分布式                                                                                          |
 | ClickHouse    | ✅  | 分布式                                                                                          |

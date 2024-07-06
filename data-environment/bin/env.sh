@@ -9,6 +9,7 @@ if [[ -n $HADOOP_HOME ]]; then
   export PATH=$HADOOP_HOME/sbin:$PATH
   export HADOOP_CONF_DIR=${HD_DATA_HOME}/configs/hadoop
   export HADOOP_LOG_DIR=${HD_DATA_HOME}/log/hadoop
+  export HADOOP_CLASSPATH=$(hadoop classpath)
 fi
 
 if [[ -n $SPARK_HOME ]]; then

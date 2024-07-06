@@ -27,8 +27,11 @@ import org.apache.flink.runtime.jobgraph.SavepointConfigOptions;
 import org.apache.flink.runtime.state.KeyGroupRange;
 import org.apache.flink.runtime.state.KeyGroupRangeAssignment;
 import org.apache.flink.runtime.state.KeyedStateBackend;
+import org.apache.flink.runtime.state.KeyedStateBackendParametersImpl;
 import org.apache.flink.runtime.state.OperatorStateBackend;
+import org.apache.flink.runtime.state.OperatorStateBackendParametersImpl;
 import org.apache.flink.runtime.state.StateBackend;
+import org.apache.flink.runtime.state.StateBackend.KeyedStateBackendParameters;
 import org.apache.flink.runtime.state.StateBackendLoader;
 import org.apache.flink.runtime.state.ttl.TtlTimeProvider;
 import org.apache.flink.state.api.SavepointReader;
@@ -120,11 +123,12 @@ public class JobStateContext {
         final KeyGroupRange keyGroupRange = KeyGroupRangeAssignment.computeKeyGroupRangeForOperatorIndex(
             vertexDescription.getMaxParallelism(), vertexDescription.getParallelism(), index);
         try {
-            return stateBackend.createKeyedStateBackend(environment, getJobId(),
-                vertexDescription.getOperatorIdentifier().toString(),
-                vertexDescription.getKeySerializer(), vertexDescription.getMaxParallelism(),
-                keyGroupRange, null, TtlTimeProvider.DEFAULT, null,
-                subtaskState.getManagedKeyedState(), new CloseableRegistry());
+            return stateBackend.createKeyedStateBackend(
+                new KeyedStateBackendParametersImpl<>(environment, getJobId(),
+                    vertexDescription.getOperatorIdentifier().toString(),
+                    vertexDescription.getKeySerializer(), vertexDescription.getMaxParallelism(),
+                    keyGroupRange, null, TtlTimeProvider.DEFAULT, null,
+                    subtaskState.getManagedKeyedState(), new CloseableRegistry()));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -133,9 +137,10 @@ public class JobStateContext {
     private OperatorStateBackend createOperatorStateBackend(VertexDescription vertexDescription,
         OperatorSubtaskState subtaskState) {
         try {
-            return stateBackend.createOperatorStateBackend(environment,
-                vertexDescription.getOperatorID().getGeneratedOperatorID().toHexString(),
-                subtaskState.getManagedOperatorState(), new CloseableRegistry());
+            return stateBackend.createOperatorStateBackend(
+                new OperatorStateBackendParametersImpl(environment,
+                    vertexDescription.getOperatorID().getGeneratedOperatorID().toHexString(),
+                    subtaskState.getManagedOperatorState(), new CloseableRegistry()));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
