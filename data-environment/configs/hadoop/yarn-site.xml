@@ -27,6 +27,6 @@
   </property>
   <property>
     <name>yarn.web-proxy.address</name>
-    <value>0.0.0.0:18088</value>
+    <value>hd2:18088</value>
   </property>
 </configuration>
