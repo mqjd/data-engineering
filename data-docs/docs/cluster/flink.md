@@ -31,10 +31,13 @@ rest.port: 8081
 
 ```shell
 flink run -e local $FLINK_HOME/examples/streaming/WordCount.jar
-flink run-application -d -t yarn-application $FLINK_HOME/examples/streaming/WordCount.jar
 ```
 
 ### run-application
+
+```shell
+flink run-application -d -t yarn-application $FLINK_HOME/examples/streaming/WordCount.jar
+```
 
 ### info
 
