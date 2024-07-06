@@ -25,7 +25,7 @@ rest.port: 8081
 | -c,--class \<classname> | 指定带有main函数的class入口类                                                                                                                                                                    |
 | -d,--detached           | 分离模式                                                                                                                                                                                   |
 | -t,--target \<arg>      | For the "run" action: "remote", "local", "kubernetes-session", "yarn-per-job" (deprecated), "yarn-session".For "run-application" action:   "kubernetes-application","yarn-application" |
-| -D <property=value>     | 指定flink运行参数                                                                                                                                                                            |
+| -D \<property=value>    | 指定flink运行参数                                                                                                                                                                            |
 
 使用示例：
 
