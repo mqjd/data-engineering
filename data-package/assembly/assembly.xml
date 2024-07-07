@@ -23,5 +23,15 @@
       <outputDirectory>./</outputDirectory>
       <fileMode>0644</fileMode>
     </file>
+    <file>
+      <source>../data-exercise/spark/spark-core/target/spark-core-${project.version}.jar</source>
+      <outputDirectory>./</outputDirectory>
+      <fileMode>0644</fileMode>
+    </file>
+    <file>
+      <source>../data-exercise/spark/spark-sql/target/spark-sql-${project.version}.jar</source>
+      <outputDirectory>./</outputDirectory>
+      <fileMode>0644</fileMode>
+    </file>
   </files>
 </assembly>

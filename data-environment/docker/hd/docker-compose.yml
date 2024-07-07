@@ -18,6 +18,7 @@ x-common: &common
     - "postgres:172.19.0.14"
   volumes:
     - ${HD_CONFIG_PATH}:${BASE_PATH}/${CONFIG_DIR}:rw
+    - ${EXERCISE_PACKAGE_PATH}:${BASE_PATH}/exercise:rw
     - ${BASE_PACKAGE_PATH}/${JAVA_PACKAGE_DIR}:${BASE_PATH}/${JAVA_DIR}:rw
     - ${BASE_PACKAGE_PATH}/${HADOOP_PACKAGE_DIR}:${BASE_PATH}/${HADOOP_DIR}:rw
     - ${BASE_PACKAGE_PATH}/${SPARK_PACKAGE_DIR}:${BASE_PATH}/${SPARK_DIR}:rw
