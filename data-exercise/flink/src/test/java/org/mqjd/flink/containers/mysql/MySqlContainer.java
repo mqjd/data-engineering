@@ -8,8 +8,8 @@ import org.testcontainers.utility.DockerImageName;
 
 /**
  * Docker container for MySQL. The difference between this class and
- * {@link org.testcontainers.containers.MySQLContainer} is that TC MySQLContainer has problems when overriding mysql
- * conf file, i.e. my.cnf.
+ * {@link org.testcontainers.containers.MySQLContainer} is that TC MySQLContainer has problems when
+ * overriding mysql conf file, i.e. my.cnf.
  */
 @SuppressWarnings("rawtypes")
 public class MySqlContainer extends JdbcDatabaseContainer {
@@ -25,9 +25,6 @@ public class MySqlContainer extends JdbcDatabaseContainer {
     private String username = "test";
     private String password = "test";
 
-    public MySqlContainer() {
-        this(MySqlVersion.V8_3);
-    }
 
     public MySqlContainer(MySqlVersion version) {
         super(DockerImageName.parse(IMAGE + ":" + version.getVersion()));
@@ -41,11 +38,13 @@ public class MySqlContainer extends JdbcDatabaseContainer {
 
     @Override
     protected void configure() {
-        optionallyMapResourceParameterAsVolume(MY_CNF_CONFIG_OVERRIDE_PARAM_NAME, "/etc/mysql/", "mysql-default-conf",
+        optionallyMapResourceParameterAsVolume(MY_CNF_CONFIG_OVERRIDE_PARAM_NAME, "/etc/mysql/",
+            "mysql-default-conf",
             null);
 
         if (parameters.containsKey(SETUP_SQL_PARAM_NAME)) {
-            optionallyMapResourceParameterAsVolume(SETUP_SQL_PARAM_NAME, "/docker-entrypoint-initdb.d/", "N/A", null);
+            optionallyMapResourceParameterAsVolume(SETUP_SQL_PARAM_NAME,
+                "/docker-entrypoint-initdb.d/", "N/A", null);
         }
 
         addEnv("MYSQL_DATABASE", databaseName);
@@ -56,7 +55,8 @@ public class MySqlContainer extends JdbcDatabaseContainer {
         } else if (MYSQL_ROOT_USER.equalsIgnoreCase(username)) {
             addEnv("MYSQL_ALLOW_EMPTY_PASSWORD", "yes");
         } else {
-            throw new ContainerLaunchException("Empty password can be used only with the root user");
+            throw new ContainerLaunchException(
+                "Empty password can be used only with the root user");
         }
         setStartupAttempts(3);
     }

@@ -1,7 +1,5 @@
 package org.mqjd.flink.containers;
 
-import static org.apache.flink.util.DockerImageVersions.KAFKA;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -24,6 +22,7 @@ import org.mqjd.flink.containers.kafka.KafkaUtil;
 import org.mqjd.flink.containers.kafka.TestKafkaConsumer;
 import org.mqjd.flink.containers.kafka.TestKafkaProducer;
 import org.mqjd.flink.containers.mysql.MySqlContainer;
+import org.mqjd.flink.containers.mysql.MySqlVersion;
 import org.mqjd.flink.jobs.FlinkJobTest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -72,9 +71,8 @@ public abstract class ContainerBaseTest extends FlinkJobTest {
     protected void createTopic(String topic, int numPartitions, short replicationFactor)
         throws ExecutionException, InterruptedException {
         AdminClient adminClient = getAdminClient();
-        final CreateTopicsResult result =
-            adminClient.createTopics(
-                Collections.singletonList(new NewTopic(topic, numPartitions, replicationFactor)));
+        final CreateTopicsResult result = adminClient.createTopics(
+            Collections.singletonList(new NewTopic(topic, numPartitions, replicationFactor)));
         result.all().get();
     }
 
@@ -83,13 +81,9 @@ public abstract class ContainerBaseTest extends FlinkJobTest {
         KafkaContainer kafkaContainer = getContainer(ContainerType.KAFKA);
         StringDeserializer deserializer = new StringDeserializer();
         TestKafkaConsumer<String, String> testKafkaConsumer = KafkaConsumerBuilder.<String, String>builder()
-            .withBootstrapServers(kafkaContainer.getBootstrapServers())
-            .withTopic(topic)
-            .withGroupId(group)
-            .withKeyDeserializer(deserializer)
-            .withValueDeserializer(deserializer)
-            .withMessageConsumer(messageConsumer)
-            .build();
+            .withBootstrapServers(kafkaContainer.getBootstrapServers()).withTopic(topic)
+            .withGroupId(group).withKeyDeserializer(deserializer)
+            .withValueDeserializer(deserializer).withMessageConsumer(messageConsumer).build();
         STARTED_CONTAINERS.add(0, testKafkaConsumer);
         testKafkaConsumer.start();
     }
@@ -99,15 +93,10 @@ public abstract class ContainerBaseTest extends FlinkJobTest {
         KafkaContainer kafkaContainer = getContainer(ContainerType.KAFKA);
         StringSerializer stringSerializer = new StringSerializer();
         TestKafkaProducer<String, String> testKafkaProducer = KafkaProducerBuilder.<String, String>builder()
-            .withBootstrapServers(kafkaContainer.getBootstrapServers())
-            .withTopic(topic)
-            .withClientId(clientId)
-            .withPeriod(1000L)
-            .withRate(rate)
-            .withKeySerializer(stringSerializer)
-            .withValueSerializer(stringSerializer)
-            .withMessageGenerator(messageGenerator)
-            .build();
+            .withBootstrapServers(kafkaContainer.getBootstrapServers()).withTopic(topic)
+            .withClientId(clientId).withPeriod(1000L).withRate(rate)
+            .withKeySerializer(stringSerializer).withValueSerializer(stringSerializer)
+            .withMessageGenerator(messageGenerator).build();
         STARTED_CONTAINERS.add(0, testKafkaProducer);
         testKafkaProducer.start();
     }
@@ -121,11 +110,9 @@ public abstract class ContainerBaseTest extends FlinkJobTest {
 
     private static Startable createMySQL() {
         // noinspection all
-        return new MySqlContainer().withConfigurationOverride("docker/server/my.cnf")
-            .withSetupSQL("docker/setup.sql")
-            .withDatabaseName("flink-test")
-            .withUsername("flink_user")
-            .withPassword("flink_pw")
+        return new MySqlContainer(MySqlVersion.V8_3).withConfigurationOverride(
+                "docker/server/my.cnf").withSetupSQL("docker/setup.sql").withDatabaseName("flink-test")
+            .withUsername("flink_user").withPassword("flink_pw")
             .withLogConsumer(new Slf4jLogConsumer(LOG));
     }
 
@@ -149,9 +136,8 @@ public abstract class ContainerBaseTest extends FlinkJobTest {
 
     private static Startable createKafka() {
         // noinspection resource
-        return KafkaUtil.createKafkaContainer(KAFKA, LOG)
-            .withEmbeddedZookeeper()
-            .withNetwork(NETWORK)
+        return KafkaUtil.createKafkaContainer(ContainerType.KAFKA.getDockerImageName(), LOG)
+            .withEmbeddedZookeeper().withNetwork(NETWORK)
             .withNetworkAliases(INTER_CONTAINER_KAFKA_ALIAS);
     }
 
