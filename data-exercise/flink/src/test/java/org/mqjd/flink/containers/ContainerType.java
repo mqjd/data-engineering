@@ -1,7 +1,7 @@
 package org.mqjd.flink.containers;
 
 public enum ContainerType {
-    KAFKA("confluentinc/cp-kafka:7.6.0"), MYSQL("mysql:8.3.0");
+    KAFKA("confluentinc/cp-kafka:7.6.1"), MYSQL("mysql:8.3.0");
 
     private final String dockerImageName;
 
