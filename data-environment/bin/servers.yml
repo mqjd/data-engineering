@@ -17,7 +17,7 @@ hd3:hadoop:datanode,nodemanager:all
 #hd2:kafka:broker:all
 #hd3:kafka:broker:all
 #hd1:hive:metastore,hiveserver2:all
-hd1:flink:client:all
+#hd1:flink:client:all
 #hd1:flink:jobmanager,taskmanager:all
 #hd2:flink:taskmanager:all
 #hd3:flink:taskmanager:all

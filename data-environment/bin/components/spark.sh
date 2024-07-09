@@ -8,11 +8,11 @@ args=("$@")
 components=("${args[@]:1}")
 
 function install_master {
-  init_standlone_conf
+  init_conf
   init_standlone_dirs
 }
 
-function init_standlone_conf {
+function init_conf {
   mkdir_if_not_exists "$SPARK_CONF_DIR"
   if [ -z "$(ls -A "$SPARK_CONF_DIR")" ]; then
     cp -rf "$HD_HOME"/configs/spark/* "$SPARK_CONF_DIR"
@@ -32,7 +32,7 @@ function start_master {
 }
 
 function install_worker {
-  init_standlone_conf
+  init_conf
   init_standlone_dirs
 }
 
@@ -45,7 +45,7 @@ function start_worker {
 }
 
 function init_client {
-  init_standlone_conf
+  init_conf
   init_standlone_dirs
 }
 
