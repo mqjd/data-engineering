@@ -78,3 +78,8 @@ fi
 export AIRFLOW_HOME=${HD_DATA_HOME}/configs/airflow
 export AIRFLOW_CONF_DIR=${HD_DATA_HOME}/configs/airflow
 export AIRFLOW_LOG_DIR=${HD_DATA_HOME}/log/airflow
+
+export FLASK_APP=superset
+export SUPERSET_CONF_DIR=${HD_DATA_HOME}/configs/superset
+export SUPERSET_LOG_DIR=${HD_DATA_HOME}/log/superset
+export SUPERSET_CONFIG_PATH=${HD_DATA_HOME}/configs/superset/superset_config.py

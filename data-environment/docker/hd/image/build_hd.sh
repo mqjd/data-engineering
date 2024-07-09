@@ -8,6 +8,9 @@ RUN apt-get -q update \
     && apt-get -q install -y --no-install-recommends\
       vim \
       gcc \
+      build-essential \
+      libssl-dev \
+      libffi-dev \
       net-tools \
       iputils-ping \
       dos2unix \
@@ -19,6 +22,9 @@ RUN apt-get -q update \
       libgssapi-krb5-2  \
       libldap-2.5-0  \
       libwrap0  \
+      libsasl2-dev  \
+      libldap2-dev  \
+      default-libmysqlclient-dev  \
       libsasl2-2  \
       libsasl2-modules  \
       libsasl2-modules-gssapi-mit  \
@@ -56,5 +62,7 @@ RUN AIRFLOW_VERSION="2.9.2" \
   && PYTHON_VERSION="\$(python3 -c 'import sys; print(f"{sys.version_info.major}.{sys.version_info.minor}")')" \
   && CONSTRAINT_URL="https://raw.githubusercontent.com/apache/airflow/constraints-\${AIRFLOW_VERSION}/constraints-\${PYTHON_VERSION}.txt" \
   && pip3 install "apache-airflow==\${AIRFLOW_VERSION}" --constraint "\${CONSTRAINT_URL}"
+
+RUN pip3 install Pillow apache-superset
 
 UserSpecificDocker
