@@ -30,5 +30,5 @@
 #hd1:mongodb:configsvr,shardsvr,routersvr:all
 #hd2:mongodb:configsvr,shardsvr:all
 #hd3:mongodb:configsvr,shardsvr:all
-hd1:airflow:standalone:all
+#hd1:airflow:standalone:all
 #hd1:superset:server:all

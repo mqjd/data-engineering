@@ -1,4 +1,8 @@
 {
   "label": "第三章",
-  "position": 3
+  "position": 3,
+  "link": {
+    "type": "generated-index",
+    "title": "第三章"
+  }
 }
