@@ -77,6 +77,7 @@ fi
 
 export AIRFLOW_HOME=${HD_DATA_HOME}/configs/airflow
 export AIRFLOW_CONF_DIR=${HD_DATA_HOME}/configs/airflow
+export AIRFLOW_DATA_DIR=${HD_DATA_HOME}/data/airflow
 export AIRFLOW_LOG_DIR=${HD_DATA_HOME}/log/airflow
 
 export FLASK_APP=superset
