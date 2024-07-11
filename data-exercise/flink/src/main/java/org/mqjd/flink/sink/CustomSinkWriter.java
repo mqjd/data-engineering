@@ -3,6 +3,7 @@ package org.mqjd.flink.sink;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.Queue;
+
 import org.apache.flink.api.connector.sink2.SinkWriter;
 
 public class CustomSinkWriter<IN> implements Serializable, SinkWriter<IN> {

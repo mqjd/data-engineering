@@ -22,8 +22,7 @@ public class CustomSourceEnumerator<SplitT extends IteratorSourceSplit<?, ?>>
     private final SplitEnumeratorContext<SplitT> context;
     private final Collection<SplitT> allSplits;
 
-    public CustomSourceEnumerator(SplitEnumeratorContext<SplitT> context,
-        Collection<SplitT> splits) {
+    public CustomSourceEnumerator(SplitEnumeratorContext<SplitT> context, Collection<SplitT> splits) {
         this.allSplits = splits;
         this.pendingPartitionSplitAssignment = new HashMap<>();
         this.context = checkNotNull(context);
@@ -67,8 +66,7 @@ public class CustomSourceEnumerator<SplitT extends IteratorSourceSplit<?, ?>>
             checkReaderRegistered(pendingReader);
             Set<SplitT> splits = pendingPartitionSplitAssignment.remove(pendingReader);
             if (splits != null) {
-                splits.forEach(
-                    split -> context.assignSplits(new SplitsAssignment<>(split, pendingReader)));
+                splits.forEach(split -> context.assignSplits(new SplitsAssignment<>(split, pendingReader)));
             }
         }
     }
@@ -84,8 +82,7 @@ public class CustomSourceEnumerator<SplitT extends IteratorSourceSplit<?, ?>>
         int numReaders = context.currentParallelism();
         for (SplitT split : newPartitionSplits) {
             int ownerReader = getSplitOwner(split, numReaders);
-            pendingPartitionSplitAssignment.computeIfAbsent(ownerReader, v -> new HashSet<>())
-                .add(split);
+            pendingPartitionSplitAssignment.computeIfAbsent(ownerReader, v -> new HashSet<>()).add(split);
         }
     }
 

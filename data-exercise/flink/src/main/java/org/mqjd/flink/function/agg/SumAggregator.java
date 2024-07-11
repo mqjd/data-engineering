@@ -13,7 +13,7 @@ public class SumAggregator<T extends Number> extends AggregationFunction<T> {
 
     @Override
     public T reduce(T value1, T value2) {
-        //noinspection unchecked
+        // noinspection unchecked
         return (T) adder.add(value1, value2);
     }
 }

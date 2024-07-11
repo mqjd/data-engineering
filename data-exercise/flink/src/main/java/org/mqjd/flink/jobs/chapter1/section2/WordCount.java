@@ -18,20 +18,18 @@ public class WordCount {
 
     public static void main(String[] args) throws Exception {
         MultipleParameterTool params = MultipleParameterTool.fromArgs(args);
-        Path[] inputPaths = params.getMultiParameterRequired(INPUT_KEY).stream().map(Path::new)
-            .toArray(Path[]::new);
+        Path[] inputPaths = params.getMultiParameterRequired(INPUT_KEY).stream().map(Path::new).toArray(Path[]::new);
         Path output = new Path(params.getRequired(OUTPUT_KEY));
 
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         env.getConfig().setGlobalJobParameters(params);
 
-        FileSource.FileSourceBuilder<String> builder = FileSource.forRecordStreamFormat(
-            new TextLineInputFormat(), inputPaths);
+        FileSource.FileSourceBuilder<String> builder =
+            FileSource.forRecordStreamFormat(new TextLineInputFormat(), inputPaths);
 
-        DataStream<String> text = env.fromSource(builder.build(), WatermarkStrategy.noWatermarks(),
-            "file-input");
-        DataStream<Tuple2<String, Integer>> counts = text.flatMap(new Tokenizer()).name("tokenizer")
-            .keyBy(tuple2 -> tuple2.f0).sum(1).name("counter");
+        DataStream<String> text = env.fromSource(builder.build(), WatermarkStrategy.noWatermarks(), "file-input");
+        DataStream<Tuple2<String, Integer>> counts =
+            text.flatMap(new Tokenizer()).name("tokenizer").keyBy(tuple2 -> tuple2.f0).sum(1).name("counter");
         counts.sinkTo(SinkUtil.createSimpleFileSink(output)).name("file-sink");
         env.execute("WordCount");
     }

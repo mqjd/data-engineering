@@ -29,8 +29,7 @@ public class CustomEnumeratorCheckpointSerializer extends CustomIteratorSourceSp
     }
 
     @Override
-    public Collection<CustomIteratorSourceSplit> deserialize(int version, byte[] serialized)
-        throws IOException {
+    public Collection<CustomIteratorSourceSplit> deserialize(int version, byte[] serialized) throws IOException {
         if (version != CURRENT_VERSION) {
             throw new IOException("Unrecognized version:" + version);
         }

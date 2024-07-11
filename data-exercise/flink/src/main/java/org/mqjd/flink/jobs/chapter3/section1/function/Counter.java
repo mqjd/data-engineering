@@ -10,8 +10,7 @@ import org.apache.flink.streaming.api.checkpoint.CheckpointedFunction;
 
 public class Counter<T> implements MapFunction<T, T>, CheckpointedFunction {
 
-    private final ListStateDescriptor<Long> stateDescriptor = new ListStateDescriptor<>("counter",
-        Long.class);
+    private final ListStateDescriptor<Long> stateDescriptor = new ListStateDescriptor<>("counter", Long.class);
 
     private transient FunctionInitializationContext context;
 

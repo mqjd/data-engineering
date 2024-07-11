@@ -17,12 +17,10 @@ import org.apache.flink.api.connector.source.lib.util.IteratorSourceReaderBase;
 import org.apache.flink.api.connector.source.lib.util.IteratorSourceSplit;
 import org.apache.flink.core.io.InputStatus;
 
-
 /**
  * @see IteratorSourceReaderBase
  */
-public abstract class BaseSourceReader<
-    E, O, IterT extends Iterator<E>, SplitT extends IteratorSourceSplit<E, IterT>>
+public abstract class BaseSourceReader<E, O, IterT extends Iterator<E>, SplitT extends IteratorSourceSplit<E, IterT>>
     implements SourceReader<O, SplitT> {
 
     /**
@@ -36,15 +34,15 @@ public abstract class BaseSourceReader<
     private CompletableFuture<Void> availability;
 
     /**
-     * The iterator producing data. Non-null after a split has been assigned. This field is null or
-     * non-null always together with the {@link #currentSplit} field.
+     * The iterator producing data. Non-null after a split has been assigned. This field is null or non-null always
+     * together with the {@link #currentSplit} field.
      */
     @Nullable
     IterT iterator;
 
     /**
-     * The split whose data we return. Non-null after a split has been assigned. This field is null
-     * or non-null always together with the {@link #iterator} field.
+     * The split whose data we return. Non-null after a split has been assigned. This field is null or non-null always
+     * together with the {@link #iterator} field.
      */
     @Nullable
     SplitT currentSplit;
@@ -153,8 +151,8 @@ public abstract class BaseSourceReader<
         if (iterator != null && iterator.hasNext()) {
             assert currentSplit != null;
 
-            @SuppressWarnings("unchecked") final SplitT inProgressSplit =
-                (SplitT) currentSplit.getUpdatedSplitForIterator(iterator);
+            @SuppressWarnings("unchecked")
+            final SplitT inProgressSplit = (SplitT) currentSplit.getUpdatedSplitForIterator(iterator);
             allSplits.add(inProgressSplit);
         }
         allSplits.addAll(remainingSplits);

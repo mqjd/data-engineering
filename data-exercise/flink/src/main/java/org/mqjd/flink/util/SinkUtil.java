@@ -10,7 +10,7 @@ import org.apache.flink.streaming.api.functions.sink.filesystem.rollingpolicies.
 public class SinkUtil {
 
     public static <IN> FileSink<IN> createSimpleFileSink(Path output) {
-        return FileSink.<IN>forRowFormat(output, new SimpleStringEncoder<>())
+        return FileSink.<IN> forRowFormat(output, new SimpleStringEncoder<>())
             .withRollingPolicy(DefaultRollingPolicy.builder()
                 .withMaxPartSize(MemorySize.ofMebiBytes(1))
                 .withRolloverInterval(Duration.ofSeconds(10))

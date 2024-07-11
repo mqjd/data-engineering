@@ -1,6 +1,5 @@
 package org.mqjd.flink.function.agg;
 
-
 import org.apache.flink.api.common.functions.AggregateFunction;
 
 public class CountAggregator<IN> implements AggregateFunction<IN, Long, Long> {

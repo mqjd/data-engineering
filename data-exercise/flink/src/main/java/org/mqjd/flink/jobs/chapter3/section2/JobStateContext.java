@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
 import org.apache.flink.api.common.JobID;
@@ -31,7 +32,6 @@ import org.apache.flink.runtime.state.KeyedStateBackendParametersImpl;
 import org.apache.flink.runtime.state.OperatorStateBackend;
 import org.apache.flink.runtime.state.OperatorStateBackendParametersImpl;
 import org.apache.flink.runtime.state.StateBackend;
-import org.apache.flink.runtime.state.StateBackend.KeyedStateBackendParameters;
 import org.apache.flink.runtime.state.StateBackendLoader;
 import org.apache.flink.runtime.state.ttl.TtlTimeProvider;
 import org.apache.flink.state.api.SavepointReader;
@@ -57,8 +57,8 @@ public class JobStateContext {
     private final SavepointMetadataV2 savepointMetadata;
     private final JobStateBackend jobStateBackend;
 
-    public JobStateContext(PackagedProgram packagedProgram, StreamGraph streamGraph,
-        JobGraph jobGraph, StateBackend stateBackend, SavepointMetadataV2 savepointMetadata) {
+    public JobStateContext(PackagedProgram packagedProgram, StreamGraph streamGraph, JobGraph jobGraph,
+        StateBackend stateBackend, SavepointMetadataV2 savepointMetadata) {
         this.packagedProgram = packagedProgram;
         this.streamGraph = streamGraph;
         this.jobGraph = jobGraph;
@@ -84,11 +84,9 @@ public class JobStateContext {
         String executionSavepointPath = configuration.get(SavepointConfigOptions.SAVEPOINT_PATH);
         StateBackend stateBackend = StateBackendLoader.loadStateBackendFromConfig(configuration,
             Thread.currentThread().getContextClassLoader(), LOG);
-        SavepointReader savepointReader = SavepointReader.read(env, executionSavepointPath,
-            stateBackend);
+        SavepointReader savepointReader = SavepointReader.read(env, executionSavepointPath, stateBackend);
         SavepointMetadataV2 savepointMetadata = ReflectionUtil.read(savepointReader, "metadata");
-        return new JobStateContext(packagedProgram, streamGraph, jobGraph, stateBackend,
-            savepointMetadata);
+        return new JobStateContext(packagedProgram, streamGraph, jobGraph, stateBackend, savepointMetadata);
     }
 
     private JobStateBackend createJobStateBackend() {
@@ -96,10 +94,9 @@ public class JobStateContext {
         for (VertexDescription description : analyzeVertex()) {
             VertexStateBackend vertexStateBackend = new VertexStateBackend(description);
             OperatorState operatorState = getVertexOperatorState(description);
-            operatorState.getSubtaskStates().forEach(
-                (key, value) -> vertexStateBackend.addSubtaskStateBackend(
-                    new SubtaskStateBackend(description, key,
-                        createOperatorStateBackend(description, value),
+            operatorState.getSubtaskStates()
+                .forEach((key, value) -> vertexStateBackend.addSubtaskStateBackend(
+                    new SubtaskStateBackend(description, key, createOperatorStateBackend(description, value),
                         createKeyedStateBackend(description, key, value))));
             jobStateBackend.addVertexStateBackend(vertexStateBackend);
         }
@@ -114,8 +111,8 @@ public class JobStateContext {
         }
     }
 
-    private KeyedStateBackend<?> createKeyedStateBackend(VertexDescription vertexDescription,
-        Integer index, OperatorSubtaskState subtaskState) {
+    private KeyedStateBackend<?> createKeyedStateBackend(VertexDescription vertexDescription, Integer index,
+        OperatorSubtaskState subtaskState) {
         if (vertexDescription.getKeySerializer() == null) {
             return null;
         }
@@ -123,12 +120,10 @@ public class JobStateContext {
         final KeyGroupRange keyGroupRange = KeyGroupRangeAssignment.computeKeyGroupRangeForOperatorIndex(
             vertexDescription.getMaxParallelism(), vertexDescription.getParallelism(), index);
         try {
-            return stateBackend.createKeyedStateBackend(
-                new KeyedStateBackendParametersImpl<>(environment, getJobId(),
-                    vertexDescription.getOperatorIdentifier().toString(),
-                    vertexDescription.getKeySerializer(), vertexDescription.getMaxParallelism(),
-                    keyGroupRange, null, TtlTimeProvider.DEFAULT, null,
-                    subtaskState.getManagedKeyedState(), new CloseableRegistry()));
+            return stateBackend.createKeyedStateBackend(new KeyedStateBackendParametersImpl<>(environment, getJobId(),
+                vertexDescription.getOperatorIdentifier().toString(), vertexDescription.getKeySerializer(),
+                vertexDescription.getMaxParallelism(), keyGroupRange, null, TtlTimeProvider.DEFAULT, null,
+                subtaskState.getManagedKeyedState(), new CloseableRegistry()));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -137,44 +132,42 @@ public class JobStateContext {
     private OperatorStateBackend createOperatorStateBackend(VertexDescription vertexDescription,
         OperatorSubtaskState subtaskState) {
         try {
-            return stateBackend.createOperatorStateBackend(
-                new OperatorStateBackendParametersImpl(environment,
-                    vertexDescription.getOperatorID().getGeneratedOperatorID().toHexString(),
-                    subtaskState.getManagedOperatorState(), new CloseableRegistry()));
+            return stateBackend.createOperatorStateBackend(new OperatorStateBackendParametersImpl(environment,
+                vertexDescription.getOperatorID().getGeneratedOperatorID().toHexString(),
+                subtaskState.getManagedOperatorState(), new CloseableRegistry()));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-
-    private static PackagedProgram buildPackagedProgram(Configuration configuration, String[] args)
-        throws Exception {
-        List<CustomCommandLine> customCommandLines = CliFrontend.loadCustomCommandLines(
-            configuration,
+    private static PackagedProgram buildPackagedProgram(Configuration configuration, String[] args) throws Exception {
+        List<CustomCommandLine> customCommandLines = CliFrontend.loadCustomCommandLines(configuration,
             Objects.requireNonNull(JobStateContext.class.getResource("/")).getFile());
         final CliFrontend cli = new CliFrontend(configuration, customCommandLines);
         final Options commandOptions = CliFrontendParser.getRunCommandOptions();
         final CommandLine commandLine = cli.getCommandLine(commandOptions, args, true);
         final ProgramOptions programOptions = ProgramOptions.create(commandLine);
-        return PackagedProgram.newBuilder().setJarFile(null)
+        return PackagedProgram.newBuilder()
+            .setJarFile(null)
             .setUserClassPaths(programOptions.getClasspaths())
             .setEntryPointClassName(programOptions.getEntryPointClassName())
             .setConfiguration(configuration)
             .setSavepointRestoreSettings(programOptions.getSavepointRestoreSettings())
-            .setArguments().build();
+            .setArguments()
+            .build();
     }
 
-    private static StreamGraph buildPipeline(PackagedProgram packagedProgram,
-        Configuration configuration) throws Exception {
-        return (StreamGraph) PackagedProgramUtils.getPipelineFromProgram(packagedProgram,
-            configuration, configuration.get(CoreOptions.DEFAULT_PARALLELISM), true);
+    private static StreamGraph buildPipeline(PackagedProgram packagedProgram, Configuration configuration)
+        throws Exception {
+        return (StreamGraph) PackagedProgramUtils.getPipelineFromProgram(packagedProgram, configuration,
+            configuration.get(CoreOptions.DEFAULT_PARALLELISM), true);
     }
 
     private static JobGraph buildJobGraph(StreamGraph streamGraph, PackagedProgram packagedProgram,
         Configuration configuration) {
-        final JobGraph jobGraph = FlinkPipelineTranslationUtil.getJobGraphUnderUserClassLoader(
-            packagedProgram.getUserCodeClassLoader(), streamGraph, configuration,
-            configuration.get(CoreOptions.DEFAULT_PARALLELISM));
+        final JobGraph jobGraph =
+            FlinkPipelineTranslationUtil.getJobGraphUnderUserClassLoader(packagedProgram.getUserCodeClassLoader(),
+                streamGraph, configuration, configuration.get(CoreOptions.DEFAULT_PARALLELISM));
         jobGraph.addJars(packagedProgram.getJobJarAndDependencies());
         jobGraph.setClasspaths(packagedProgram.getClasspaths());
         jobGraph.setSavepointRestoreSettings(packagedProgram.getSavepointSettings());
@@ -186,8 +179,7 @@ public class JobStateContext {
         int index = 0;
         List<OperatorIDPair> idPairs = findAllOperatorIDPairs(jobGraph);
         for (StreamNode streamNode : streamGraph.getStreamNodes()) {
-            VertexDescription vertexDescription = new VertexDescription(streamNode,
-                idPairs.get(index++));
+            VertexDescription vertexDescription = new VertexDescription(streamNode, idPairs.get(index++));
             result.add(vertexDescription);
         }
         return result;

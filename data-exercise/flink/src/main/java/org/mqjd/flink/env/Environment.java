@@ -16,7 +16,7 @@ public class Environment {
     private JobConfig jobConfig;
 
     public <T extends SourceNode> T getSource() {
-        //noinspection unchecked
+        // noinspection unchecked
         return (T) source;
     }
 
@@ -25,7 +25,7 @@ public class Environment {
     }
 
     public <T extends SinkNode> T getSink() {
-        //noinspection unchecked
+        // noinspection unchecked
         return (T) sink;
     }
 

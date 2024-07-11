@@ -21,8 +21,7 @@ public class LogTableSink implements DynamicTableSink, Serializable {
 
     @Override
     public SinkRuntimeProvider getSinkRuntimeProvider(Context context) {
-        DataStructureConverter dataStructureConverter = context.createDataStructureConverter(
-            dataType);
+        DataStructureConverter dataStructureConverter = context.createDataStructureConverter(dataType);
         return SinkFunctionProvider.of(new LogSinkFunction(dataStructureConverter));
     }
 

@@ -53,9 +53,10 @@ public class ReflectionUtil {
     }
 
     public static Boolean hasJsonProperty(Class<?> clz, String value) {
-        return Arrays.stream(clz.getDeclaredFields()).anyMatch(
-            f -> Optional.ofNullable(f.getAnnotation(JsonProperty.class))
-                .filter(v -> v.value().equals(value)).isPresent());
+        return Arrays.stream(clz.getDeclaredFields())
+            .anyMatch(f -> Optional.ofNullable(f.getAnnotation(JsonProperty.class))
+                .filter(v -> v.value().equals(value))
+                .isPresent());
     }
 
     public static void copyProperties(Object source, Object target) {
@@ -74,7 +75,7 @@ public class ReflectionUtil {
 
     public static <T> T invoke(Object obj, String method) {
         try {
-            //noinspection unchecked
+            // noinspection unchecked
             return (T) obj.getClass().getDeclaredMethod(method).invoke(obj);
         } catch (Exception ignore) {
         }
@@ -110,10 +111,13 @@ public class ReflectionUtil {
                 return currentClass.getDeclaredMethod(getSetter(property)).getParameterTypes()[0];
             }
             if (hasJsonProperty(currentClass, property)) {
-                return Arrays.stream(currentClass.getDeclaredFields()).filter(
-                        f -> Optional.ofNullable(f.getAnnotation(JsonProperty.class))
-                            .filter(v -> v.value().equals(property)).isPresent()).findAny()
-                    .map(Field::getType).orElseThrow(() -> new NoSuchFieldException(property));
+                return Arrays.stream(currentClass.getDeclaredFields())
+                    .filter(f -> Optional.ofNullable(f.getAnnotation(JsonProperty.class))
+                        .filter(v -> v.value().equals(property))
+                        .isPresent())
+                    .findAny()
+                    .map(Field::getType)
+                    .orElseThrow(() -> new NoSuchFieldException(property));
             }
             throw new NoSuchFieldException(property);
         } catch (NoSuchFieldException | NoSuchMethodException e) {

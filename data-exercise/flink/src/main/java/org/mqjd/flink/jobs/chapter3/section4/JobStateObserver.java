@@ -13,10 +13,11 @@ public class JobStateObserver {
 
     public static void main(String[] args) throws Exception {
         Environment environment = EnvironmentParser.parse(JOB_YAML, args);
-        StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment(
-            environment.getJobConfig().getConfiguration());
+        StreamExecutionEnvironment env =
+            StreamExecutionEnvironment.getExecutionEnvironment(environment.getJobConfig().getConfiguration());
         env.fromSource(new CustomSource(1D, 1), WatermarkStrategy.noWatermarks(), "custom-source")
-            .sinkTo(new CustomSink<>()).name("custom-sink");
+            .sinkTo(new CustomSink<>())
+            .name("custom-sink");
         env.execute("JobStateObserver");
     }
 }

@@ -17,8 +17,10 @@ public class AccumulateSum {
         Path output = new Path(params.getRequired(OUTPUT_KEY));
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         env.setParallelism(1);
-        env.fromSequence(params.getLong(FROM_KEY, 0), params.getLong(TO_KEY, 100)).keyBy(v -> 0)
-            .reduce(new SumAggregator<>(Long.class)).sinkTo(SinkUtil.createSimpleFileSink(output))
+        env.fromSequence(params.getLong(FROM_KEY, 0), params.getLong(TO_KEY, 100))
+            .keyBy(v -> 0)
+            .reduce(new SumAggregator<>(Long.class))
+            .sinkTo(SinkUtil.createSimpleFileSink(output))
             .name("file-sink");
         env.execute("AccumulateSum");
     }

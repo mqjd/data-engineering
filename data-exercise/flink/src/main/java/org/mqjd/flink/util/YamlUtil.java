@@ -29,8 +29,7 @@ public class YamlUtil {
         }
     }
 
-    public static <T> T fromProperties(Properties properties, Class<T> clz,
-        Consumer<ObjectNode> nodeConsumer) {
+    public static <T> T fromProperties(Properties properties, Class<T> clz, Consumer<ObjectNode> nodeConsumer) {
         Pattern pattern = Pattern.compile("\\.");
         ObjectNode resultNode = MAPPER.createObjectNode();
         for (String propertyName : properties.stringPropertyNames()) {

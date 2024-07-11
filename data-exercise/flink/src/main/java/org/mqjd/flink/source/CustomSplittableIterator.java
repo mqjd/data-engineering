@@ -35,14 +35,13 @@ public class CustomSplittableIterator extends SplittableIterator<Long> {
         }
 
         if (numPartitions == 1) {
-            return new CustomSplittableIterator[]{
-                new CustomSplittableIterator(messageCount, current, numPartitions)};
+            return new CustomSplittableIterator[] {
+                new CustomSplittableIterator(messageCount, current, numPartitions) };
         }
 
         CustomSplittableIterator[] splits = new CustomSplittableIterator[numPartitions];
         for (int i = 0; i < numPartitions; i++) {
-            splits[i] = new CustomSplittableIterator(messageCount, i - numPartitions + 1,
-                numPartitions);
+            splits[i] = new CustomSplittableIterator(messageCount, i - numPartitions + 1, numPartitions);
         }
         return splits;
     }

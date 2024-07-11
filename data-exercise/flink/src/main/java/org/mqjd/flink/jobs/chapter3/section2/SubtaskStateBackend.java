@@ -72,8 +72,7 @@ public class SubtaskStateBackend {
         try {
             ListState<?> listState = operatorStateBackend.getListState(state);
             if (state == States.SPLITS_STATE_DESC) {
-                listState = new SimpleVersionedListState<>((ListState<byte[]>) listState,
-                    vertex.getSplitSerializer());
+                listState = new SimpleVersionedListState<>((ListState<byte[]>) listState, vertex.getSplitSerializer());
             }
             return (List<T>) IterableUtils.toStream(listState.get()).collect(Collectors.toList());
         } catch (Exception e) {
@@ -82,15 +81,14 @@ public class SubtaskStateBackend {
     }
 
     @SuppressWarnings("unchecked")
-    public <T> T readKeyedState(Object key, Object namespace,
-        TypeSerializer<?> namespaceSerializer, StateDescriptor<?, ?> state) {
+    public <T> T readKeyedState(Object key, Object namespace, TypeSerializer<?> namespaceSerializer,
+        StateDescriptor<?, ?> state) {
         if (keyedStateBackend == null) {
             return null;
         }
         try {
             keyedStateBackend.setCurrentKey(key);
-            State partitionedState = keyedStateBackend.getPartitionedState(namespace,
-                namespaceSerializer, state);
+            State partitionedState = keyedStateBackend.getPartitionedState(namespace, namespaceSerializer, state);
             if (partitionedState instanceof AppendingState) {
                 return (T) ((AppendingState<?, ?>) partitionedState).get();
             }
@@ -101,15 +99,12 @@ public class SubtaskStateBackend {
     }
 
     private Set<String> getRegisteredStates(HeapKeyedStateBackend<?> stateBackend) {
-        Map<String, StateTable<?, ?, ?>> states = ReflectionUtil.read(stateBackend,
-            "registeredKVStates");
+        Map<String, StateTable<?, ?, ?>> states = ReflectionUtil.read(stateBackend, "registeredKVStates");
         return Optional.ofNullable(states).map(Map::keySet).orElse(Collections.emptySet());
     }
 
-    private Set<Tuple2<?, ?>> getKeysAndNamespaces(String state,
-        HeapKeyedStateBackend<?> stateBackend) {
-        Map<String, StateTable<?, ?, ?>> states = ReflectionUtil.read(stateBackend,
-            "registeredKVStates");
+    private Set<Tuple2<?, ?>> getKeysAndNamespaces(String state, HeapKeyedStateBackend<?> stateBackend) {
+        Map<String, StateTable<?, ?, ?>> states = ReflectionUtil.read(stateBackend, "registeredKVStates");
         if (states == null || !states.containsKey(state)) {
             return Collections.emptySet();
         }

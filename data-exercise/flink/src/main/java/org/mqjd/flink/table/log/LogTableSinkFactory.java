@@ -10,8 +10,7 @@ public class LogTableSinkFactory implements DynamicTableSinkFactory {
 
     @Override
     public DynamicTableSink createDynamicTableSink(Context context) {
-        return new LogTableSink(
-            context.getCatalogTable().getResolvedSchema().toPhysicalRowDataType());
+        return new LogTableSink(context.getCatalogTable().getResolvedSchema().toPhysicalRowDataType());
     }
 
     @Override

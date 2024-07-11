@@ -44,30 +44,29 @@ import org.apache.flink.util.Preconditions;
 public final class SavepointTaskStateManager implements TaskStateManager {
     private static final String MSG = "This method should never be called";
 
-    @Nonnull private final PrioritizedOperatorSubtaskState prioritizedOperatorSubtaskState;
+    @Nonnull
+    private final PrioritizedOperatorSubtaskState prioritizedOperatorSubtaskState;
 
     public SavepointTaskStateManager(PrioritizedOperatorSubtaskState prioritizedOperatorSubtaskState) {
-        Preconditions.checkNotNull(
-                prioritizedOperatorSubtaskState, "Operator subtask state must not be null");
+        Preconditions.checkNotNull(prioritizedOperatorSubtaskState, "Operator subtask state must not be null");
         this.prioritizedOperatorSubtaskState = prioritizedOperatorSubtaskState;
     }
 
     @Override
-    public void reportInitializationMetrics(
-        SubTaskInitializationMetrics subTaskInitializationMetrics) {
+    public void reportInitializationMetrics(SubTaskInitializationMetrics subTaskInitializationMetrics) {
 
     }
 
     @Override
-    public void reportTaskStateSnapshots(
-            @Nonnull CheckpointMetaData checkpointMetaData,
-            @Nonnull CheckpointMetrics checkpointMetrics,
-            @Nullable TaskStateSnapshot acknowledgedState,
-            @Nullable TaskStateSnapshot localState) {}
+    public void reportTaskStateSnapshots(@Nonnull CheckpointMetaData checkpointMetaData,
+        @Nonnull CheckpointMetrics checkpointMetrics, @Nullable TaskStateSnapshot acknowledgedState,
+        @Nullable TaskStateSnapshot localState) {
+    }
 
     @Override
-    public void reportIncompleteTaskStateSnapshots(
-            CheckpointMetaData checkpointMetaData, CheckpointMetrics checkpointMetrics) {}
+    public void reportIncompleteTaskStateSnapshots(CheckpointMetaData checkpointMetaData,
+        CheckpointMetrics checkpointMetrics) {
+    }
 
     @Override
     public boolean isTaskDeployedAsFinished() {
@@ -114,8 +113,8 @@ public final class SavepointTaskStateManager implements TaskStateManager {
 
     @Nullable
     @Override
-    public StateChangelogStorageView<?> getStateChangelogStorageView(
-            Configuration configuration, ChangelogStateHandle changelogStateHandle) {
+    public StateChangelogStorageView<?> getStateChangelogStorageView(Configuration configuration,
+        ChangelogStateHandle changelogStateHandle) {
         return null;
     }
 
@@ -135,5 +134,6 @@ public final class SavepointTaskStateManager implements TaskStateManager {
     }
 
     @Override
-    public void close() {}
+    public void close() {
+    }
 }

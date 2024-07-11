@@ -16,8 +16,7 @@ public class JobWithState {
     public static void main(String[] args) throws Exception {
         Environment environment = EnvironmentParser.parse(JOB_YAML, args);
         StreamExecutionEnvironment env =
-            StreamExecutionEnvironment.getExecutionEnvironment(
-                environment.getJobConfig().getConfiguration());
+            StreamExecutionEnvironment.getExecutionEnvironment(environment.getJobConfig().getConfiguration());
         env.fromSource(new CustomSource(), WatermarkStrategy.noWatermarks(), "custom-source")
             .map(new Counter<>())
             .name("counter")

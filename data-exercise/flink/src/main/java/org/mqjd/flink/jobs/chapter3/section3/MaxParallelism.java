@@ -15,11 +15,14 @@ public class MaxParallelism {
 
     public static void main(String[] args) throws Exception {
         Environment environment = EnvironmentParser.parse(JOB_YAML, args);
-        StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment(
-            environment.getJobConfig().getConfiguration());
+        StreamExecutionEnvironment env =
+            StreamExecutionEnvironment.getExecutionEnvironment(environment.getJobConfig().getConfiguration());
         env.fromSource(new CustomSource(500D, 8), WatermarkStrategy.noWatermarks(), "custom-source")
-            .keyBy(new MyKeySelector()).countWindow(100).aggregate(new CountAggregator<>())
-            .sinkTo(new CustomSink<>(true)).name("custom-sink");
+            .keyBy(new MyKeySelector())
+            .countWindow(100)
+            .aggregate(new CountAggregator<>())
+            .sinkTo(new CustomSink<>(true))
+            .name("custom-sink");
         env.execute("MaxParallelism");
     }
 

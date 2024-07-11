@@ -19,8 +19,7 @@ import org.apache.flink.api.connector.source.util.ratelimit.RateLimiterStrategy;
 import org.apache.flink.api.java.typeutils.ResultTypeQueryable;
 import org.apache.flink.core.io.SimpleVersionedSerializer;
 
-public class CustomSource implements
-    Source<Long, CustomIteratorSourceSplit, Collection<CustomIteratorSourceSplit>>,
+public class CustomSource implements Source<Long, CustomIteratorSourceSplit, Collection<CustomIteratorSourceSplit>>,
     ResultTypeQueryable<Long> {
 
     private static final long serialVersionUID = -1962636063339778994L;
@@ -59,12 +58,10 @@ public class CustomSource implements
     }
 
     @Override
-    public SourceReader<Long, CustomIteratorSourceSplit> createReader(
-        SourceReaderContext readerContext) {
+    public SourceReader<Long, CustomIteratorSourceSplit> createReader(SourceReaderContext readerContext) {
         int numSplits = readerContext.currentParallelism();
         return new RateLimitedSourceReader<>(new CustomSourceReader<>(readerContext, v -> v),
-            rateLimiterStrategy.createRateLimiter(
-                Optional.ofNullable(maxParallelism).orElse(numSplits)));
+            rateLimiterStrategy.createRateLimiter(Optional.ofNullable(maxParallelism).orElse(numSplits)));
     }
 
     @Override
@@ -84,8 +81,7 @@ public class CustomSource implements
         for (CustomSplittableIterator seq : subSequences) {
             if (seq.hasNext()) {
                 splits
-                    .add(new CustomIteratorSourceSplit(seq.getMessageCount(), seq.getCurrent(),
-                        numSplits, splitId++));
+                    .add(new CustomIteratorSourceSplit(seq.getMessageCount(), seq.getCurrent(), numSplits, splitId++));
             }
         }
         return splits;
