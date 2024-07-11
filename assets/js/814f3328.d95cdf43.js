@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkdata_docs=self.webpackChunkdata_docs||[]).push([[7472],{5513:e=>{e.exports=JSON.parse('{"title":"Recent posts","items":[{"title":"What is Data Engineering?","permalink":"/data-engineering/blog/what-is-data-engieering","unlisted":false},{"title":"Docker On Windows","permalink":"/data-engineering/blog/docker-on-windows","unlisted":false}]}')}}]);
