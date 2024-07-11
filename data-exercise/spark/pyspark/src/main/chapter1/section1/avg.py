@@ -1,6 +1,12 @@
 import sys
 
-from pyspark import SparkContext
+from src.main import create_context
+
+sc = create_context()
+sc.setLogLevel("INFO")
+# noinspection PyProtectedMember
+LoggerFactory = sc._jvm.org.slf4j.LoggerFactory
+logger = LoggerFactory.getLogger("Section1-1")
 
 
 def basic_avg(numbers):
@@ -14,9 +20,7 @@ if __name__ == "__main__":
     master = "local"
     if len(sys.argv) == 2:
         master = sys.argv[1]
-    sc = SparkContext(master, "Sum")
-    sc.setLogLevel("WARN")
     nums = sc.parallelize([1, 2, 3, 4])
     avg = basic_avg(nums)
-    print(avg)
+    logger.info("avg: {}", avg)
     sc.stop()
