@@ -1,0 +1,6 @@
+--rpc_bind_addresses=0.0.0.0:7050
+--log_dir=/var/bigdata/log/kudu
+--fs_wal_dir=/var/bigdata/data/kudu/tserver/wal
+--fs_data_dirs=/var/bigdata/data/kudu/tserver/data
+--tserver_master_addrs=hd1:7051
+–-default_num_replicas=1

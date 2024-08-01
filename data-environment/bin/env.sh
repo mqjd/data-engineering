@@ -93,3 +93,10 @@ if [[ -n $DORIS_HOME ]]; then
   export DORIS_LOG_DIR=${HD_DATA_HOME}/log/doris
   export DORIS_CONF_DIR=${HD_DATA_HOME}/configs/doris
 fi
+
+if [[ -n $KUDU_HOME ]]; then
+  export PATH=$KUDU_HOME/bin:$KUDU_HOME/sbin:$PATH
+  export KUDU_DATA_DIR=${HD_DATA_HOME}/data/kudu
+  export KUDU_LOG_DIR=${HD_DATA_HOME}/log/kudu
+  export KUDU_CONF_DIR=${HD_DATA_HOME}/configs/kudu
+fi

@@ -34,6 +34,7 @@ x-common: &common
     - ${BASE_PACKAGE_PATH}/${MONGOSH_PACKAGE_DIR}:${MONGOSH_HOME}:rw
     - ${BASE_PACKAGE_PATH}/${DORIS_PACKAGE_DIR}:${DORIS_HOME}:rw
     - ${BASE_PACKAGE_PATH}/${USQL_PACKAGE_DIR}:${USQL_HOME}:rw
+    - ${BASE_PACKAGE_PATH}/${KUDU_PACKAGE_DIR}:${KUDU_HOME}:rw
     - ../../bin:${BASE_PATH}/bin:rw
   environment:
     HD_HOME: ${BASE_PATH}
@@ -51,6 +52,7 @@ x-common: &common
     MONGODB_HOME: ${MONGODB_HOME}
     MONGOSH_HOME: ${MONGOSH_HOME}
     DORIS_HOME: ${DORIS_HOME}
+    KUDU_HOME: ${KUDU_HOME}
     USQL_HOME: ${USQL_HOME}
   command: bash ${BASE_PATH}/bin/start.sh
 services:
