@@ -24,7 +24,7 @@ public class LogInterceptor {
         @Binding.Args Object[] args,
         @Binding.ArgNames String[] argNames) {
         StackTraceElement stackTraceElement = Thread.currentThread().getStackTrace()[2];
-        LOG.info("[{}Method Call{}] at {}.{}({}:{})", GREEN, RESET,
+        LOG.info("[{}Method Call{} ] at {}.{}({}:{})", GREEN, RESET,
             stackTraceElement.getClassName(),
             stackTraceElement.getMethodName(), stackTraceElement.getFileName(),
             stackTraceElement.getLineNumber());
@@ -32,7 +32,9 @@ public class LogInterceptor {
 
     @AtExit(suppressHandler = ExceptionSuppressHandler.class)
     public static void atExit(@Binding.Return Object returnObject) {
-        // LOG.info("method return: {}", returnObject);
+        if (returnObject != null) {
+         LOG.info("[{}Method Return{}]: {}", BLUE, RESET, returnObject);
+        }
     }
 
     @AtExceptionExit(onException = RuntimeException.class, suppressHandler = ExceptionSuppressHandler.class)

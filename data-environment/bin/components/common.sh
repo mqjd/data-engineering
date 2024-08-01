@@ -1,5 +1,17 @@
 #!/usr/bin/env bash
 
+function promise_run {
+  while true; do
+      "$@"
+      if [ $? -eq 0 ]; then
+          log_info "exec success."
+          break
+      else
+          sleep 5s
+      fi
+  done
+}
+
 function log_round_run {
   start_time=$(date +"%Y-%m-%d %H:%M:%S")
   echo "$start_time [info] $* start" >> "${HD_HOME}"/run.log

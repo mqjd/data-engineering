@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
 sudo service ssh start
+sudo sysctl -w vm.max_map_count=2000000
+sudo swapoff -a
 
 # shellcheck disable=SC2164
 cd /opt/bigdata

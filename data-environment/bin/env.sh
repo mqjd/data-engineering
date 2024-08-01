@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 
-export PATH=$PATH:$JAVA_HOME/bin
+export PATH=$PATH:$JAVA_HOME/bin:${USQL_HOME}
 export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
 alias python=python3
+alias sql=usql_static
+alias chd='cd /opt/bigdata'
 
 if [[ -n $HADOOP_HOME ]]; then
   export PATH=$HADOOP_HOME/bin:$PATH
@@ -84,3 +86,10 @@ export FLASK_APP=superset
 export SUPERSET_CONF_DIR=${HD_DATA_HOME}/configs/superset
 export SUPERSET_LOG_DIR=${HD_DATA_HOME}/log/superset
 export SUPERSET_CONFIG_PATH=${HD_DATA_HOME}/configs/superset/superset_config.py
+
+if [[ -n $DORIS_HOME ]]; then
+  export PATH=$DORIS_HOME/fe/bin:$DORIS_HOME/be/bin:$PATH
+  export DORIS_DATA_DIR=${HD_DATA_HOME}/data/doris
+  export DORIS_LOG_DIR=${HD_DATA_HOME}/log/doris
+  export DORIS_CONF_DIR=${HD_DATA_HOME}/configs/doris
+fi

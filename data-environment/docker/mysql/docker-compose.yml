@@ -9,6 +9,10 @@ services:
     restart: always
     container_name: mysql
     hostname: mysql
+    extra_hosts:
+      - "hd1:172.19.0.11"
+      - "hd2:172.19.0.12"
+      - "hd3:172.19.0.13"
     environment:
       MYSQL_ROOT_PASSWORD: 123456
       MYSQL_USER: mysql

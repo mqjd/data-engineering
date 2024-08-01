@@ -7,8 +7,9 @@ networks:
 x-common: &common
   image: hd:1.0
   tty: true
+  privileged: true
   stdin_open: true
-  mem_limit: 8g
+  mem_limit: 4g
   cpus: 4
   user: ${USER}
   extra_hosts:
@@ -31,6 +32,8 @@ x-common: &common
     - ${BASE_PACKAGE_PATH}/${ES_PACKAGE_DIR}:${ES_HOME}:rw
     - ${BASE_PACKAGE_PATH}/${MONGODB_PACKAGE_DIR}:${MONGODB_HOME}:rw
     - ${BASE_PACKAGE_PATH}/${MONGOSH_PACKAGE_DIR}:${MONGOSH_HOME}:rw
+    - ${BASE_PACKAGE_PATH}/${DORIS_PACKAGE_DIR}:${DORIS_HOME}:rw
+    - ${BASE_PACKAGE_PATH}/${USQL_PACKAGE_DIR}:${USQL_HOME}:rw
     - ../../bin:${BASE_PATH}/bin:rw
   environment:
     HD_HOME: ${BASE_PATH}
@@ -47,6 +50,8 @@ x-common: &common
     ES_HOME: ${ES_HOME}
     MONGODB_HOME: ${MONGODB_HOME}
     MONGOSH_HOME: ${MONGOSH_HOME}
+    DORIS_HOME: ${DORIS_HOME}
+    USQL_HOME: ${USQL_HOME}
   command: bash ${BASE_PATH}/bin/start.sh
 services:
 #  postgres:
