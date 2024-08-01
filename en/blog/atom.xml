@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://mqjd.github.io/data-engineering/en/blog</id>
     <title>数据工程 Blog</title>
-    <updated>2024-07-11T03:32:53.000Z</updated>
+    <updated>2024-08-01T02:25:23.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://mqjd.github.io/data-engineering/en/blog"/>
     <subtitle>数据工程 Blog</subtitle>
@@ -11,7 +11,7 @@
         <title type="html"><![CDATA[What is Data Engineering?]]></title>
         <id>https://mqjd.github.io/data-engineering/en/blog/what-is-data-engieering</id>
         <link href="https://mqjd.github.io/data-engineering/en/blog/what-is-data-engieering"/>
-        <updated>2024-07-11T03:32:53.000Z</updated>
+        <updated>2024-08-01T02:25:23.000Z</updated>
         <content type="html"><![CDATA[<iframe width="560" height="315" src="https://www.youtube.com/embed/qWru-b6m030?si=q90v54YMeP8lBi7O" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>]]></content>
         <author>
             <name>Qiang Ma</name>
@@ -22,7 +22,7 @@
         <title type="html"><![CDATA[Docker On Windows]]></title>
         <id>https://mqjd.github.io/data-engineering/en/blog/docker-on-windows</id>
         <link href="https://mqjd.github.io/data-engineering/en/blog/docker-on-windows"/>
-        <updated>2024-07-11T03:32:53.000Z</updated>
+        <updated>2024-08-01T02:25:23.000Z</updated>
         <summary type="html"><![CDATA[安装wsl]]></summary>
         <content type="html"><![CDATA[<h2 class="anchor anchorWithStickyNavbar_LWe7" id="安装wsl">安装wsl<a href="https://mqjd.github.io/data-engineering/en/blog/docker-on-windows#%E5%AE%89%E8%A3%85wsl" class="hash-link" aria-label="Direct link to 安装wsl" title="Direct link to 安装wsl">​</a></h2>
 <p>此步骤网上资源很多，请自行百度或Google完成</p>
