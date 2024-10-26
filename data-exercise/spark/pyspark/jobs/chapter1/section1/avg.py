@@ -1,6 +1,6 @@
 import sys
 
-from src.main import create_context
+from jobs import create_context
 
 sc = create_context()
 sc.setLogLevel("INFO")

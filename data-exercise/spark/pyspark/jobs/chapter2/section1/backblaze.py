@@ -1,4 +1,4 @@
-from src.main import create_spark_session
+from jobs import create_spark_session
 from pyspark.sql import functions as sf
 
 if __name__ == "__main__":

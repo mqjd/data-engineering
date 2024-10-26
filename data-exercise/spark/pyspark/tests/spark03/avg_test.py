@@ -1,8 +1,8 @@
 import pytest
 from testcontainers.mysql import MySqlContainer
 
-from src.main.spark03.avg import basic_avg
-from src.test import create_context
+from jobs.chapter1.section1.avg import basic_avg
+from tests import create_context
 
 
 def test_avg():
