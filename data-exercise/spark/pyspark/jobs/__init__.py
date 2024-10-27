@@ -1,3 +1,5 @@
+from logging import Logger
+
 from pyspark import SparkContext
 from pyspark.sql import SparkSession
 
@@ -13,4 +15,12 @@ def create_spark_session(name: str = "Spark Example") -> SparkSession:
 
 
 def create_context(name: str = "Spark Example") -> SparkContext:
-    return SparkContext("local", name)
+    sc = SparkContext("local", name)
+    sc.setLogLevel("INFO")
+    return sc
+
+
+def get_logger(sc: SparkContext, logger: str) -> Logger:
+    # noinspection PyProtectedMember
+    logger = sc._jvm.org.slf4j.LoggerFactory.getLogger(logger)
+    return logger

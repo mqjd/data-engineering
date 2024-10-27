@@ -1,12 +1,6 @@
 import sys
 
-from jobs import create_context
-
-sc = create_context()
-sc.setLogLevel("INFO")
-# noinspection PyProtectedMember
-LoggerFactory = sc._jvm.org.slf4j.LoggerFactory
-logger = LoggerFactory.getLogger("Section1-1")
+from jobs import create_context, get_logger
 
 
 def basic_avg(numbers):
@@ -18,6 +12,9 @@ def basic_avg(numbers):
 
 if __name__ == "__main__":
     master = "local"
+    sc = create_context()
+    sc.setLogLevel("INFO")
+    logger = get_logger(sc, __name__)
     if len(sys.argv) == 2:
         master = sys.argv[1]
     nums = sc.parallelize([1, 2, 3, 4])
