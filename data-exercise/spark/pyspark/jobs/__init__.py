@@ -15,7 +15,7 @@ def create_spark_session(name: str = "Spark Example") -> SparkSession:
 
 
 def create_context(name: str = "Spark Example") -> SparkContext:
-    sc = SparkContext("local", name)
+    sc = SparkContext(appName=name)
     sc.setLogLevel("INFO")
     return sc
 
