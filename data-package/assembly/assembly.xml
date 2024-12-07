@@ -21,16 +21,19 @@
     <file>
       <source>../data-exercise/flink/target/flink-${project.version}.jar</source>
       <outputDirectory>./</outputDirectory>
+      <destName>de-flink-${project.version}.jar</destName>
       <fileMode>0644</fileMode>
     </file>
     <file>
       <source>../data-exercise/spark/spark-core/target/spark-core-${project.version}.jar</source>
       <outputDirectory>./</outputDirectory>
+      <destName>de-spark-core-${project.version}.jar</destName>
       <fileMode>0644</fileMode>
     </file>
     <file>
       <source>../data-exercise/spark/spark-sql/target/spark-sql-${project.version}.jar</source>
       <outputDirectory>./</outputDirectory>
+      <destName>de-spark-sql-${project.version}.jar</destName>
       <fileMode>0644</fileMode>
     </file>
   </files>

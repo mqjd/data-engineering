@@ -6,8 +6,8 @@ networks:
 services:
   pg:
     image: postgres:16.2
-    container_name: postgres
-    hostname: postgres
+    container_name: pg
+    hostname: pg
     restart: always
     network_mode: bridge
     volumes:

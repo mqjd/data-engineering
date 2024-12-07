@@ -16,7 +16,8 @@ x-common: &common
     - "hd1:172.19.0.11"
     - "hd2:172.19.0.12"
     - "hd3:172.19.0.13"
-    - "postgres:172.19.0.14"
+    - "pg:172.19.0.2"
+    - "mysql:172.19.0.3"
   volumes:
     - ${HD_CONFIG_PATH}:${BASE_PATH}/${CONFIG_DIR}:rw
     - ${EXERCISE_PACKAGE_PATH}:${BASE_PATH}/exercise:rw

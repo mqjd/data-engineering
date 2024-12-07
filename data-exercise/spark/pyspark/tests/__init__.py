@@ -10,8 +10,8 @@ test_out_root = f"{project_root}/out"
 def create_spark_session() -> SparkSession:
     return SparkSession.builder \
         .config('spark.driver.maxResultSize', '1g') \
-        .config('spark.driver.memory', '4g') \
-        .config('spark.executor.memory', '2g') \
+        .config('spark.driver.memory', '2g') \
+        .config('spark.executor.memory', '4g') \
         .config('spark.hadoop.hive.exec.dynamic.partition.mode', 'nonstrict') \
         .config('spark.hadoop.hive.exec.dynamic.partition', 'true') \
         .getOrCreate()
@@ -37,7 +37,7 @@ def get_spark_session() -> SparkSession:
 def start_spark_session():
     global _sc
     _sc = create_spark_session()
-    _sc.sparkContext.setLogLevel("INFO")
+    _sc.sparkContext.setLogLevel("ERROR")
 
 
 def stop_spark_session():

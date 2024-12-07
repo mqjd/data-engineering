@@ -30,6 +30,7 @@ RUN apt-get -q update \
       libsasl2-modules-gssapi-mit  \
       openssl  \
       liblzma5  \
+      libpq-dev  \
       lsof
 
 RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin without-password/' /etc/ssh/sshd_config
@@ -63,6 +64,11 @@ RUN AIRFLOW_VERSION="2.9.2" \
   && pip3 install "apache-airflow==\${AIRFLOW_VERSION}" --constraint "\${CONSTRAINT_URL}"
 
 RUN pip3 install Pillow apache-superset
+
+RUN apt-get -q install -y --no-install-recommends\
+      pkg-config
+
+RUN pip3 install psycopg2 mysqlclient
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 

@@ -31,10 +31,10 @@
 #hd2:mongodb:configsvr,shardsvr:all
 #hd3:mongodb:configsvr,shardsvr:all
 #hd1:airflow:standalone:all
-#hd1:superset:server:all
+hd1:superset:server:all
 #hd1:doris:fe,be:all
 #hd2:doris:be:all
 #hd3:doris:be:all
-hd1:kudu:master,tserver:all
-hd2:kudu:tserver:all
-hd3:kudu:tserver:all
+#hd1:kudu:master,tserver:all
+#hd2:kudu:tserver:all
+#hd3:kudu:tserver:all

@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-
-psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
-  CREATE USER mq WITH PASSWORD '123456';
-  CREATE DATABASE mq OWNER mq;
-  GRANT ALL PRIVILEGES ON DATABASE mq to mq;
-EOSQL

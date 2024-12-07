@@ -1,5 +1,5 @@
-from pyspark.sql.functions import lit
-from pyspark.sql.types import StructType, StructField, StringType, IntegerType, TimestampType
+from pyspark.sql.functions import lit, col
+from pyspark.sql.types import StructType, StructField, StringType, IntegerType, TimestampType, DateType
 
 from tests import get_spark_session, test_out_root
 
@@ -17,12 +17,12 @@ data = [
 
 csv_options = {
     "header": "true",
-    "delimiter": ",",
+    "delimiter": "|",
     "quote": "\"",
     "nullValue": "",
     "emptyValue": "",
     "timestampFormat": "yyyy-MM-dd HH:mm:ss.SSSSSS",
-    "quoteAll": False
+    "quoteAll": True
 }
 
 
@@ -35,9 +35,11 @@ def test_csv_write():
         .withColumn("c3", lit("\"").cast(StringType()))
         .withColumn("c4", lit(",").cast(StringType()))
         .withColumn("c5", lit("2024-11-07 12:00:00.000000").cast(TimestampType()))
+        .withColumn("c6", lit("2024-11-07").cast(DateType()))
     )
 
-    df.show()
+    time_cols = [(field.name, col(field.name).cast("timestamp")) for field in df.schema.fields if field.dataType is DateType()]
+    df = df.withColumns(dict(time_cols))
 
     df.coalesce(1).write.format("csv").mode("overwrite").options(**csv_options).save(f"{test_out_root}/test")
 

@@ -90,6 +90,8 @@ if [[ $# -eq 0 ]]; then
   exit 1
 fi
 
+create_network
+
 case "$1" in
 -c | --container)
   action="container"

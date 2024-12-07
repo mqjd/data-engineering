@@ -7,3 +7,10 @@ WTF_CSRF_ENABLED = False
 TALISMAN_ENABLED = False
 # Set this API key to enable Mapbox visualizations
 MAPBOX_API_KEY = ''
+
+LANGUAGES = {
+    'zh': {'flag': 'cn', 'name': 'Chinese'},
+    'en': {'flag': 'us', 'name': 'English'},
+}
+
+BABEL_DEFAULT_LOCALE = "zh"
