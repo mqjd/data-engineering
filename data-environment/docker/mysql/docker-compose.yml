@@ -16,7 +16,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: 123456
       MYSQL_USER: mysql
-      TZ: Asia/Shanghai
+      TZ: UTC
       MYSQL_ROOT_HOST: '%'
     volumes:
       - ./config/my.cnf:/etc/mysql/my.cnf:rw

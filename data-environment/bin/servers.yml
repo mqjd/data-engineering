@@ -1,5 +1,4 @@
 ##actions:all,pre_install,install,start,post_install
-#hd1:flink:jobmanager:install
 #hd1:zookeeper:server:all
 #hd2:zookeeper:server:all
 #hd3:zookeeper:server:all
@@ -31,7 +30,7 @@
 #hd2:mongodb:configsvr,shardsvr:all
 #hd3:mongodb:configsvr,shardsvr:all
 #hd1:airflow:standalone:all
-hd1:superset:server:all
+#hd1:superset:server:all
 #hd1:doris:fe,be:all
 #hd2:doris:be:all
 #hd3:doris:be:all

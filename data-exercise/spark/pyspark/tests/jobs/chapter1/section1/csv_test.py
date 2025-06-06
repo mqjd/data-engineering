@@ -16,13 +16,15 @@ data = [
 ]
 
 csv_options = {
+    "multiLine": "true",
     "header": "true",
     "delimiter": "|",
     "quote": "\"",
+    "escape": "\"",
     "nullValue": "",
     "emptyValue": "",
     "timestampFormat": "yyyy-MM-dd HH:mm:ss.SSSSSS",
-    "quoteAll": True
+    "quoteAll": False
 }
 
 
@@ -32,10 +34,11 @@ def test_csv_write():
     df = (
         df.withColumn("c1", lit(None).cast(StringType()))
         .withColumn("c2", lit("").cast(StringType()))
-        .withColumn("c3", lit("\"").cast(StringType()))
+        .withColumn("c3", lit("\"111").cast(StringType()))
         .withColumn("c4", lit(",").cast(StringType()))
         .withColumn("c5", lit("2024-11-07 12:00:00.000000").cast(TimestampType()))
         .withColumn("c6", lit("2024-11-07").cast(DateType()))
+        .withColumn("c7", lit(None).cast(StringType()))
     )
 
     time_cols = [(field.name, col(field.name).cast("timestamp")) for field in df.schema.fields if field.dataType is DateType()]
@@ -47,4 +50,4 @@ def test_csv_write():
 def test_csv_read():
     sc = get_spark_session()
     df = sc.read.options(**csv_options).csv(f"{test_out_root}/test")
-    df.show()
+    df.select("c3").show(10)

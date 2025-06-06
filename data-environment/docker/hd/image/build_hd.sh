@@ -65,11 +65,18 @@ RUN AIRFLOW_VERSION="2.9.2" \
 
 RUN pip3 install Pillow apache-superset
 
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=Asia/Shanghai
+
 RUN apt-get -q install -y --no-install-recommends\
-      pkg-config
+      pkg-config \
+      tzdata
 
 RUN pip3 install psycopg2 mysqlclient
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+
+RUN sh -c 'echo -e "* soft nofile 655350\n* hard nofile 655350" >> /etc/security/limits.conf'
+RUN ulimit -n 655350
 
 UserSpecificDocker

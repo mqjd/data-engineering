@@ -14,8 +14,8 @@ export USER_NAME
 NETWORK_NAME="de_network"
 
 # Define database connection strings
-DB_PG="pg://mq:123456@172.19.0.2/mq"
-DB_MYSQL="mysql://mq:123456@172.19.0.3/mq"
+DB_PG="pg://de:123456@172.19.0.2/de"
+DB_MYSQL="mysql://de:123456@172.19.0.3/de"
 
 # Define paths to docker-compose files
 CONTAINER_MYSQL="${CUR}"/docker/mysql/docker-compose.yml
