@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
 pwd=$(dirname "$0")
-source "$pwd"/components/common.sh
+
+source ${HD_HOME}/bin/components/common.sh
 
 export PATH=$PATH:$JAVA_HOME/bin:${USQL_HOME}
 export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar

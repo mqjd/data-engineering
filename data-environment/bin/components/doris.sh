@@ -66,7 +66,7 @@ function start_follower {
 }
 
 function main {
-  export JAVA_HOME=${JAVA17_HOME}
+  use_java17
   ulimit -n 655350
   for ((i = 0; i < ${#components[@]}; i++)); do
     component=${components[i]}

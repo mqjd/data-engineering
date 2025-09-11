@@ -8,7 +8,6 @@
 #hd1:hbase:master,regionserver:all
 #hd2:hbase:regionserver:all
 #hd3:hbase:regionserver:all
-#hd1:hadoop:resourcemanager:install
 #hd1:spark:master,worker:all
 #hd2:spark:worker:all
 #hd3:spark:worker:all
@@ -37,4 +36,4 @@
 #hd1:kudu:master,tserver:all
 #hd2:kudu:tserver:all
 #hd3:kudu:tserver:all
-hd1:nifi:nifi:all
+#hd1:nifi:nifi:all
