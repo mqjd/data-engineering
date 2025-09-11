@@ -37,3 +37,4 @@
 #hd1:kudu:master,tserver:all
 #hd2:kudu:tserver:all
 #hd3:kudu:tserver:all
+hd1:nifi:nifi:all

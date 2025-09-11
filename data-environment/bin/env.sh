@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+pwd=$(dirname "$0")
+source "$pwd"/components/common.sh
+
 export PATH=$PATH:$JAVA_HOME/bin:${USQL_HOME}
 export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
 alias python=python3
@@ -99,4 +102,12 @@ if [[ -n $KUDU_HOME ]]; then
   export KUDU_DATA_DIR=${HD_DATA_HOME}/data/kudu
   export KUDU_LOG_DIR=${HD_DATA_HOME}/log/kudu
   export KUDU_CONF_DIR=${HD_DATA_HOME}/configs/kudu
+fi
+
+if [[ -n $NIFI_HOME ]]; then
+  export PATH=$NIFI_HOME/bin:$PATH
+  export NIFI_DATA_DIR=${HD_DATA_HOME}/data/nifi
+  export NIFI_LOG_DIR=${HD_DATA_HOME}/log/nifi
+  export NIFI_CONF_DIR=${HD_DATA_HOME}/configs/nifi
+  export NIFI_OVERRIDE_NIFIENV=true
 fi

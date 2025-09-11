@@ -72,7 +72,7 @@ RUN apt-get -q install -y --no-install-recommends\
       pkg-config \
       tzdata
 
-RUN pip3 install psycopg2 mysqlclient
+RUN pip3 install psycopg2 mysqlclient=2.1.1
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 

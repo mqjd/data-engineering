@@ -1,5 +1,15 @@
 #!/usr/bin/env bash
 
+function use_java17 {
+  export JAVA_HOME=${JAVA17_HOME}
+  export PATH=$JAVA_HOME/bin:$PATH
+}
+
+function use_java21 {
+  export JAVA_HOME=${JAVA21_HOME}
+  export PATH=$JAVA_HOME/bin:$PATH
+}
+
 function promise_run {
   while true; do
       "$@"
