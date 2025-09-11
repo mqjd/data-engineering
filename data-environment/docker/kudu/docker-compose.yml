@@ -1,0 +1,16 @@
+name: hd
+version: '3.9'
+networks:
+  de_network:
+    name: de_network
+    external: true
+services:
+  kudu-build:
+    container_name: kudu-build
+    image: hd:1.0
+    tty: true
+    privileged: true
+    stdin_open: true
+    user: ${USER}
+    volumes:
+      - /Users/mq/IdeaProjects/kudu:/opt/kudu:rw
