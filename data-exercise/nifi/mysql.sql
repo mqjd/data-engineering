@@ -16,7 +16,7 @@ from (WITH RECURSIVE data_generate AS (SELECT 0 AS num
                                        UNION ALL
                                        SELECT num + 1
                                        FROM data_generate
-                                       WHERE num < 1 - 1)
+                                       WHERE num < 10 - 1)
       SELECT num + 1                                                   as user_id,
              FLOOR(RAND() * 18)                                        as class_id,
              concat('user', '_', FLOOR(num / 5) + 1, '_', num % 5 + 1) as name,
