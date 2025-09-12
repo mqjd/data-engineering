@@ -39,7 +39,19 @@ function start_broker {
   fi
 }
 
+function start_connect {
+  if pgrep -f "ConnectDistributed" >/dev/null; then
+    echo "Kafka Connect already exists"
+  else
+    export KAFKA_LOG4J_OPTS="-Dlog4j.configuration=file:$KAFKA_CONF_DIR/log4j.properties"
+    export KAFKA_HEAP_OPTS="-Xmx1G -Xms1G -XX:+UnlockExperimentalVMOptions"
+    export LOG_DIR=$KAFKA_LOG_DIR
+    connect-distributed.sh -daemon "$KAFKA_CONF_DIR"/connect-distributed.properties
+  fi
+}
+
 function main {
+  use_java17
   for ((i = 0; i < ${#components[@]}; i++)); do
     component=${components[i]}
     func="${action}_${component}"

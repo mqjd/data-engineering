@@ -11,9 +11,9 @@
 #hd1:spark:master,worker:all
 #hd2:spark:worker:all
 #hd3:spark:worker:all
-#hd1:kafka:broker:all
-#hd2:kafka:broker:all
-#hd3:kafka:broker:all
+#hd1:kafka:broker,connect:all
+#hd2:kafka:broker,connect:all
+#hd3:kafka:broker,connect:all
 #hd1:hive:metastore,hiveserver2:all
 #hd1:flink:client:all
 #hd1:flink:jobmanager,taskmanager:all
