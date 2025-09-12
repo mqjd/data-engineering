@@ -30,7 +30,7 @@
           "database.include.list": "de", 
           "table.include.list": "de.user",
           "schema.history.internal.kafka.bootstrap.servers": "hd1:9092",
-          "schema.history.internal.kafka.topic": "schema-changes.nifi-cdc-server",
+          "schema.history.internal.kafka.topic": "mysql.cdc.schema-changes",
           "include.schema.changes": "true"
         }
       }' \
