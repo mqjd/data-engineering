@@ -17,4 +17,16 @@
     <name>hadoop.proxyuser.mq.groups</name>
     <value>*</value>
   </property>
+  <property>
+    <name>ipc.client.connection.maxidletime</name>
+    <value>30000</value>
+  </property>
+  <property>
+    <name>ipc.client.connect.max.retries</name>
+    <value>50</value>
+  </property>
+  <property>
+    <name>fs.trash.interval</name>
+    <value>1</value>
+  </property>
 </configuration>

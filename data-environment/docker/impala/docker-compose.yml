@@ -1,0 +1,22 @@
+name: impala
+version: '3.9'
+networks:
+  de_network:
+    name: de_network
+    external: true
+services:
+  impala-build:
+    container_name: impala-build
+    image: hd:1.0
+    tty: true
+    privileged: true
+    stdin_open: true
+    user: ${USER}
+    volumes:
+      - ~/bigdata/package/jdk1.8.0_461:/opt/java:rw
+      - ~/bigdata/package/kudu-1.19.0-d40e0dc61:/opt/kudu_clint:rw
+      - ~/IdeaProjects/kudu/build/release:/opt/kudu_build:rw
+      - ~/IdeaProjects/impala:/opt/impala:rw
+    environment:
+      JAVA_HOME: /opt/java
+      CLASSPATH: .:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar

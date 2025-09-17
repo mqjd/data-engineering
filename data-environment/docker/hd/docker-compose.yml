@@ -5,7 +5,7 @@ networks:
     name: de_network
     external: true
 x-common: &common
-  image: hd:1.0
+  image: hd:2.0
   tty: true
   privileged: true
   stdin_open: true
@@ -16,13 +16,14 @@ x-common: &common
     - "hd1:172.19.0.11"
     - "hd2:172.19.0.12"
     - "hd3:172.19.0.13"
-    - "pg:172.19.0.2"
+    - "postgres:172.19.0.2"
     - "mysql:172.19.0.3"
   volumes:
     - ${HD_CONFIG_PATH}:${BASE_PATH}/${CONFIG_DIR}:rw
     - ${EXERCISE_PACKAGE_PATH}:${BASE_PATH}/exercise:rw
     - ${BASE_PACKAGE_PATH}/${JAVA_PACKAGE_DIR}:${BASE_PATH}/${JAVA_DIR}:rw
     - ${BASE_PACKAGE_PATH}/${JAVA17_PACKAGE_DIR}:${BASE_PATH}/${JAVA17_DIR}:rw
+    - ${BASE_PACKAGE_PATH}/${JAVA11_PACKAGE_DIR}:${BASE_PATH}/${JAVA11_DIR}:rw
     - ${BASE_PACKAGE_PATH}/${JAVA21_PACKAGE_DIR}:${BASE_PATH}/${JAVA21_DIR}:rw
     - ${BASE_PACKAGE_PATH}/${HADOOP_PACKAGE_DIR}:${HADOOP_HOME}:rw
     - ${BASE_PACKAGE_PATH}/${SPARK_PACKAGE_DIR}:${SPARK_HOME}:rw
@@ -40,11 +41,13 @@ x-common: &common
     - ${BASE_PACKAGE_PATH}/${KUDU_PACKAGE_DIR}:${KUDU_HOME}:rw
     - ${BASE_PACKAGE_PATH}/${FLINK_CDC_PACKAGE_DIR}:${FLINK_CDC_HOME}:rw
     - ${BASE_PACKAGE_PATH}/${NIFI_PACKAGE_DIR}:${NIFI_HOME}:rw
+    - ${BASE_PACKAGE_PATH}/${IMPALA_PACKAGE_DIR}:${IMPALA_HOME}:rw
     - ../../bin:${BASE_PATH}/bin:rw
   environment:
     HD_HOME: ${BASE_PATH}
     HD_DATA_HOME: /var/bigdata
     JAVA_HOME: ${BASE_PATH}/${JAVA_DIR}
+    JAVA11_HOME: ${BASE_PATH}/${JAVA11_DIR}
     JAVA17_HOME: ${BASE_PATH}/${JAVA17_DIR}
     JAVA21_HOME: ${BASE_PATH}/${JAVA21_DIR}
     HADOOP_HOME: ${HADOOP_HOME}
@@ -62,6 +65,7 @@ x-common: &common
     DORIS_HOME: ${DORIS_HOME}
     KUDU_HOME: ${KUDU_HOME}
     NIFI_HOME: ${NIFI_HOME}
+    IMPALA_HOME: ${IMPALA_HOME}
     USQL_HOME: ${USQL_HOME}
   command: bash ${BASE_PATH}/bin/start.sh
 services:

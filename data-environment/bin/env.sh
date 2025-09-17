@@ -6,7 +6,6 @@ source ${HD_HOME}/bin/components/common.sh
 
 export PATH=$PATH:$JAVA_HOME/bin:${USQL_HOME}
 export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
-alias python=python3
 alias sql=usql_static
 alias chd='cd /opt/bigdata'
 
@@ -111,4 +110,11 @@ if [[ -n $NIFI_HOME ]]; then
   export NIFI_LOG_DIR=${HD_DATA_HOME}/log/nifi
   export NIFI_CONF_DIR=${HD_DATA_HOME}/configs/nifi
   export NIFI_OVERRIDE_NIFIENV=true
+fi
+
+if [[ -n $IMPALA_HOME ]]; then
+  export PATH=$IMPALA_HOME/bin:$IMPALA_HOME/shell:$PATH
+  export IMPALA_MINIDUMPS_DIR=${HD_DATA_HOME}/log/impala/minidumps
+  export IMPALA_LOG_DIR=${HD_DATA_HOME}/log/impala
+  export IMPALA_CONF_DIR=${HD_DATA_HOME}/configs/impala
 fi

@@ -5,7 +5,7 @@ networks:
     external: true
 services:
   pg:
-    image: postgres:16.2
+    image: postgres:9.4
     container_name: pg
     hostname: pg
     restart: always

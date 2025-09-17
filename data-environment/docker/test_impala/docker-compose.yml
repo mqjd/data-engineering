@@ -1,0 +1,20 @@
+name: impala
+version: '3.9'
+networks:
+  de_network:
+    name: de_network
+    external: true
+services:
+  impala-build:
+    container_name: impala-test
+    image: hd:2.0
+    tty: true
+    privileged: true
+    stdin_open: true
+    user: ${USER}
+    volumes:
+      - ~/bigdata/package/jdk1.8.0_461:/opt/java:rw
+      - ~/bigdata/package/apache-impala-5.0.0-SNAPSHOT_hive-3.1.3-aarch64.ubuntu-22.04.deb:/opt/package/apache-impala-5.0.0-SNAPSHOT_hive-3.1.3-aarch64.ubuntu-22.04.deb:rw
+    environment:
+      JAVA_HOME: /opt/java
+      CLASSPATH: .:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar

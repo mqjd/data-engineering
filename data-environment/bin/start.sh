@@ -3,6 +3,7 @@
 sudo service ssh start
 sudo sysctl -w vm.max_map_count=2000000
 sudo swapoff -a
+sudo ln -s /usr/bin/python3 /usr/bin/python
 
 # shellcheck disable=SC2164
 cd /opt/bigdata

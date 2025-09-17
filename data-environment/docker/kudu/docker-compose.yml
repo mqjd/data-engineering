@@ -1,4 +1,4 @@
-name: hd
+name: kudu-build
 version: '3.9'
 networks:
   de_network:
@@ -13,4 +13,4 @@ services:
     stdin_open: true
     user: ${USER}
     volumes:
-      - /Users/mq/IdeaProjects/kudu:/opt/kudu:rw
+      - ~/IdeaProjects/kudu:/opt/kudu:rw

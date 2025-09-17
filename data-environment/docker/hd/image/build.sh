@@ -19,7 +19,9 @@ export DOCKER_HOME_DIR
 if grep -q "WSL" /proc/version; then
   sudo -E bash "${pwd}"/build_base.sh
   sudo -E bash "${pwd}"/build_hd.sh
+  sudo -E bash "${pwd}"/build_hd_2.0.sh
 else
   bash "${pwd}"/build_base.sh
   bash "${pwd}"/build_hd.sh
+  bash "${pwd}"/build_hd_2.0.sh
 fi

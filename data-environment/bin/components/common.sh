@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+
+function use_java11 {
+  export JAVA_HOME=${JAVA11_HOME}
+  export PATH=$JAVA_HOME/bin:$PATH
+}
+
 function use_java17 {
   export JAVA_HOME=${JAVA17_HOME}
   export PATH=$JAVA_HOME/bin:$PATH

@@ -37,3 +37,6 @@
 #hd2:kudu:tserver:all
 #hd3:kudu:tserver:all
 #hd1:nifi:nifi:all
+#hd1:impala:statestored,catalogd,admissiond:all
+#hd2:impala:impalad:all
+#hd3:impala:impalad:all

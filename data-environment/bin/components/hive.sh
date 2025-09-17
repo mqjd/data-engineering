@@ -39,9 +39,10 @@ function start_metastore {
 }
 
 function do_init_metastore {
-  if hdfs dfs -ls /user/hive | grep "Found" >/dev/null; then
+  if usql_static "pg://root:123456@postgres/postgres" -c "SELECT 1 FROM pg_user WHERE usename = 'hive'" | grep -q "1"; then
     echo "metastore already initialized"
   else
+    promise_run usql_static "pg://root:123456@postgres/postgres" -f "$HD_HOME"/configs/hive/init-postgres.sql
     hdfs dfs -mkdir -p /user/hive/warehouse
     hdfs dfs -chown hive:hive /user/hive
     hdfs dfs -chown hive:hive /user/hive/warehouse
