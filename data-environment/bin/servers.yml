@@ -1,7 +1,7 @@
 ##actions:all,pre_install,install,start,post_install
-#hd1:zookeeper:server:all
-#hd2:zookeeper:server:all
-#hd3:zookeeper:server:all
+hd1:zookeeper:server:all
+hd2:zookeeper:server:all
+hd3:zookeeper:server:all
 #hd1:hadoop:namenode,resourcemanager,nodemanager,datanode:all
 #hd2:hadoop:datanode,nodemanager,proxyserver:all
 #hd3:hadoop:datanode,nodemanager:all
@@ -11,9 +11,9 @@
 #hd1:spark:master,worker:all
 #hd2:spark:worker:all
 #hd3:spark:worker:all
-#hd1:kafka:broker,connect:all
-#hd2:kafka:broker,connect:all
-#hd3:kafka:broker,connect:all
+hd1:kafka:broker,connect:all
+hd2:kafka:broker,connect:all
+hd3:kafka:broker,connect:all
 #hd1:hive:metastore,hiveserver2:all
 #hd1:flink:client:all
 #hd1:flink:jobmanager,taskmanager:all
