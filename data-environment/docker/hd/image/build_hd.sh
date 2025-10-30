@@ -4,6 +4,10 @@ set -eu
 docker build -t "hd:1.0" --progress=plain - <<UserSpecificDocker
 FROM hd-base:1.0
 
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN echo "krb5-config krb5-config/default_realm string de.com" | debconf-set-selections
+
 RUN apt-get -q update \
     && apt-get -q install -y --no-install-recommends\
       vim \
@@ -31,7 +35,12 @@ RUN apt-get -q update \
       openssl  \
       liblzma5  \
       libpq-dev  \
-      lsof
+      lsof \
+      krb5-user \
+      curl \
+      g++ \
+      language-pack-en \
+      openjdk-8-jre-headless
 
 RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin without-password/' /etc/ssh/sshd_config
 RUN sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config
@@ -39,7 +48,7 @@ RUN sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/s
 RUN groupadd --non-unique -g ${GROUP_ID} ${USER_NAME}
 RUN useradd -g ${GROUP_ID} -u ${USER_ID} -k /root -m ${USER_NAME} -d "${DOCKER_HOME_DIR}"
 RUN echo "${USER_NAME} ALL=NOPASSWD: ALL" > "/etc/sudoers.d/${USER_NAME}"
-ENV HOME "${DOCKER_HOME_DIR}"
+ENV HOME="${DOCKER_HOME_DIR}"
 
 RUN mkdir -p /home/${USER_NAME}
 RUN mkdir -p /opt/bigdata
@@ -72,7 +81,7 @@ RUN apt-get -q install -y --no-install-recommends\
       pkg-config \
       tzdata
 
-RUN pip3 install psycopg2 mysqlclient=2.1.1
+RUN pip3 install psycopg2 mysqlclient==2.1.1
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
